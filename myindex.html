@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Vortex</title>
+    <link href="assets/css/tagify.css" rel="stylesheet" type="text/css" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/css/app.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Custom style CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
+    <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
+
+</head>
+
+<body>
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar sticky">
+                <div class="form-inline me-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li>
+                            <a href="#" data-bs-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i data-feather="align-justify"></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                                <i data-feather="maximize"></i>
+                            </a>
+                        </li>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav navbar-right">
+
+                    <li id="undo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="bottom" title="Undo">undo</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                        </div>
+                    </li>
+                    <li id="redo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="bottom" title="Redo">redo</i>
+                    </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                        </div>
+                    </li>
+                    <div class="vr"></div>
+                    <li class="dropdown dropdown-list-toggle"><a href="#" id="export-pdf" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Export File">file_download</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                        </div>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File"> insert_drive_file</label>
+                        <input type="file" id="file-input" accept="application/json" hidden/>
+                        <!-- <a href="#" id="file-input" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" data-bs-toggle="tooltip" data-placement="top" title="Open File"> -->
+
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                        </div>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle"><a href="#" id="save" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Save">save</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                        </div>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a class="nav-link notification-toggle nav-link-lg" href="#" id="runApp">
+                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Run">play_circle_outline</i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div id="parent-shape" class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <!-- <img alt="image" src="assets/img/logo.png" class="header-logo" /> -->
+                        <a href="index.html"> <span class="logo-name"><i data-feather="briefcase"></i> ToolBox</span>
+                        </a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
+                  fas fa-wrench"></i><span>Tools</span></a>
+                            <ul class="dropdown-menu">
+                                <div class="card card-info">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div id="square" draggable="true" class="col-4"><button class="btn btn-icon"><i
+                                                        class="far fa-square c_font_size"></i></button></div>
+                                            <div id="circle" class="col-4"><button class="btn btn-icon"><i
+                                                        class="far fa-circle c_font_size"></i></button></div>
+                                            <div id="arrow" class="col-4"><button class="btn btn-icon"><i
+                                                        class="fas fa-long-arrow-alt-right c_font_size"></i></button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div id="text" class="col-4"><button class="btn btn-icon"><i
+                                                        class="fas fa-font c_font_size"></i></button></div>
+                                            <div id="pen" class="col-4"><button class="btn btn-icon"><i
+                                                        class="fas fa-pen c_font_size"></i></button></div>
+                                            <div id="eraser" class="col-4"><button class="btn btn-icon"><i
+                                                        class="fas fa-eraser c_font_size"></i></button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
+                    fas fa-project-diagram"></i><span>Functions</span></a>
+                            <ul class="dropdown-menu">
+                                <div class="card card-info">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div id="hash" draggable="true" class="col-4"><button class="btn btn-outline-dark">Hash</button></div>
+                                            <div id="mac" draggable="true" class="col-4"><button class="btn btn-outline-dark">Mac</button></div>
+                                            <div id="enc" draggable="true" class="col-4"><button class="btn btn-outline-dark">Enc</button></div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div id="verify" draggable="true" class="col-4"><button class="btn btn-outline-dark">Verify</button>
+                                            </div>
+                                            <div id="dec" draggable="true" class="col-4"><button class="btn btn-outline-dark">Dce</button></div>
+                                            <div id="sign" draggable="true" class="col-4"><button class="btn btn-outline-dark">Sign</button></div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div id="rand" draggable="true" class="col-4"><button class="btn btn-outline-dark">Rand</button></div>
+                                            <div id="f" draggable="true" class="col-4"><button class="btn btn-outline-dark">F</button></div>
+                                            <div id="seperator" draggable="true" class="col-4"><button class="btn btn-outline-dark">Sep</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+
+
+            </div>
+            <!-- Main Content -->
+
+            <div class="main-content">
+
+
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active" data-bs-toggle="tab">Untitled-1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#profile" class="nav-link" data-bs-toggle="tab">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#messages" class="nav-link" data-bs-toggle="tab">Messages</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="home">
+                        <section class="section custom_padding">
+                            <div class="section-body">
+                                <div id="stageparent" class="card ">
+                                    <div>
+                                        <div id="container">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane fade" id="profile">
+
+                    </div>
+                    <div class="tab-pane fade" id="messages">
+
+                    </div>
+                </div>
+
+
+                <!-- add content here -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLbl">Send Form</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form " class="needs-validation" novalidate>
+                                    <div class="form-group">
+                                        <label for="reciver">Reciver</label>
+                                        <input type="text" name="reciver" placeholder="reciver" required clasa="form-control">
+                                        <!-- <input type="text" name="reciver" placeholder="reciver" required class="form-control"> -->
+                                        <div id="invalid-empty-rec" class="invalid-feedback">
+
+                                        </div>
+                                        <div id=invalid-rec class="invalid-feedback">
+                                            There is no partner with this name !
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="define">Define</label>
+                                        <input type="text" name="define" placeholder="define" clasa="form-control">
+                                        <!-- <div id="invalid-empty-def" class="invalid-feedback">
+                                        Invalid value !
+                                    </div> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="parametrs">Parametrs</label>
+                                        <input type="text" name="params" placeholder="parametrs" clasa="form-control">
+                                        <!-- <input type="text" name="params" placeholder="parametrs" class="form-control"> -->
+                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                                        Invalid value !
+                                    </div> -->
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="submit_btn" class="btn btn-primary box_sh">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Note -->
+                <div class="modal fade" id="note_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="header_note">Edit Note</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="parametrs">Define</label>
+                                        <input type="text" name="define_note" placeholder="define" class="form-control">
+                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                                                    Invalid value !
+                                                </div> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="parametrs">Parametrs</label>
+                                        <input type="text" name="parametrs_note" placeholder="parametrs" class="form-control">
+                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                                                    Invalid value !
+                                                </div> -->
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="submit_btn_note" class="btn btn-primary box_sh">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="initial" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Partner Properties</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="init-form" role="form">
+                                    <div class="form-group">
+                                        <label for="reciver">Name</label>
+                                        <input type="text" name="name" required class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sym">Symetric Keys</label>
+                                        <input type="text" name="sym" class="form-control">
+                                        <!-- <input type="text" name="sym" placeholder="define" class="form-control"> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Asym">Asymetric Keys</label>
+                                        <input type="text" name="Asym" class="form-control" required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="btn_init" class="btn btn-primary box_sh">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="samp" id="options" style="display: none;">
+                    <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check " name="btnradio" id="btnradio1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#initial">
+                        <label class="btn btn-outline-secondary none_border-1" for="btnradio1" data-toggle="tooltip" data-placement="top" title="Keys"><i class="fas fa-key"></i></label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="edit_btn" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <label class="btn btn-outline-primary none_border-1" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i class="far fa-edit"></i></label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btn_delete_partner" autocomplete="off">
+                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
+                    </div>
+                </div>
+
+                <!-- Option Note -->
+                <div class="samp" id="options_note" style="display: none;">
+                    <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="btn_note1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <label class="btn btn-outline-primary none_border-1" for="btn_note1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btn_delete_note" autocomplete="off">
+                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_note" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
+                    </div>
+                </div>
+            </div>
+            <!-- 
+            <footer class="main-footer">
+                <div class="footer-right" style="direction: rtl;">
+                    &copy; <span>تمامی حقوق این نرم افزار محفوظ می باشد.</span>
+                </div>
+                <div class="footer-right">
+                </div>
+            </footer> -->
+        </div>
+    </div>
+    <!-- General JS Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/app.min.js"></script>
+    <!-- JS Libraies -->
+    <script src="assets/js/konva.min.js"></script>
+    <!-- <script src="assets/js/sb-admin-2.js"></script> -->
+    <script src="assets/js/funcs.js"></script>
+    <script src="assets/js/FileSaver.js"></script>
+    <script src="assets/js/html2canvas.min.js"></script>
+    <script src="assets/js/jspdf.debug.js"></script>
+    <!-- <script src="assets/js/tag/tagify.min.js"></script> -->
+    <script src="assets/js/tag/jQuery.tagify.min.js"></script>
+    <script src="assets/js/Shape_props.js"></script>
+    <script src="assets/js/Vortex-001015.js"></script>
+    <script src="assets/js/sweetalert2.js"></script>
+    <script src="assets/js/VortexCryptoFunc.js"></script>
+    <!-- Page Specific JS File -->
+    <!-- Template JS File -->
+    <!-- Page Specific JS File -->
+    <!-- <script src="assets/js/page/index.js"></script> -->
+    <script src="assets/js/scripts.js"></script>
+    <!-- Custom JS File -->
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>
