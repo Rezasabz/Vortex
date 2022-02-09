@@ -4783,7 +4783,7 @@ h6 .badge {
 
 .navbar .nav-link.nav-link-lg i {
     margin-left: 0 !important;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 32px
 }
 
@@ -6074,12 +6074,12 @@ body.sidebar-gone .main-sidebar {
 
 .sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu {
     position: absolute;
-    background-color: #fff;
+    /* background-color: #fff; */
     left: 65px;
     top: 10px;
     width: 200px;
     display: none;
-    box-shadow: 0 0 30px rgba(0, 0, 0, .1)
+    /* box-shadow: 0 0 30px rgba(0, 0, 0, .1) */
 }
 
 .sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu li>a:focus,
@@ -11269,6 +11269,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     margin-top: 15px;
     color: #f2f2f2;
     font-size: 18px;
+    padding: 0 12px;
 }
 
 .custom_padding {
@@ -11328,4 +11329,8 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     font-family: sans-serif !important;
     font-size: 13px !important;
     direction: rtl !important;
+}
+
+.custom_vh {
+    height: 72vh;
 }

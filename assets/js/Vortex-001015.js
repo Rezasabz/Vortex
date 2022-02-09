@@ -94,7 +94,7 @@ var decrypt_list = []
     // mac_obj = {plainText: '', symKey: '', mac: ''}
 var mac_list = []
     // verfyMac_obj = {mac: '', symKey: '', plainText: '', verify: ''}
-var vrify_mac_list = []
+var verify_mac_list = []
     // aencryp_obj = {plainText: '', Pkey: '', cipherText: ''}
 var Aencryp_list = []
     // adecrypt_obj = {cipherText: '', Skey: '', plainText: ''}
@@ -437,6 +437,7 @@ btn_param.addEventListener('click', (e) => {
             // console.log("index_arrow => ", index_arrow)
 
             draw_arrow_from_arrow_list(index_arrow)
+            line_height += 50
 
             //arrow_count++
             $('#staticBackdrop').modal('toggle')
@@ -815,7 +816,7 @@ function create_partner(lbl, pos) {
         id: "rect" + count,
     })
     var line = new Konva.Line({
-        points: [50, 50, 50, 220, 50, 460],
+        points: Points.line,
         stroke: 'black',
         strokeWidth: 3,
         lineJoin: 'round',
@@ -1321,7 +1322,7 @@ function crypto_func_analys(func) {
                     // key_list.forEach(sk => {
                     // if (sk.partner === array_partner[array_partner_index].name) {
                 let sk = array_partner[array_partner_index]
-                if (sk.sym.includes(func.content[func.content.length - 1])) {
+                if (sk.symKey.includes(func.content[func.content.length - 1])) {
                     let plainText = func.content.slice(0, func.content.length - 1)
                         // plainText.pop()
                     let func_string = `${func.name}(${func.content.toString()})`
@@ -1375,7 +1376,7 @@ function crypto_func_analys(func) {
                     // if (key_list.length > 0) {
                     // key_list.forEach(sk => {
                     // if (sk.partner === rect_list[from_index.rect_index].children[1].text()) {
-                if (sk.sym.includes(func.content[func.content.length - 1])) {
+                if (sk.symKey.includes(func.content[func.content.length - 1])) {
                     let func_string = `${func.name}(${func.content.toString()})`
                     let cipherText = func.content[0]
                     let decrypt_obj = {
@@ -1388,7 +1389,7 @@ function crypto_func_analys(func) {
                         }
                     }
                     encrypt_list.filter((enc, index) => {
-                        if (sk.sym.includes(enc.symKey) && (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText)) {
+                        if (sk.symKey.includes(enc.symKey) && (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText)) {
                             decrypt_obj.plainText = enc.plainText
                             let macro_flag = false
                             macro_list.forEach(mc => {
@@ -1478,12 +1479,78 @@ function crypto_func_analys(func) {
                 // console.log("Hash")
                 // break;
         case 'Mac':
-            // console.log("Mac")
-            break;
+            if (func.content != '' && func.content.length > 1) {
+                let sk = array_partner[array_partner_index]
+                if (sk.symKey.includes(func.content[func.content.length - 1])) {
+                    let plainText = func.content.slice(0, func.content.length - 1)
+                    let func_string = `${func.name}(${func.content.toString()})`
+                    let mac = {
+                        name: func_string,
+                        value: func_string
+                    }
+                    console.log(macro_list)
+                    macro_list.forEach(mc => {
+                        if (mc.value.replace(' ', '') === func_string) {
+                            mac.name = mc.name
+                        }
+                    })
+                    let mac_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], mac: mac }
+                    mac_list.push(mac_obj)
+                    console.log("=========== 2 ==========", mac_obj)
+                    result = SUCCESSFULL
+
+                } else {
+                    result = INVALID_KEY_MAC
+                }
+            } else {
+                result = INVALID_VALUE_MAC
+            }
+
+            return result
+                // break;
+        case 'VerifyMac':
+            if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
+                let sk = array_partner[array_partner_index]
+                if (sk.symKey.includes(func.content[func.content.length - 1])) {
+                    let func_string = `${func.name}(${func.content.toString()})`
+                        // let verify_mac = func.content[0]
+                    let verify_mac_obj = {
+                        mac: func.content[0],
+                        symKey: func.content[1],
+                        plainText: [],
+                        name: {
+                            name: func_string,
+                            value: func_string
+                        }
+                    }
+                    mac_list.filter(mc => {
+                        if (sk.symKey.includes(mc.symKey) && (mc.mac.name === verify_mac_obj.mac || mc.mac.value === verify_mac_obj.mac)) {
+                            verify_mac_obj.plainText = mc.plainText
+
+                            macro_list.forEach(mcro => {
+                                if (mcro.value === func_string) {
+                                    verify_mac_obj.name.name = mcro.name
+
+                                }
+                            })
+                            verify_mac_list.push(verify_mac_obj)
+                            result = SUCCESSFULL
+                        } else {
+                            result = INVALID_COMPATIBILITY
+                        }
+                    })
+                } else {
+                    result = INVALID_KEY_VERIFY_MAC
+                }
+            } else {
+                result = INVALID_VALUE_VERIFY_MAC
+            }
+            return result
+                // break;
         case 'Sign':
             // console.log("Sign")
             break;
-        case 'Verify':
+        case 'VerifySign':
             // console.log("Verify")
             break;
         case 'AEnc':
@@ -1649,7 +1716,7 @@ function splite_string(str) {
         if (macro_list.length > 0) {
             console.log(" ======== IF 2 ========", macro_list)
             macro_list.forEach(mac => {
-                if (mac.value == sp && array_partner[array_partner_index].macro.var_array.includes(mac.name) && array_partner[array_partner_index].macro.new_array.includes(mac.name)) {
+                if (mac.value == sp && (array_partner[array_partner_index].nonces.var_array.includes(mac.name) || array_partner[array_partner_index].nonces.new_array.includes(mac.name))) {
                     sp = mac.name
                 }
             })
@@ -1720,8 +1787,8 @@ function parser_msg_to_partner(array_list) {
 
             key_list.forEach((k) => {
                     if (k.partner == s.from) {
-                        new_partner.symKey.push(k.sym)
-                        new_partner.AsymKey.push(k.Asym)
+                        new_partner.symKey.push.apply(new_partner.symKey, k.sym)
+                        new_partner.AsymKey.push.apply(new_partner.AsymKey, k.Asym)
                     }
                 })
                 // new_partner.name = s.sender
@@ -1749,6 +1816,12 @@ function parser_msg_to_partner(array_list) {
                     }
                 }
                 // new_partner.name = s.to
+            key_list.forEach((k) => {
+                if (k.partner == s.to) {
+                    new_partner.symKey.push.apply(new_partner.symKey, k.sym)
+                    new_partner.AsymKey.push.apply(new_partner.AsymKey, k.Asym)
+                }
+            })
             new_partner.messages.push(new_message)
             array_partner.push(new_partner)
         } else {
@@ -2529,6 +2602,7 @@ var tab_list = [];
 
 function registerRunButtonEvent() {
     $('#runApp').click(() => {
+        result_error_array = []
         parser_msg_to_partner(arrow_list)
         counter_tab++
         if ($('.nav-item').find('a').hasClass('active')) {
@@ -2536,9 +2610,9 @@ function registerRunButtonEvent() {
             $('.tab-pane').removeClass('active')
         }
         $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon far fa-times-circle"></i></span>` + '</li>')
-        $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}"><div class="card">${array_partner}<div></div>`)
+        $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}"><div class="card custom_vh">${array_partner}<div></div>`)
         console.log(array_partner)
-        console.log("=====================> MACRO LIST ", macro_list)
+        console.log("=====================> ERROR LIST ", result_error_array)
         registerCloseEvent()
     })
 }

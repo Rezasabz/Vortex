@@ -37,6 +37,13 @@ var Dimensions = {
 //#endregion
 
 
+//#region Line
+var line_height = 350
+var Points = {
+        line: [50, 50, 50, 220, 50, line_height]
+    }
+    //#endregion
+
 //#endregion
 
 // rec: new Konva.Rect({
