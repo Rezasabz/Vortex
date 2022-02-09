@@ -431,14 +431,39 @@ $(function() {
     });
 
     // Bootstrap 4 Validation
-    $(".needs-validation").submit(function() {
-        var form = $(this);
-        if (form[0].checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        form.addClass("was-validated");
-    });
+
+    // $(function() {
+    //     // 'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault()
+                event.stopPropagation()
+                console.log("test")
+            }
+            if ($('input[name=reciver]').val() == "") {
+                console.log("test 2 ", $('tag'))
+                $('tag').css('border', '1px solid red');
+            }
+
+            event.preventDefault()
+            form.classList.add('was-validated')
+        }, false)
+        console.log(form.children[0].children[1].value)
+    })
+
+    // })
+
+
+    // $(".needs-validation").submit(function() {
+    //     var form = $(this);
+    //     if (form[0].checkValidity() === false) {
+    //         event.preventDefault();
+    //         event.stopPropagation();
+    //     }
+    //     form.addClass("was-validated");
+    // });
 
     // alert dismissible
     $(".alert-dismissible").each(function() {

@@ -4060,7 +4060,7 @@ h6 .badge {
 }
 
 .btn.btn-sm {
-    padding: .1rem .4rem;
+    padding: .1rem .6rem;
     font-size: 12px
 }
 
@@ -11275,5 +11275,57 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     padding-top: 27px !important;
 }
 
+.custom_padding {
+    padding: 20px !important;
+}
 
-/*# sourceMappingURL=style.css.map */
+#main {
+    margin-left: -20px;
+    margin-top: 6px;
+}
+
+.close {
+    margin: -2px 0 0 10px;
+    font-size: 9px;
+    border-radius: 17px;
+}
+
+.marginBottom {
+    margin-bottom: 1px !important;
+}
+
+.operationDiv {
+    padding: 5px 10px 5px 5px;
+}
+
+.operationDivWrapper {
+    margin-top: -1px;
+}
+
+.leftMenu {
+    height: 70%;
+    background-color: #E6E6E6;
+    border-right: 2px solid #BFBFBF;
+}
+
+.custom-close-icon {
+    position: absolute;
+    top: 74px;
+    margin: 0px 44px;
+}
+
+.custom-close-icon-2 {
+    position: absolute;
+    top: 74px;
+    margin: 0px 82px;
+}
+
+.c-icon:hover {
+    color: #e91e63;
+}
+
+.custom_text_validation {
+    font-family: sans-serif !important;
+    font-size: 13px !important;
+    direction: rtl !important;
+}

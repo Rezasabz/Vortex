@@ -2,7 +2,7 @@
 var count = 0
 var partner_counter = 0
 var arrow_count = 0
-var invalid_empty_rec = document.querySelector('#invalid-empty-rec')
+    // var invalid_empty_rec = document.querySelector('#invalid-empty-rec')
 var opt = getFormId('options')
 var opt_note = getFormId('options_note')
 var btn_param = getFormId('submit_btn')
@@ -21,6 +21,9 @@ var parent_shape = document.getElementById('parent-shape').addEventListener('dra
 
 var MAX_WIDTH = 3000;
 var MAX_HEIGHT = 3000;
+// index for array partner use in RUN function
+var array_partner
+var array_partner_index
 
 var currentGroupName = {};
 
@@ -67,11 +70,20 @@ var nonce_array = []
 var array_state_note = []
 var key_word_list = ["Hash(message)", "Mac(message,key)", "Enc(message,key)", "Dec(message,key)", "Sign(message,key)", "Verify(sign,key)", "AEnc(message,key)", "ADec(message,key)"]
 var global_partner_list = {
-    partners: []
-}
+        partners: []
+    }
+    // for tagify reciver 
+var reciver_list = []
 var undo_redo_list = []
 var undo_redo_index = undo_redo_list.length - 1
 const CONST_CLIPBOARD_SIZE = 10
+
+// Knowledge List
+var knowledge_list = []
+
+// پس از اجرای دکمه run تمام خطاها در این لیست ذخیره می شود
+var result_error_array = []
+var result_error_array_tmp = []
 
 //#region Cryptogaraphic Function List
 // آرایه های توابع رمزنگاری
@@ -96,7 +108,7 @@ var hash_list = []
     // keyPair_obj = {privateKey: '', publicKey: '', ID: ''}
 var keyPair_list = []
     // symKey_obj = {key: '', ID: []}
-var sym_key_list = []
+var key_list = []
     // Asym_key_obj = {privateKey: '', publicKey: '', ID: ''}
 var Asym_key_list = []
     // counter for encrypt functions 
@@ -139,6 +151,8 @@ const INVALID_KEY_VERIFY_SIGN = 9020
 
 const INVALID_KEY_LIST = 10
 const INVALID_COMPATIBILITY = 20
+const INVALID_VALUE = 30
+const UNDEFINE_VALUE = 40
 const SUCCESSFULL = 0
 
 //#endregion
@@ -183,7 +197,8 @@ function transformTag(tagData) {
 }
 var input_reciver = new Tagify(document.querySelector('input[name=reciver]'), {
     // whitelist: reciver_list,
-    maxTags: 10,
+    // maxTags: 10,
+    userInput: false,
     transformTag: transformTag,
     dropdown: {
         maxItems: 20, // <- mixumum allowed rendered suggestions
@@ -194,7 +209,7 @@ var input_reciver = new Tagify(document.querySelector('input[name=reciver]'), {
 })
 var input_def = new Tagify(document.querySelector('input[name=define]'), {
     whitelist: key_word_list,
-    maxTags: 10,
+    // maxTags: 10,
     transformTag: transformTag,
     dropdown: {
         maxItems: 20, // <- mixumum allowed rendered suggestions
@@ -205,7 +220,7 @@ var input_def = new Tagify(document.querySelector('input[name=define]'), {
 })
 var input_params = new Tagify(document.querySelector('input[name=params]'), {
     whitelist: key_word_list,
-    maxTags: 10,
+    // maxTags: 10,
     transformTag: transformTag,
     dropdown: {
         maxItems: 20, // <- mixumum allowed rendered suggestions
@@ -255,8 +270,8 @@ function remove_all_tag(inputs) {
 }
 
 
-var reciver_list = []
-    // btn_key.addEventListener('click', function() {
+
+// btn_key.addEventListener('click', function() {
 
 //     rect_list.forEach(r => {
 //         if (r.name() !== rect_list[from_index.rect_index].name()) {
@@ -301,21 +316,36 @@ btn_param.addEventListener('click', (e) => {
         // console.log(flag)
         // console.log(check_reciver[0])
 
+        // let knowledge_obj = {
+        //     partner: rect_list[from_index.rect_index].children[1].text(),
+        //     macro: [],
+        //     nonce: []
+        // }
 
-        define.forEach(def => {
-            if (def.includes("=")) {
-                let split_mosavi = def.split("=")
-                macro_list.push({
-                    name: split_mosavi[0].trim(),
-                    value: split_mosavi[1].trim()
-                })
-            }
-        })
+        /*  اضافه کردن در ماکرو لیست در دکمه ران
+        // define.forEach(def => {
+        //     if (def.includes("=")) {
+        //         let split_mosavi = def.split("=")
+        //         macro_list.push({
+        //                 name: split_mosavi[0].trim(),
+        //                 value: split_mosavi[1].trim()
+        //             })
+        //             // knowledge_obj.macro.push(split_mosavi[0].trim())
+
+        //     }
+        //     // else if (!is_function(def)) {
+        //     //     knowledge_obj.nonce.push(def.replace(' ', ''))
+        //     // }
+        // })
+
+        */
         function_array = []
         nonce_array = []
-            // var err = SUCCESSFULL
+        var err = SUCCESSFULL
             // var index_tmp = 0
-        var err = splite_string(params)
+            // var err = splite_string(params)
+            // console.log("========= SPLIT ========= ", err)
+            // console.log("========= NONC ========= ", nonce_array)
             // while (index_tmp < params.length && err === SUCCESSFULL) {
             //     console.log(params[index_tmp])
 
@@ -332,6 +362,7 @@ btn_param.addEventListener('click', (e) => {
         // if ((check_reciver[0] !== '') && flag && (check_reciver[0] !== rect_list[from_index.rect_index].children[1].text())) {
         if (err === SUCCESSFULL) {
             write_to_undo_redo_list()
+
             if (from_index.arrow_index != -1) {
                 index_arrow = from_index.arrow_index
                 arrow_list[index_arrow].arrow.destroy()
@@ -357,7 +388,7 @@ btn_param.addEventListener('click', (e) => {
             rect_list.forEach((rc, idx) => {
 
                 if (rc.children[1].attrs.text === check_reciver[0]) {
-                    invalid_empty_rec.style.display = "none"
+                    // invalid_empty_rec.style.display = "none"
                     if (NotEmpty(obj_partner))
                         obj_partner = {}
 
@@ -471,7 +502,7 @@ function delete_function(btn_id) {
                     delete_arrow(from_index.arrow_index)
                 } else {
                     let rect_index = rect_list[from_index.rect_index]
-
+                    let partner_name = rect_index.children[1].text()
                     arrow_list.forEach((a, idx) => {
                         // console.log("a ==========> ", a)
                         if (a.from === rect_index.children[1].text() || a.to === rect_index.children[1].text()) {
@@ -493,8 +524,24 @@ function delete_function(btn_id) {
 
                         draw_arrow_from_arrow_list(idx)
                     })
+
+
                     rect_index.destroy()
                     rect_list.splice(from_index.rect_index, 1)
+
+                    // delete partner from key_list
+                    partner_flag = true
+                    var sk_index
+                    key_list.filter((sk, idx) => {
+                        if (sk.partner === partner_name) {
+                            partner_flag = true
+                            sk_index = idx
+                        }
+                    })
+                    if (partner_flag == true) {
+                        key_list.splice(sk_index, 1)
+                    }
+
                 }
 
                 opt.style.display = 'none'
@@ -957,8 +1004,9 @@ container.addEventListener('drop', (e) => {
         rect_list.push(partner)
 
         // اضافه کردن نام پارتنرهای به لیست دریافت کننده ها
-        reciver_list.push(partner.name())
-        input_reciver.whitelist = reciver_list
+        reciver_list.push(partner.children[1].text())
+
+
     }
 })
 
@@ -971,21 +1019,27 @@ btn_init.addEventListener('click', (e) => {
         var old_name = rc.children[1].attrs.text
         var new_name = old_name
         var flag = true
-            // console.log("object 1 ")
-            // rect_list.forEach(rc => {
-            // if ( === ) {
+        var partner_flag = false
+        reciver_list = []
+
+
+
+        // name_value = 
+        // console.log("object 1 ")
+        // rect_list.forEach(rc => {
+        // if ( === ) {
 
         // console.log("object 2 ")
 
-        rect_list.filter(ex => {
-            if (ex.children[1].attrs.text === name_value) {
+        rect_list.filter((ex, idx) => {
+            if (ex.children[1].attrs.text === name_value && idx != from_index.rect_index) {
                 flag = false
                     // break;
             }
 
         })
 
-        if (name_value !== "" && name_value !== old_name && flag) {
+        if (name_value !== "" && flag) {
             console.log(name_value)
             write_to_undo_redo_list()
                 // if (true) {
@@ -1011,30 +1065,42 @@ btn_init.addEventListener('click', (e) => {
                 return elem.value;
             }) : []
 
-            if (sym_key_list.length != 0) {
-                sym_key_list.filter(sk => {
-                    if (sk.partner !== name_value) {
-                        sym_key_list.push({
+            write_to_undo_redo_list()
+
+            if (key_list.length != 0) {
+
+                var sk_index
+                key_list.filter((sk, idx) => {
+                    if (sk.partner === name_value) {
+                        partner_flag = true
+                        sk_index = idx
+
+
+                    }
+                })
+                if (partner_flag == true) {
+                    if (key_list[sk_index].sym !== sym) {
+                        write_to_undo_redo_list()
+                        key_list.splice(sk_index, 1)
+                        key_list.push({
                             partner: name_value,
                             sym: sym,
                             Asym: Asym
                         })
-                    } else {
-                        sk.sym.forEach(sy => {
-                            if (!sym.includes(sy)) {
-                                sym.push(sy)
-                            }
-                        })
-                        sk.Asym.forEach(asy => {
-                            if (!Asym.includes(asy)) {
-                                Asym.push(asy)
-                            }
-                        })
-                    }
 
-                })
+                    }
+                } else {
+                    write_to_undo_redo_list()
+                    key_list.push({
+                        partner: name_value,
+                        sym: sym,
+                        Asym: Asym
+                    })
+                }
+
             } else {
-                sym_key_list.push({
+                write_to_undo_redo_list()
+                key_list.push({
                     partner: name_value,
                     sym: sym,
                     Asym: Asym
@@ -1042,14 +1108,12 @@ btn_init.addEventListener('click', (e) => {
             }
 
 
-            console.log()
 
-            //     }
-            // })
             $('#initial').modal('toggle')
             opt.style.display = 'none'
             opt_note.style.display = 'none';
-            name_value = ''
+            //input_sym.removeAllTags()
+
         } else {
             // console.log("object 4 ")
             opt.style.display = 'none'
@@ -1067,6 +1131,12 @@ btn_init.addEventListener('click', (e) => {
             x: rc.attrs.x - (measure_text.width / 2) + (rc.children[0].attrs.width / 2) - 5,
             y: rc.attrs.y - (measure_text.height / 2) + (rc.children[0].attrs.height / 2) - 5,
         })
+
+        rect_list.forEach(r => {
+            reciver_list.push(r.children[1].text())
+        })
+        input_reciver.whitelist = reciver_list
+
     })
     //#region Transformer
 var tr = new Konva.Transformer();
@@ -1126,9 +1196,9 @@ stage.on('click', (e) => {
                         opt_note.style.left =
                             e.target.parent.attrs.x + 410 + 'px';
                         opt_note.addEventListener('click', () => {
-                            opt_note.style.display = 'none';
-                        })
-                        invalid_empty_rec.style.display = "none"
+                                opt_note.style.display = 'none';
+                            })
+                            // invalid_empty_rec.style.display = "none"
 
                         input_reciver.addTags(fil.to)
                         input_def.addTags(fil.message.define)
@@ -1136,8 +1206,9 @@ stage.on('click', (e) => {
                     }
                 })
             } else if (e.target.parent.name().includes('partner')) {
-                // remove_all_tag(inputs)
-                // console.log("arrow ===>", arrow_list)
+                var reciver_list_tmp
+                    // remove_all_tag(inputs)
+                    // console.log("arrow ===>", arrow_list)
                 input_reciver.removeAllTags()
                 input_def.removeAllTags()
                 input_params.removeAllTags()
@@ -1145,6 +1216,12 @@ stage.on('click', (e) => {
                 opt.style.display = 'initial'
                 opt.style.left = e.target.parent.attrs.x + 370 + 'px';
                 opt.style.top = e.target.parent.attrs.y + 75 + 'px';
+                //--------- لیست دریافت کننده ها بجز پارنتر انتخاب شده
+                reciver_list_tmp = reciver_list.filter((rec, index) => {
+                    return rec !== e.target.parent.children[1].text()
+                })
+                input_reciver.whitelist = reciver_list_tmp
+                    //---------------------------------------------------
                 rect_list.filter((fil, index) => {
                     if (fil.attrs.name === e.target.parent.attrs.name) {
                         tr.nodes([fil])
@@ -1178,6 +1255,17 @@ stage.on('click', (e) => {
 
                 // console.log("click ==> ")
 
+
+                $('input[name=name]').val(rect_list[from_index.rect_index].children[1].text())
+                console.log(key_list)
+                input_sym.removeAllTags()
+                key_list.forEach(key => {
+                    if (key.partner === rect_list[from_index.rect_index].children[1].text()) {
+                        input_sym.removeAllTags()
+                        input_sym.addTags(key.sym)
+                            // $('input[name=key]').val(sym_key.key)
+                    }
+                })
 
 
                 // console.log(rect_list)
@@ -1222,72 +1310,173 @@ var flag_error_func = 1000
 // آنالیز توابع رمزنگاری و قرار دادن در لیست های مربوطه
 function crypto_func_analys(func) {
 
+    var result = INVALID_VALUE
+    console.log("=========== FUNC ==========", func)
     switch (func.name) {
         case 'Enc':
             console.log("Enc")
             if (func.content != '' && func.content.length > 1) {
                 console.log("===========1 ==========")
-                if (sym_key_list.length > 0) {
-                    sym_key_list.forEach(sk => {
-                        if (sk.key === func.content[func.content.length - 1] && sk.ID.includes(from_index.rect_index.name())) {
-                            console.log("=========== 2 ==========")
-                            let plainText = func.content
-                            plainText.pop()
-                            let encrypt_obj = { plainText: plainText, symKey: sk, cipherText: `enc_cipher_${encrypt_counter++}` }
-                            encrypt_list.push(encrypt_obj)
+                    // if (key_list.length > 0) {
+                    // key_list.forEach(sk => {
+                    // if (sk.partner === array_partner[array_partner_index].name) {
+                let sk = array_partner[array_partner_index]
+                if (sk.sym.includes(func.content[func.content.length - 1])) {
+                    let plainText = func.content.slice(0, func.content.length - 1)
+                        // plainText.pop()
+                    let func_string = `${func.name}(${func.content.toString()})`
+                    let cipherText = {
+                        name: func_string,
+                        value: func_string
+                    }
+                    console.log(macro_list)
+                    let macro_flag = false
+                    macro_list.forEach(mc => {
+                            if (mc.value.replace(' ', '') === func_string) {
+                                cipherText.name = mc.name
+                                macro_flag = true
+                            }
 
-                            return SUCCESSFULL
-                        } else {
-                            return INVALID_KEY_ENC
-                        }
-                    })
+                        })
+                        // if (!macro_flag) {
+                        //     macro_list.push({
+                        //         name: cipherText,
+                        //         value: func_string
+                        //     })
+                        // }
+
+                    let encrypt_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], cipherText: cipherText }
+                    encrypt_list.push(encrypt_obj)
+                    console.log("=========== 2 ==========", encrypt_obj)
+                    result = SUCCESSFULL
+
                 } else {
-
-                    return INVALID_KEY_LIST
+                    result = INVALID_KEY_ENC
                 }
+                // }
+                // else {
+                //     result = INVALID_VALUE_ENC
+                // }
+                // })
+                // } else {
+
+                //     result = INVALID_KEY_LIST
+                // }
             } else {
-                return INVALID_VALUE_ENC
+                result = INVALID_VALUE_ENC
             }
 
-            // return SUCCESSFULL
-            break;
+            return result
+                // return SUCCESSFULL
+                // break;
         case 'Dec':
-            if (func.content != '' && func.content.length > 1 && sym_key_list.length > 0) {
-
-                if (sym_key_list.length > 0) {
-                    sym_key_list.forEach(sk => {
-                        console.log(" ================== 2 =================== ")
-                        if (sk.key === func.content[func.content.length - 1] && sk.ID.includes(from_index.rect_index.name())) {
-
-                            let cipherText = func.content
-                            cipherText.pop()
-                            let decrypt_obj = { cipherText: cipherText, symKey: sk, plainText: '' }
-                            encrypt_list.filter((enc, index) => {
-                                if (enc.symKey.key === sk.key && enc.cipherText === cipherText) {
-                                    decrypt_obj.plainText = enc.plainText
-                                    decrypt_list.push(decrypt_obj)
-
-                                    return SUCCESSFULL
-                                } else {
-                                    return INVALID_COMPATIBILITY
-                                }
-                            })
-
+            if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
+                let sk = array_partner[array_partner_index]
+                    // if (key_list.length > 0) {
+                    // key_list.forEach(sk => {
+                    // if (sk.partner === rect_list[from_index.rect_index].children[1].text()) {
+                if (sk.sym.includes(func.content[func.content.length - 1])) {
+                    let func_string = `${func.name}(${func.content.toString()})`
+                    let cipherText = func.content[0]
+                    let decrypt_obj = {
+                        cipherText: func.content[0],
+                        symKey: func.content[1],
+                        plainText: [],
+                        name: {
+                            name: func_string,
+                            value: func_string
+                        }
+                    }
+                    encrypt_list.filter((enc, index) => {
+                        if (sk.sym.includes(enc.symKey) && (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText)) {
+                            decrypt_obj.plainText = enc.plainText
+                            let macro_flag = false
+                            macro_list.forEach(mc => {
+                                    if (mc.value === func_string) {
+                                        decrypt_obj.name.name = mc.name
+                                        macro_flag = true
+                                    }
+                                })
+                                // if (!macro_flag) {
+                                //     macro_list.push({
+                                //         name: decrypt_obj.name,
+                                //         value: `Dec(${func.content})`
+                                //     })
+                                // }
+                            decrypt_list.push(decrypt_obj)
+                            result = SUCCESSFULL
                         } else {
-                            return INVALID_KEY_DEC
+                            result = INVALID_COMPATIBILITY
                         }
                     })
                 } else {
-                    return INVALID_KEY_LIST
+                    result = INVALID_KEY_DEC
                 }
+                // }
+                // })
+                // } else {
+                //     result = INVALID_KEY_LIST
+                // }
             } else {
-                return INVALID_VALUE_DEC
+                result = INVALID_VALUE_DEC
             }
-            // console.log("Dec")
-            break;
+            return result
+                // console.log("Dec")
+                // break;
         case 'Hash':
-            // console.log("Hash")
-            break;
+            result = {
+                key: SUCCESSFULL,
+                value: []
+            }
+            if (func.content != '' && func.content.length > 1) {
+
+
+                let macro_flag = false
+                var hash_obj = {
+                    plainText: func.content,
+                    hash: `hash${hash_counter++}`
+                }
+
+                // macro_list.forEach(mc => {
+                //     if (mc.value === `${func.name}(${func.content.toString()})`) {
+                //         hash_obj.hash = mc.name
+                //         macro_flag = true
+                //     }
+                // })
+                // if (!macro_flag) {
+                //     macro_list.push({
+                //         name: hash_obj.hash,
+                //         value: `${func.name}(${func.content.toString()})`
+                //     })
+                //     knowledge_list.push()
+                // }
+
+                // knowledge_list.forEach(k => {
+                //     if (k.partner === rect_list[from_index.rect_index].children[1].text()) {
+                //         func.content.forEach(c => {
+                //             if (!is_function(c)) {
+                //                 if (!k.knowledge.nonce.includes(c) && !k.knowledge.macro.includes(c)) {
+                //                     result.key = UNDEFINE_VALUE
+                //                     result.value.push(c)
+
+                //                 }
+
+                //             }
+                //         })
+                //         k.knowledge.macro.push(hash_obj.hash)
+                //     }
+
+
+                // })
+
+                // result = SUCCESSFULL
+            } else {
+                result.key = INVALID_VALUE_HASH
+            }
+
+            return result
+                // console.log("Hash")
+                // break;
         case 'Mac':
             // console.log("Mac")
             break;
@@ -1303,6 +1492,9 @@ function crypto_func_analys(func) {
         case 'ADec':
             // console.log("ADec")
             break;
+
+        default:
+            return SUCCESSFULL
 
     }
 }
@@ -1408,14 +1600,23 @@ function func_content(func) {
 }
 
 function splite_content(content) {
+    // console.log("============ splite_content ===========", content)
     var split_array = []
     var split_array_tmp = []
     var counter = 0
     var index = 0
     for (var i = 0; i < content.length; i++) {
+
         var c = content[i]
-        if (counter == 0 & c == ",") {
-            split_array.push(content.substring(index, i))
+            // console.log("============ splite_content =========== 2 ", c)
+            // console.log("============ splite_content =========== 3 ", counter)
+        if (counter == 0 && c == ",") {
+            let tmp = content.slice(index, i).trim()
+            if (tmp[0] === ',') {
+                tmp = tmp.slice(1)
+            }
+            console.log(tmp)
+            split_array.push(tmp)
             index = i
         }
         if (c == "(") {
@@ -1425,7 +1626,7 @@ function splite_content(content) {
             counter--
         }
     }
-    var tmp_content = content.substring(index, content.length)
+    var tmp_content = content.substring(index + 1, content.length)
     if (tmp_content != '') {
         split_array.push(tmp_content)
     }
@@ -1436,41 +1637,63 @@ function splite_string(str) {
     var result = SUCCESSFULL
     str.forEach((sp) => {
         // ------------ for macro check
-        let res_macro = is_macro(sp)
-        if (res_macro != null) {
-            sp = res_macro
+        // let res_macro = is_macro(sp)
+        if (array_partner[array_partner_index].macro.new_array.length > 0) {
+            console.log(" ======== IF 1 ========", array_partner[array_partner_index].macro.new_array)
+            array_partner[array_partner_index].macro.new_array.forEach(mac => {
+                if (mac.name == sp) {
+                    sp = mac.value
+                }
+            })
+        }
+        if (macro_list.length > 0) {
+            console.log(" ======== IF 2 ========", macro_list)
+            macro_list.forEach(mac => {
+                if (mac.value == sp && array_partner[array_partner_index].macro.var_array.includes(mac.name) && array_partner[array_partner_index].macro.new_array.includes(mac.name)) {
+                    sp = mac.name
+                }
+            })
         }
         //-----------------
         if (is_function(sp)) {
-            fn = func_content(sp)
+            var fn = func_content(sp)
             var func_exist_index = is_contain(function_array, fn.name)
             if (func_exist_index < function_array.length) {
                 if (fn.content.length !== function_array[func_exist_index].content.length) {
                     flag_error_func = func_exist_index
                     result = INVALID_VALUE
-                    return INVALID_VALUE
+                        // return INVALID_VALUE
                 }
             } else {
                 let res = crypto_func_analys(fn)
+                console.log("RES ===============> ", res)
                 if (res === SUCCESSFULL) {
 
                     function_array.push(fn)
                     result = SUCCESSFULL
                 } else {
                     result = res
-                    return res
+                    var obj_error = {
+                        id: '',
+                        function: `${fn.name}(${fn.content.toString()})`,
+                        result: res
+                    }
+
+                    result_error_array_tmp.push(obj_error)
+                        // return res
                 }
             }
             splite_string(func_content(sp).content)
         } else {
             nonce_array.push(sp.replace(',', ''))
+
         }
     })
     return result
 }
 
 function parser_msg_to_partner(array_list) {
-    var array_partner = []
+    array_partner = []
         // console.log("============> ", array_list)
     array_list.forEach((s) => {
         var index = is_contain(array_partner, s.from)
@@ -1481,19 +1704,31 @@ function parser_msg_to_partner(array_list) {
         }
         if (index === array_partner.length) {
             var new_partner = {
-                    name: s.from,
-                    sym_key: [],
-                    Asym_key: [],
-                    messages: [],
-                    nonces: {
-                        new_array: [],
-                        var_array: []
-                    }
+                name: s.from,
+                symKey: [],
+                AsymKey: [],
+                messages: [],
+                nonces: {
+                    new_array: [],
+                    var_array: []
+                },
+                macro: {
+                    new_array: [],
+                    var_array: []
                 }
+            }
+
+            key_list.forEach((k) => {
+                    if (k.partner == s.from) {
+                        new_partner.symKey.push(k.sym)
+                        new_partner.AsymKey.push(k.Asym)
+                    }
+                })
                 // new_partner.name = s.sender
             new_partner.messages.push(new_message)
             array_partner.push(new_partner)
         } else {
+
             array_partner[index].messages.push(new_message)
         }
         var index_1 = is_contain(array_partner, s.to)
@@ -1501,10 +1736,14 @@ function parser_msg_to_partner(array_list) {
 
             var new_partner = {
                     name: s.to,
-                    sym_key: [],
-                    Asym_key: [],
+                    symKey: [],
+                    AsymKey: [],
                     messages: [],
                     nonces: {
+                        new_array: [],
+                        var_array: []
+                    },
+                    macro: {
                         new_array: [],
                         var_array: []
                     }
@@ -1523,27 +1762,101 @@ function parser_msg_to_partner(array_list) {
     // macro_list = []
 
     // console.log(macro_list)
-    array_partner.forEach(n => {
+    array_partner.forEach((n, idx) => {
 
-        n.messages.forEach(m => {
-            m.message.define.forEach(def => {
-                if (def.includes("=")) {
-                    let split_mosavi = def.split("=")
-                    macro_list.push({
-                        name: split_mosavi[0].trim(),
-                        value: split_mosavi[1].trim()
-                    })
-                }
-            })
-            nonce_array = []
-            splite_string(m.message.params)
-            var nonce = nonce_array
-            nonce.forEach(ns => {
-                if (!n.nonces.var_array.includes(ns) && !n.nonces.new_array.includes(ns) && ns.trim() != '') {
-                    if (n.name === m.from) {
-                        n.nonces.new_array.push(ns)
+        n.messages.forEach((m, index) => {
+            if (n.name === m.from) {
+                n.macro.new_array = []
+                console.log("============> ", m.message)
+                m.message.define.forEach(def => {
+                    if (def.includes("=")) {
+                        console.log("=====================> IF", def)
+                        let split_mosavi = def.split("=")
+                        let obj_macro = {
+                            name: split_mosavi[0].trim(),
+                            value: split_mosavi[1].trim()
+                        }
+
+
+                        var flag_macro = false
+                        macro_list.filter(m => {
+                            if (m.name == obj_macro.name && m.value == obj_macro.value) {
+                                console.log("=====================> 1")
+                                flag_macro = true
+
+                            } else if (m.name == obj_macro.name && m.value != obj_macro.value) {
+                                console.log("=====================> 2")
+                                flag_macro = true
+                            }
+                            // else {
+                            //     console.log("=====================> 3")
+                            //         // macro_list.push(obj_macro)
+                            //     n.macro.new_array.push(obj_macro)
+                            // }
+
+                        })
+                        if (!flag_macro) {
+                            console.log("=====================> 3")
+                            n.macro.new_array.push(obj_macro)
+                        }
+
+                    } else if (!is_function(def)) {
+                        console.log("=====================> ELSE")
+                        if (!n.nonce.new_array.includes(def)) {
+                            n.nonce.new_array.push(def)
+                        }
+
+                    }
+                })
+                array_partner_index = idx
+                nonce_array = []
+                result_error_array_tmp = []
+
+
+                splite_string(m.message.params)
+                    // آپدیت کردن آرایه خطا
+                result_error_array_tmp.forEach((err, ix) => {
+                    err.id = index
+                    result_error_array.push(err)
+                })
+                macro_list.push.apply(macro_list, n.macro.new_array)
+                var nonce = nonce_array
+                nonce.forEach(ns => {
+                    if (!n.nonces.var_array.includes(ns) && !n.nonces.new_array.includes(ns) && ns.trim() != '' && !n.symKey.includes(ns) && !is_macro(ns)) {
+                        if (n.name === m.from) {
+                            n.nonces.new_array.push(ns)
+                        }
+                        // else {
+                        //     n.nonces.var_array.push(ns)
+                        // }
+                    }
+                })
+            }
+            m.message.params.forEach(p => {
+                if (n.name === m.to) {
+                    if (!is_function(p)) {
+                        if (!n.nonces.var_array.includes(p) && !n.nonces.new_array.includes(p) && p.trim() != '' && !n.symKey.includes(p)) {
+                            n.nonces.var_array.push(p)
+                        }
                     } else {
-                        n.nonces.var_array.push(ns)
+                        macro_list.filter(macro => {
+                            if (macro.value === p && !n.nonces.var_array.includes(macro.name)) {
+                                n.nonces.var_array.push(macro.name)
+                            }
+                        })
+                    }
+                }
+                if (n.name === m.from) {
+                    if (is_macro(p)) {
+                        if (!n.nonces.new_array.includes(p) && p.trim() != '' && !n.symKey.includes(p)) {
+                            n.nonces.var_array.push(p)
+                        }
+                    } else {
+                        macro_list.filter(macro => {
+                            if (macro.value === p && !n.nonces.var_array.includes(macro.name) && !n.nonces.new_array.includes(macro.name)) {
+                                n.nonces.var_array.push(macro.name)
+                            }
+                        })
                     }
                 }
             })
@@ -1715,14 +2028,33 @@ function send_msg(msg, arrow_index, arrow_fill = 'black', lbl_fontSize = 20, lbl
 
 // ------------ پارس کردن پارامترهای ورودی به برچسب فلش و محتوای نوت ----------//
 function params_to_note_parser(input_params, index) {
-    var p = []
+    var p = {
+        func: [],
+        nonce: []
+    }
     var length_params = input_params.length
     for (var i = 0; i < length_params; i++) {
-        let label_message = {
-            name: "P" + (index) + i.toString(),
-            value: input_params[i]
+        if (is_function(input_params[i])) {
+            let label_message = {
+                name: "P" + (index) + i.toString(),
+                value: input_params[i]
+            }
+            if (macro_list.length == 0) {
+                macro_list.push(label_message)
+            } else {
+                macro_list.forEach(el => {
+                    if (el.value === label_message.value) {
+                        label_message.name = el.name
+                    } else {
+                        macro_list.push(label_message)
+                    }
+                })
+            }
+            p.func.push(label_message)
+        } else {
+            p.nonce.push(input_params[i])
         }
-        p.push(label_message)
+
     }
     return p
 }
@@ -1740,9 +2072,12 @@ function draw_arrow_from_arrow_list(index) {
     let note_msg = msg.define.join("\n")
     note_msg += "\n"
     let array_obj_params = params_to_note_parser(msg.params, index)
-    array_obj_params.forEach(ar => {
+    array_obj_params.func.forEach(ar => {
         lbl_msg += `(${ar.name})  `
         note_msg += `\n${ar.name} = ${ar.value}`
+    })
+    array_obj_params.nonce.forEach(ar => {
+        lbl_msg += `(${ar})  `
     })
     arrow_list[index].abstract_msg = array_obj_params
 
@@ -2188,7 +2523,38 @@ function toolbox_manager(type) {
 
 //#endregion
 
+//#region add tab
+var counter_tab = 0;
+var tab_list = [];
 
-$('#runApp').click(() => {
-    console.log("run")
+function registerRunButtonEvent() {
+    $('#runApp').click(() => {
+        parser_msg_to_partner(arrow_list)
+        counter_tab++
+        if ($('.nav-item').find('a').hasClass('active')) {
+            $('.nav-item').find('a').removeClass('active')
+            $('.tab-pane').removeClass('active')
+        }
+        $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon far fa-times-circle"></i></span>` + '</li>')
+        $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}"><div class="card">${array_partner}<div></div>`)
+        console.log(array_partner)
+        console.log("=====================> MACRO LIST ", macro_list)
+        registerCloseEvent()
+    })
+}
+
+function registerCloseEvent() {
+    $('.custom-close-icon-2').click(function() {
+        $(this).parent().remove()
+        $('.tab-content').children($(this).parent().children('a').attr('href')).remove()
+        $('#myTab a:last').addClass('active')
+        $('.tab-content').find('div[id="' + $('#myTab a:last').attr('href').replace('#', '') + '"]').addClass('active')
+    })
+}
+
+$(function() {
+    registerRunButtonEvent()
+    registerCloseEvent()
 })
+
+//#endregion

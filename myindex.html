@@ -8,6 +8,7 @@
     <link href="assets/css/tagify.css" rel="stylesheet" type="text/css" />
     <!-- General CSS Files -->
     <link rel="stylesheet" href="assets/css/app.min.css">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.ico" />
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
@@ -78,14 +79,57 @@
                     </li>
                 </ul>
             </nav>
+
+
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <form class="row g-3 needs-validation" novalidate>
+                                    <div class="col-md-6">
+                                        <label for="validationCustom01" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="validationPhoneNumber" class="form-label">PhonNumber</label>
+                                        <input type="number" class="form-control" id="validationPhoneNumber" value="Mark" required>
+                                        <div class="invalid-feedback">
+                                            Please choose a Phone Number.
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-end">
+                                        <button class="btn btn-primary" type="submit">Submit form</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- <button class="btn btn-primary" type="submit" id="test">Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div id="parent-shape" class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <!-- <img alt="image" src="assets/img/logo.png" class="header-logo" /> -->
-                        <a href="index.html"> <span class="logo-name"><i data-feather="briefcase"></i> ToolBox</span>
+
+                        <a href="#"> <img alt="image" src="assets/img/logo.png" class="header-logo" />
+                            <span class="logo-name">Vortex</span></span>
                         </a>
                     </div>
                     <ul class="sidebar-menu">
+                        <li class="menu-header">ToolBox</li>
                         <li class="dropdown">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
                   fas fa-wrench"></i><span>Tools</span></a>
@@ -154,18 +198,19 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link active" data-bs-toggle="tab">Untitled-1</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#main">Main</a>
+                        <!-- <span class="custom-close-icon"><i class="c-icon far fa-times-circle"></i></span> -->
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#profile" class="nav-link" data-bs-toggle="tab">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a href="#messages" class="nav-link" data-bs-toggle="tab">Messages</a>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="home">
+                    <div class="tab-pane fade show active" id="main">
                         <section class="section custom_padding">
                             <div class="section-body">
                                 <div id="stageparent" class="card ">
@@ -178,12 +223,12 @@
                             </div>
                         </section>
                     </div>
-                    <div class="tab-pane fade" id="profile">
+                    <!-- <div class="tab-pane fade" id="profile">
 
                     </div>
                     <div class="tab-pane fade" id="messages">
 
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -198,38 +243,38 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form role="form " class="needs-validation" novalidate>
+                                <form class="needs-validation" novalidate>
                                     <div class="form-group">
                                         <label for="reciver">Reciver</label>
-                                        <input type="text" name="reciver" placeholder="reciver" required clasa="form-control">
+                                        <input type="text" name="reciver" id="reciver" required clasa="form-control">
                                         <!-- <input type="text" name="reciver" placeholder="reciver" required class="form-control"> -->
-                                        <div id="invalid-empty-rec" class="invalid-feedback">
-
-                                        </div>
-                                        <div id=invalid-rec class="invalid-feedback">
-                                            There is no partner with this name !
+                                        <div id=invalid-rec class="invalid-feedback custom_text_validation text-end">
+                                            پارتنر نامعتبر است !
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="define">Define</label>
-                                        <input type="text" name="define" placeholder="define" clasa="form-control">
+                                        <input type="text" name="define" clasa="form-control">
                                         <!-- <div id="invalid-empty-def" class="invalid-feedback">
                                         Invalid value !
                                     </div> -->
                                     </div>
                                     <div class="form-group">
                                         <label for="parametrs">Parametrs</label>
-                                        <input type="text" name="params" placeholder="parametrs" clasa="form-control">
+                                        <input type="text" name="params" clasa="form-control">
                                         <!-- <input type="text" name="params" placeholder="parametrs" class="form-control"> -->
                                         <!-- <div id="invalid-empty-params" class="invalid-feedback">
                                         Invalid value !
                                     </div> -->
                                     </div>
+                                    <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" id="submit_btn" class="btn btn-primary box_sh" type="submit">Submit</button>
+                                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" id="submit_btn" class="btn btn-primary box_sh">Submit</button>
+
                             </div>
                         </div>
                     </div>
@@ -277,7 +322,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="init-form" role="form">
+                                <form id="init-form" class="needs-validation" novalidate>
                                     <div class="form-group">
                                         <label for="reciver">Name</label>
                                         <input type="text" name="name" required class="form-control">
@@ -359,7 +404,7 @@
     <!-- <script src="assets/js/page/index.js"></script> -->
     <script src="assets/js/scripts.js"></script>
     <!-- Custom JS File -->
-    <script src="assets/js/custom.js"></script>
+    <!-- <script src="assets/js/custom.js"></script> -->
 </body>
 
 </html>
