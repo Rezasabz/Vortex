@@ -15,6 +15,12 @@
     <!-- Custom style CSS -->
     <!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
     <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
+    <!-- <link rel="stylesheet" href="assets/css/codemirror.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
+    <link rel="stylesheet" href="assets/css/material-darker.css">
+    <link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/monokai.min.css">
+    </link>
 
 </head>
 
@@ -42,32 +48,36 @@
                 </div>
                 <ul class="navbar-nav navbar-right">
 
-                    <li id="undo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="bottom" title="Undo">undo</i>
+                    <li id="undo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="bottom" title="Undo">undo</i>
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
-                    <li id="redo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="bottom" title="Redo">redo</i>
-                    </a>
+                    <li id="redo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="bottom" title="Redo">redo</i>
+                        </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
                     <div class="vr"></div>
-                    <li class="dropdown dropdown-list-toggle"><a href="#" id="export-pdf" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Export File">file_download</i>
+                    <li class="dropdown dropdown-list-toggle"><a href="#" id="export-pdf" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="top" title="Export File">file_download</i>
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
                     <li class="dropdown dropdown-list-toggle">
                         <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File"> insert_drive_file</label>
-                        <input type="file" id="file-input" accept="application/json" hidden/>
+                        <input type="file" id="file-input" accept="application/json" hidden />
                         <!-- <a href="#" id="file-input" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" data-bs-toggle="tooltip" data-placement="top" title="Open File"> -->
 
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
-                    <li class="dropdown dropdown-list-toggle"><a href="#" id="save" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Save">save</i>
+                    <li class="dropdown dropdown-list-toggle"><a href="#" id="save" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="top" title="Save">save</i>
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
@@ -215,6 +225,11 @@
                             <div class="section-body">
                                 <div id="stageparent" class="card ">
                                     <div>
+                                        <!-- <pre>
+                                            <code id="html">
+                                              
+                                            </code>
+                                        </pre> -->
                                         <div id="container">
 
                                         </div>
@@ -356,7 +371,8 @@
                         <label class="btn btn-outline-primary none_border-1" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i class="far fa-edit"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btn_delete_partner" autocomplete="off">
-                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
+                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                class="far fa-trash-alt"></i></label>
                     </div>
                 </div>
 
@@ -395,7 +411,7 @@
     <!-- <script src="assets/js/tag/tagify.min.js"></script> -->
     <script src="assets/js/tag/jQuery.tagify.min.js"></script>
     <script src="assets/js/Shape_props.js"></script>
-    <script src="assets/js/Vortex-001015.js"></script>
+
     <script src="assets/js/sweetalert2.js"></script>
     <script src="assets/js/VortexCryptoFunc.js"></script>
     <!-- Page Specific JS File -->
@@ -407,6 +423,14 @@
     <!-- <script src="assets/js/custom.js"></script> -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- <script src="assets/js/codemirror.js"></script> -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
+    </script>
+    <script src="assets/js/fullscreen.js"></script>
+    <script src="assets/js/keyword.js"></script>
+    <script src="assets/js/Vortex-001015.js"></script>
 </body>
 
 </html>

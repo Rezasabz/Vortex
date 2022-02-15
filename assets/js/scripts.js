@@ -332,7 +332,7 @@ $(function() {
         });
     }
 
-    $(".notification-toggle").dropdown();
+    // $(".notification-toggle").dropdown();
     $(".notification-toggle")
         .parent()
         .on("shown.bs.dropdown", function() {
@@ -437,20 +437,20 @@ $(function() {
     var forms = document.querySelectorAll('.needs-validation')
     Array.prototype.slice.call(forms).forEach(function(form) {
         form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault()
-                event.stopPropagation()
-                console.log("test")
-            }
-            if ($('input[name=reciver]').val() == "") {
-                console.log("test 2 ", $('tag'))
-                $('tag').css('border', '1px solid red');
-            }
+                if (form.checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                        // console.log("test")
+                }
+                // if ($('input[name=reciver]').val() == "") {
+                //     console.log("test 2 ", $('tag'))
+                //     $('tag').css('border', '1px solid red');
+                // }
 
-            event.preventDefault()
-            form.classList.add('was-validated')
-        }, false)
-        console.log(form.children[0].children[1].value)
+                event.preventDefault()
+                form.classList.add('was-validated')
+            }, false)
+            // console.log(form.children[0].children[1].value)
     })
 
     // })

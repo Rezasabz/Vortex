@@ -11245,7 +11245,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 #stageparent {
     width: 78vw;
-    height: 74vh;
+    height: 71vh;
     overflow: scroll;
     margin-top: -35px;
     margin-bottom: 25px;
@@ -11321,6 +11321,10 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     margin: 0px 82px;
 }
 
+.c-icon {
+    font-size: 10px !important;
+}
+
 .c-icon:hover {
     color: #e91e63;
 }
@@ -11333,4 +11337,48 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .custom_vh {
     height: 72vh;
+    overflow: hidden !important;
+}
+
+.cm-style1 {
+    color: #008040 !important;
+}
+
+.cm-style2 {
+    color: #f1fa8c !important;
+}
+
+.cm-style3 {
+    color: #f44336 !important;
+}
+
+.cm-style4 {
+    color: #8ae7fb !important;
+}
+
+.CodeMirror {
+    border: 1px solid #eee;
+    height: 72vh !important;
+}
+
+.CodeMirror-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    z-index: 9;
+}
+
+
+/* pre {
+    overflow: hidden;
+} */
+
+.output {
+    width: 100%;
+    /* height: 40%; */
+    /* background: #212121;
+    padding: 10px; */
 }
