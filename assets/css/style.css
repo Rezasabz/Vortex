@@ -11234,7 +11234,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     font-size: 20px !important;
 }
 
-#container {
+#container1 {
     width: 3000px;
     height: 3000px;
     overflow: hidden;
@@ -11245,7 +11245,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 #stageparent {
     width: 78vw;
-    height: 71vh;
+    height: 73vh;
     overflow: scroll;
     margin-top: -35px;
     margin-bottom: 25px;
@@ -11318,7 +11318,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .custom-close-icon-2 {
     position: absolute;
     top: 74px;
-    margin: 0px 82px;
+    margin: 0px 92px;
 }
 
 .c-icon {
@@ -11327,6 +11327,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .c-icon:hover {
     color: #e91e63;
+    cursor: pointer;
 }
 
 .custom_text_validation {
@@ -11336,7 +11337,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .custom_vh {
-    height: 72vh;
+    height: 76vh;
     overflow: hidden !important;
 }
 
@@ -11381,4 +11382,20 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     /* height: 40%; */
     /* background: #212121;
     padding: 10px; */
+}
+
+.c_tab {
+    padding: 0px 20px 0px 20px !important;
+}
+
+.active_tab {
+    border-top: 2px solid #5864bd !important;
+}
+
+.card .card-header {
+    padding: 0px !important;
+}
+
+.custom_header_code {
+    padding: 3px !important;
 }

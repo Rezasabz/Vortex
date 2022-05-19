@@ -16,11 +16,9 @@
     <!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
     <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
     <!-- <link rel="stylesheet" href="assets/css/codemirror.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
+    <link rel="stylesheet" href="assets/css/codemirror.min.css">
     <link rel="stylesheet" href="assets/css/material-darker.css">
-    <link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/monokai.min.css">
-    </link>
+    <link rel="stylesheet" href="assets/css/darcula.css">
 
 </head>
 
@@ -37,13 +35,16 @@
 									collapse-btn"> <i data-feather="align-justify"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                            <a href="#" class="nav-link nav-link-lg fullscreen-btn" data-bs-toggle="tooltip" data-placement="bottom" title="full page">
                                 <i data-feather="maximize"></i>
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
+                            <a href="#" id="new_project" class="nav-link nav-link-lg" data-bs-toggle="tooltip" data-placement="bottom" title="New Tab">
+                                <i data-feather="plus-square"></i>
+                            </a>
 
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <ul class="navbar-nav navbar-right">
@@ -68,7 +69,7 @@
                         </div>
                     </li>
                     <li class="dropdown dropdown-list-toggle">
-                        <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File"> insert_drive_file</label>
+                        <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File">cloud_download</label>
                         <input type="file" id="file-input" accept="application/json" hidden />
                         <!-- <a href="#" id="file-input" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" data-bs-toggle="tooltip" data-placement="top" title="Open File"> -->
 
@@ -85,6 +86,16 @@
                     <li class="dropdown dropdown-list-toggle">
                         <a class="nav-link notification-toggle nav-link-lg" href="#" id="runApp">
                             <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Run">play_circle_outline</i>
+                        </a>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a class="nav-link notification-toggle nav-link-lg" href="#" id="BuildApp">
+                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Build">donut_large</i>
+                        </a>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a class="nav-link notification-toggle nav-link-lg" href="#" id="Grapviz">
+                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Grapviz">donut_large</i>
                         </a>
                     </li>
                 </ul>
@@ -139,6 +150,21 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu">
+                        <li class="dropdown">
+                            <a id="new_project" href="#" class="nav-link"><i data-feather="plus-square"></i><span>New Project</span></a>
+                        </li>
+                        <!-- <li class="menu-header">Projects</li>
+                        <ul class="sidebar-menu" id="p_tabs" role="tablist">
+                            <li class="dropdown">
+                                <a href="#" class="nav-link has-dropdown"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-minus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg><span>project-1</span></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link has-dropdown" id="home-tab" data-bs-toggle="tab" data-bs-target="#project-2" type="button" role="tab" aria-controls="project-2" aria-selected="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-minus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg><span>project-2</span></a>
+                            </li>
+                        </ul> -->
+
+
+
                         <li class="menu-header">ToolBox</li>
                         <li class="dropdown">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
@@ -149,7 +175,7 @@
                                         <div class="row">
                                             <div id="square" draggable="true" class="col-4"><button class="btn btn-icon"><i
                                                         class="far fa-square c_font_size"></i></button></div>
-                                            <div id="circle" class="col-4"><button class="btn btn-icon"><i
+                                            <div id="circle" draggable="true" class="col-4"><button class="btn btn-icon"><i
                                                         class="far fa-circle c_font_size"></i></button></div>
                                             <div id="arrow" class="col-4"><button class="btn btn-icon"><i
                                                         class="fas fa-long-arrow-alt-right c_font_size"></i></button>
@@ -168,7 +194,7 @@
                                 </div>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
                     fas fa-project-diagram"></i><span>Functions</span></a>
                             <ul class="dropdown-menu">
@@ -195,7 +221,7 @@
                                     </div>
                                 </div>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </aside>
 
@@ -208,15 +234,8 @@
 
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#main">Main</a>
-                        <!-- <span class="custom-close-icon"><i class="c-icon far fa-times-circle"></i></span> -->
+                        <a class="nav-link active c_tab" data-bs-toggle="tab" href="#main">Main</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a href="#profile" class="nav-link" data-bs-toggle="tab">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#messages" class="nav-link" data-bs-toggle="tab">Messages</a>
-                    </li> -->
                 </ul>
 
                 <div class="tab-content">
@@ -225,12 +244,8 @@
                             <div class="section-body">
                                 <div id="stageparent" class="card ">
                                     <div>
-                                        <!-- <pre>
-                                            <code id="html">
-                                              
-                                            </code>
-                                        </pre> -->
-                                        <div id="container">
+                                        <!-- <div id="graphviz_svg_div"></div> -->
+                                        <div id="container1">
 
                                         </div>
                                     </div>
@@ -238,11 +253,18 @@
                             </div>
                         </section>
                     </div>
-                    <!-- <div class="tab-pane fade" id="profile">
+                    <!-- <div class="tab-pane fade show active" id="project-2">
+                        <section class="section custom_padding">
+                            <div class="section-body">
+                                <div id="stageparent" class="card ">
+                                    <div>
+                                        <div id="container-1">
 
-                    </div>
-                    <div class="tab-pane fade" id="messages">
-
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div> -->
                 </div>
 
@@ -344,12 +366,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="sym">Symetric Keys</label>
-                                        <input type="text" name="sym" class="form-control">
+                                        <!-- <input type="text" name="sym" class="form-control"> -->
+                                        <input type="text" name="sym" clasa="form-control">
                                         <!-- <input type="text" name="sym" placeholder="define" class="form-control"> -->
                                     </div>
                                     <div class="form-group">
                                         <label for="Asym">Asymetric Keys</label>
-                                        <input type="text" name="Asym" class="form-control" required>
+                                        <input type="text" name="Asym" clasa="form-control">
+                                        <!-- <input type="text" name="Asym" class="form-control" required> -->
                                     </div>
                                 </form>
                             </div>
@@ -365,13 +389,13 @@
                 <div class="samp" id="options" style="display: none;">
                     <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check " name="btnradio" id="btnradio1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#initial">
-                        <label class="btn btn-outline-secondary none_border-1" for="btnradio1" data-toggle="tooltip" data-placement="top" title="Keys"><i class="fas fa-key"></i></label>
+                        <label class="btn btn-outline-secondary none_border-1 border-0" for="btnradio1" data-toggle="tooltip" data-placement="top" title="Keys"><i class="fas fa-key"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="edit_btn" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <label class="btn btn-outline-primary none_border-1" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i class="far fa-edit"></i></label>
+                        <label class="btn btn-outline-primary none_border-1 border-0" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i class="far fa-edit"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btn_delete_partner" autocomplete="off">
-                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i
+                        <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i
                                 class="far fa-trash-alt"></i></label>
                     </div>
                 </div>
@@ -380,10 +404,10 @@
                 <div class="samp" id="options_note" style="display: none;">
                     <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check" name="btnradio" id="btn_note1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <label class="btn btn-outline-primary none_border-1" for="btn_note1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></label>
+                        <label class="btn btn-outline-primary none_border-1 border-0" for="btn_note1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btn_delete_note" autocomplete="off">
-                        <label class="btn btn-outline-danger none_border-1" for="btn_delete_note" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
+                        <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_note" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
                     </div>
                 </div>
             </div>
@@ -411,26 +435,267 @@
     <!-- <script src="assets/js/tag/tagify.min.js"></script> -->
     <script src="assets/js/tag/jQuery.tagify.min.js"></script>
     <script src="assets/js/Shape_props.js"></script>
-
     <script src="assets/js/sweetalert2.js"></script>
     <script src="assets/js/VortexCryptoFunc.js"></script>
     <!-- Page Specific JS File -->
     <!-- Template JS File -->
     <!-- Page Specific JS File -->
-    <!-- <script src="assets/js/page/index.js"></script> -->
     <script src="assets/js/scripts.js"></script>
     <!-- Custom JS File -->
-    <!-- <script src="assets/js/custom.js"></script> -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <!-- <script src="assets/js/codemirror.js"></script> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
-    </script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
-    </script>
-    <script src="assets/js/fullscreen.js"></script>
+    <script type="text/javascript" src="assets/js/codemirror.min.js"></script>
+    <script type="text/javascript" src="assets/js/javascript.min.js"></script>
     <script src="assets/js/keyword.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="assets/js/viz.js"></script>
+    <!-- <script src="assets/js/axios.min.js"></script> -->
     <script src="assets/js/Vortex-001015.js"></script>
+    <script>
+        var graphviz_data_textarea = `
+        digraph {
+graph [ordering = out]
+edge [arrowhead = none, penwidth = 1.6, fontsize = 30]
+node [shape = point, width = 0, height = 0, fontsize = 30]
+Trace [label = <A trace has been found.<br/>
+>, shape = plaintext]
+P0__0 [label = "Honest Process", shape = plaintext]
+P__0 [label = "Attacker", shape = plaintext]
+Trace -> P0__0 [label = "", style = invisible, weight = 100]{rank = same; P0__0 P__0}
+P0__0 -> P0__1 [label = <>, weight = 100]
+P0__1 -> P0__2 [label = <>, weight = 100]
+P0__2 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{1}</FONT><FONT COLOR="blue">new </FONT>Kas_11597</TD></TR><TR><TD><FONT COLOR="darkgreen">{2}</FONT><FONT COLOR="blue">new </FONT>Kbs_11598</TD></TR><TR><TD><FONT COLOR="darkgreen">{3}</FONT><FONT COLOR="blue">insert </FONT>keys(A,Kas_11597)</TD></TR><TR><TD><FONT COLOR="darkgreen">{4}</FONT><FONT COLOR="blue">insert </FONT>keys(B,Kbs_11598)</TD></TR></TABLE>>]
+P0__2 -> P0__3 [label = <>, weight = 100]
+P__0 -> P__1 [label = <>, weight = 100]
+{rank = same; P__1 P0__2}
+/*RPar */
+P0__3 -> P0_3__3 [label = <>]
+P0__3 -> P0_2__3 [label = <>]
+P0__3 -> P0_1__3 [label = <>]
+P0__3 -> P0_0__3 [label = <>]
+P0__3 [label = "", fixedsize = false, width = 0, height = 0, shape = none]
+{rank = same; P0_0__3 P0_1__3 P0_2__3 P0_3__3}
+P0_0__3 [label = "!", shape = ellipse]
+P0_1__3 [label = "!", shape = ellipse]
+P0_1_0__3 [label = "", fixedsize = false, width = 0, height = 0, shape = none]
+P0_1__3 -> P0_1_0__3 [label = <>, weight = 100]
+P0_1_0__3 -> P0_1_0__4 [label = <>, weight = 100]
+P0_1_0__4 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD>Beginning of process <FONT COLOR="darkgreen">processS</FONT></TD></TR></TABLE>>]
+P0_1_0__4 -> P0_1_0__5 [label = <>, weight = 100]
+P0_2__3 [label = "!", shape = ellipse]
+P0_2_0__3 [label = "", fixedsize = false, width = 0, height = 0, shape = none]
+P0_2__3 -> P0_2_0__3 [label = <>, weight = 100]
+P0_2_0__3 -> P0_2_0__4 [label = <>, weight = 100]
+P0_2_0__4 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD>Beginning of process <FONT COLOR="darkgreen">processResponder</FONT></TD></TR></TABLE>>]
+P0_2_0__4 -> P0_2_0__5 [label = <>, weight = 100]
+P0_3__3 [label = "!", shape = ellipse]
+P0_3_0__3 [label = "", fixedsize = false, width = 0, height = 0, shape = none]
+P0_3__3 -> P0_3_0__3 [label = <>, weight = 100]
+P0_3_0__3 -> P0_3_0__4 [label = <>, weight = 100]
+P0_3_0__4 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD>Beginning of process <FONT COLOR="darkgreen">processInitiator</FONT></TD></TR></TABLE>>]
+P0_3_0__4 -> P0_3_0__5 [label = <>, weight = 100]
+P0_3_0__5 -> P0_3_0__6 [label = <>, weight = 100]
+P0_2_0__5 -> P0_2_0__6 [label = <>, weight = 100]
+P0_1_0__5 -> P0_1_0__6 [label = <>, weight = 100]
+P0_0__4 [label = "", style = invisible]
+P0_0__3 -> P0_0__4 [label = <>, weight = 100, style = invisible]
+P__1 -> P__2 [label = <>, weight = 100]
+{rank = same; P__2 P0_0__4 P0_1_0__6 P0_2_0__6 P0_3_0__6}
+P0_3_0__6 -> P0_3_0__7 [label = <>, weight = 100]
+P__2 -> P__3 [label = <>, weight = 100]
+{rank = same; P__3 P0_3_0__7}
+P0_3_0__7 -> P__3 [label = <A>, dir = back, arrowhead = normal]
+P0_3_0__7 -> P0_3_0__8 [label = <>, weight = 100]
+P0_2_0__6 -> P0_2_0__7 [label = <>, weight = 100]
+P0_1_0__6 -> P0_1_0__7 [label = <>, weight = 100]
+P0_0__5 [label = "", style = invisible]
+P0_0__4 -> P0_0__5 [label = <>, weight = 100, style = invisible]
+P__3 -> P__4 [label = <>, weight = 100]
+{rank = same; P__4 P0_0__5 P0_1_0__7 P0_2_0__7 P0_3_0__8}
+P0_3_0__8 -> P0_3_0__9 [label = <>, weight = 100]
+P0_3_0__9 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{19}</FONT><FONT COLOR="blue">get </FONT>keys(A,Kas_11597)</TD></TR><TR><TD><FONT COLOR="darkgreen">{8}</FONT><FONT COLOR="blue">new </FONT>Na_11599</TD></TR></TABLE>>]
+P0_3_0__9 -> P0_3_0__10 [label = <>, weight = 100]
+P__4 -> P__5 [label = <>, weight = 100]
+{rank = same; P__5 P0_3_0__9}
+P0_3_0__10 -> P0_3_0__11 [label = <>, weight = 100]
+P0_2_0__7 -> P0_2_0__8 [label = <>, weight = 100]
+P0_1_0__7 -> P0_1_0__8 [label = <>, weight = 100]
+P0_0__6 [label = "", style = invisible]
+P0_0__5 -> P0_0__6 [label = <>, weight = 100, style = invisible]
+P__5 -> P__6 [label = <>, weight = 100]
+{rank = same; P__6 P0_0__6 P0_1_0__8 P0_2_0__8 P0_3_0__11}
+P0_3_0__11 -> P0_3_0__12 [label = <>, weight = 100]
+P__6 -> P__7 [label = <>, weight = 100]
+{rank = same; P__7 P0_3_0__12}
+P0_3_0__12 -> P__7 [label = <(~M_11656,~M_11657) = (A,Na_11599)>, arrowhead = normal]
+P0_3_0__12 -> P0_3_0__13 [label = <>, weight = 100]
+P0_2_0__8 -> P0_2_0__9 [label = <>, weight = 100]
+P0_1_0__8 -> P0_1_0__9 [label = <>, weight = 100]
+P0_0__7 [label = "", style = invisible]
+P0_0__6 -> P0_0__7 [label = <>, weight = 100, style = invisible]
+P__7 -> P__8 [label = <>, weight = 100]
+{rank = same; P__8 P0_0__7 P0_1_0__9 P0_2_0__9 P0_3_0__13}
+P0_2_0__9 -> P0_2_0__10 [label = <>, weight = 100]
+P0_1_0__9 -> P0_1_0__10 [label = <>, weight = 100]
+P0_0__8 [label = "", style = invisible]
+P0_0__7 -> P0_0__8 [label = <>, weight = 100, style = invisible]
+P__8 -> P__9 [label = <>, weight = 100]
+{rank = same; P__9 P0_0__8 P0_1_0__10 P0_2_0__10}
+P0_2_0__10 -> P0_2_0__11 [label = <>, weight = 100]
+P__9 -> P__10 [label = <>, weight = 100]
+{rank = same; P__10 P0_2_0__11}
+P0_2_0__11 -> P__10 [label = <B>, dir = back, arrowhead = normal]
+P0_2_0__11 -> P0_2_0__12 [label = <>, weight = 100]
+P0_1_0__10 -> P0_1_0__11 [label = <>, weight = 100]
+P0_0__9 [label = "", style = invisible]
+P0_0__8 -> P0_0__9 [label = <>, weight = 100, style = invisible]
+P__10 -> P__11 [label = <>, weight = 100]
+{rank = same; P__11 P0_0__9 P0_1_0__11 P0_2_0__12}
+P0_2_0__12 -> P0_2_0__13 [label = <>, weight = 100]
+P0_2_0__13 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{35}</FONT><FONT COLOR="blue">get </FONT>keys(B,Kbs_11598)</TD></TR></TABLE>>]
+P0_2_0__13 -> P0_2_0__14 [label = <>, weight = 100]
+P__11 -> P__12 [label = <>, weight = 100]
+{rank = same; P__12 P0_2_0__13}
+P0_2_0__14 -> P0_2_0__15 [label = <>, weight = 100]
+P0_1_0__11 -> P0_1_0__12 [label = <>, weight = 100]
+P0_0__10 [label = "", style = invisible]
+P0_0__9 -> P0_0__10 [label = <>, weight = 100, style = invisible]
+P__12 -> P__13 [label = <>, weight = 100]
+{rank = same; P__13 P0_0__10 P0_1_0__12 P0_2_0__15}
+P0_2_0__15 -> P0_2_0__16 [label = <>, weight = 100]
+P__13 -> P__14 [label = <>, weight = 100]
+{rank = same; P__14 P0_2_0__16}
+P0_2_0__16 -> P__14 [label = <(A,~M_11657) = (A,Na_11599)>, dir = back, arrowhead = normal]
+P0_2_0__16 -> P0_2_0__17 [label = <>, weight = 100]
+P0_1_0__12 -> P0_1_0__13 [label = <>, weight = 100]
+P0_0__11 [label = "", style = invisible]
+P0_0__10 -> P0_0__11 [label = <>, weight = 100, style = invisible]
+P__14 -> P__15 [label = <>, weight = 100]
+{rank = same; P__15 P0_0__11 P0_1_0__13 P0_2_0__17}
+P0_2_0__17 -> P0_2_0__18 [label = <>, weight = 100]
+P0_2_0__18 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{24}</FONT><FONT COLOR="blue">event</FONT> beginAparam(A,B)</TD></TR><TR><TD><FONT COLOR="darkgreen">{25}</FONT><FONT COLOR="blue">new </FONT>Nb_11600</TD></TR></TABLE>>]
+P0_2_0__18 -> P0_2_0__19 [label = <>, weight = 100]
+P0_2_0__19 -> P0_2_0__20 [label = <>, weight = 100]
+P0_1_0__13 -> P0_1_0__14 [label = <>, weight = 100]
+P0_0__12 [label = "", style = invisible]
+P0_0__11 -> P0_0__12 [label = <>, weight = 100, style = invisible]
+P__15 -> P__16 [label = <>, weight = 100]
+{rank = same; P__16 P0_0__12 P0_1_0__14 P0_2_0__20}
+P0_2_0__20 -> P0_2_0__21 [label = <>, weight = 100]
+P__16 -> P__17 [label = <>, weight = 100]
+{rank = same; P__17 P0_2_0__21}
+P0_2_0__21 -> P__17 [label = <(~M_11699,~M_11700) = (B,encrypt((A,Na_11599,Nb_11600),<br/>
+Kbs_11598))>, arrowhead = normal]
+P0_2_0__21 -> P0_2_0__22 [label = <>, weight = 100]
+P0_1_0__14 -> P0_1_0__15 [label = <>, weight = 100]
+P0_0__13 [label = "", style = invisible]
+P0_0__12 -> P0_0__13 [label = <>, weight = 100, style = invisible]
+P__17 -> P__18 [label = <>, weight = 100]
+{rank = same; P__18 P0_0__13 P0_1_0__15 P0_2_0__22}
+P0_1_0__15 -> P0_1_0__16 [label = <>, weight = 100]
+P0_0__14 [label = "", style = invisible]
+P0_0__13 -> P0_0__14 [label = <>, weight = 100, style = invisible]
+P__18 -> P__19 [label = <>, weight = 100]
+{rank = same; P__19 P0_0__14 P0_1_0__16}
+P0_1_0__16 -> P0_1_0__17 [label = <>, weight = 100]
+P__19 -> P__20 [label = <>, weight = 100]
+{rank = same; P__20 P0_1_0__17}
+P0_1_0__17 -> P__20 [label = <(B,~M_11700) = (B,encrypt((A,Na_11599,Nb_11600),<br/>
+Kbs_11598))>, dir = back, arrowhead = normal]
+P0_1_0__17 -> P0_1_0__18 [label = <>, weight = 100]
+P0_0__15 [label = "", style = invisible]
+P0_0__14 -> P0_0__15 [label = <>, weight = 100, style = invisible]
+P__20 -> P__21 [label = <>, weight = 100]
+{rank = same; P__21 P0_0__15 P0_1_0__18}
+P0_1_0__18 -> P0_1_0__19 [label = <>, weight = 100]
+P0_1_0__19 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{42}</FONT><FONT COLOR="blue">get </FONT>keys(B,Kbs_11598)</TD></TR><TR><TD><FONT COLOR="darkgreen">{41}</FONT><FONT COLOR="blue">get </FONT>keys(A,Kas_11597)</TD></TR><TR><TD><FONT COLOR="darkgreen">{39}</FONT><FONT COLOR="blue">new </FONT>k_11601</TD></TR></TABLE>>]
+P0_1_0__19 -> P0_1_0__20 [label = <>, weight = 100]
+P__21 -> P__22 [label = <>, weight = 100]
+{rank = same; P__22 P0_1_0__19}
+P0_1_0__20 -> P0_1_0__21 [label = <>, weight = 100]
+P0_0__16 [label = "", style = invisible]
+P0_0__15 -> P0_0__16 [label = <>, weight = 100, style = invisible]
+P__22 -> P__23 [label = <>, weight = 100]
+{rank = same; P__23 P0_0__16 P0_1_0__21}
+P0_1_0__21 -> P0_1_0__22 [label = <>, weight = 100]
+P__23 -> P__24 [label = <>, weight = 100]
+{rank = same; P__24 P0_1_0__22}
+P0_1_0__22 -> P__24 [label = <(~M_11733,~M_11734) = (encrypt((B,k_11601,Na_11599,<br/>
+Nb_11600),Kas_11597),encrypt((A,k_11601),Kbs_11598))>, arrowhead = normal]
+P0_1_0__22 -> P0_1_0__23 [label = <>, weight = 100]
+P0_0__17 [label = "", style = invisible]
+P0_0__16 -> P0_0__17 [label = <>, weight = 100, style = invisible]
+P__24 -> P__25 [label = <>, weight = 100]
+{rank = same; P__25 P0_0__17 P0_1_0__23}
+P0_1_0__24 [label = "", width = 0.3, height = 0.3]
+P0_1_0__23 -> P0_1_0__24 [label = <>, weight = 100]
+P0_3_0__13 -> P0_3_0__14 [label = <>, weight = 100]
+P0_2_0__22 -> P0_2_0__23 [label = <>, weight = 100]
+P0_1_0__25 [label = "", style = invisible]
+P0_1_0__24 -> P0_1_0__25 [label = <>, weight = 100, style = invisible]
+P0_0__18 [label = "", style = invisible]
+P0_0__17 -> P0_0__18 [label = <>, weight = 100, style = invisible]
+P__25 -> P__26 [label = <>, weight = 100]
+{rank = same; P__26 P0_0__18 P0_1_0__25 P0_2_0__23 P0_3_0__14}
+P0_3_0__14 -> P0_3_0__15 [label = <>, weight = 100]
+P__26 -> P__27 [label = <>, weight = 100]
+{rank = same; P__27 P0_3_0__15}
+P0_3_0__15 -> P__27 [label = <(~M_11733,a_11596) = (encrypt((B,k_11601,Na_11599,<br/>
+Nb_11600),Kas_11597),a_11596)>, dir = back, arrowhead = normal]
+P0_3_0__15 -> P0_3_0__16 [label = <>, weight = 100]
+P0_2_0__23 -> P0_2_0__24 [label = <>, weight = 100]
+P0_1_0__26 [label = "", style = invisible]
+P0_1_0__25 -> P0_1_0__26 [label = <>, weight = 100, style = invisible]
+P0_0__19 [label = "", style = invisible]
+P0_0__18 -> P0_0__19 [label = <>, weight = 100, style = invisible]
+P__27 -> P__28 [label = <>, weight = 100]
+{rank = same; P__28 P0_0__19 P0_1_0__26 P0_2_0__24 P0_3_0__16}
+P0_3_0__16 -> P0_3_0__17 [label = <>, weight = 100]
+P0_3_0__17 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{12}</FONT><FONT COLOR="blue">event</FONT> beginBparam(A,B)</TD></TR><TR><TD><FONT COLOR="darkgreen">{13}</FONT><FONT COLOR="blue">event</FONT> beginBkey(A,B,k_11601)</TD></TR></TABLE>>]
+P0_3_0__17 -> P0_3_0__18 [label = <>, weight = 100]
+P0_3_0__18 -> P0_3_0__19 [label = <>, weight = 100]
+P0_2_0__24 -> P0_2_0__25 [label = <>, weight = 100]
+P0_1_0__27 [label = "", style = invisible]
+P0_1_0__26 -> P0_1_0__27 [label = <>, weight = 100, style = invisible]
+P0_0__20 [label = "", style = invisible]
+P0_0__19 -> P0_0__20 [label = <>, weight = 100, style = invisible]
+P__28 -> P__29 [label = <>, weight = 100]
+{rank = same; P__29 P0_0__20 P0_1_0__27 P0_2_0__25 P0_3_0__19}
+P0_3_0__19 -> P0_3_0__20 [label = <>, weight = 100]
+P__29 -> P__30 [label = <>, weight = 100]
+{rank = same; P__30 P0_3_0__20}
+P0_3_0__20 -> P__30 [label = <(~M_11748,~M_11749) = (a_11596,encrypt(Nb_11600,<br/>
+k_11601))>, arrowhead = normal]
+P0_3_0__20 -> P0_3_0__21 [label = <>, weight = 100]
+P0_2_0__25 -> P0_2_0__26 [label = <>, weight = 100]
+P0_1_0__28 [label = "", style = invisible]
+P0_1_0__27 -> P0_1_0__28 [label = <>, weight = 100, style = invisible]
+P0_0__21 [label = "", style = invisible]
+P0_0__20 -> P0_0__21 [label = <>, weight = 100, style = invisible]
+P__30 -> P__31 [label = <>, weight = 100]
+{rank = same; P__31 P0_0__21 P0_1_0__28 P0_2_0__26 P0_3_0__21}
+P0_3_0__21 -> P0_3_0__22 [label = <>, weight = 100]
+P0_3_0__22 [shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{16}</FONT><FONT COLOR="blue">event</FONT> endAparam(A,B)</TD></TR></TABLE>>]
+P0_3_0__22 -> P0_3_0__23 [label = <>, weight = 100]
+P0_3_0__23 -> P0_3_0__24 [label = <>, weight = 100]
+P0_3_0__24 [color = red, shape = plaintext, label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> <TR><TD><FONT COLOR="darkgreen">{17}</FONT><FONT COLOR="blue">event</FONT> endAkey(A,B,k_11601)</TD></TR></TABLE>>]
+P0_3_0__24 -> P0_3_0__25 [label = <>, weight = 100]
+}
+        `
+
+
+        $('#Grapviz').on('click', () => {
+            var svg_div = jQuery('#graphviz_svg_div');
+            // function UpdateGraphviz() {
+            svg_div.html("");
+            // var data = graphviz_data_textarea.val();
+            // Generate the Visualization of the Graph into "svg".
+            var svg = Viz(graphviz_data_textarea, "png");
+            svg_div.html("<hr>" + svg);
+            //   }
+            console.log('grapviz')
+        })
+    </script>
+    <script src="assets/js/svg-pan-zoom.min.js"></script>
 </body>
 
 </html>

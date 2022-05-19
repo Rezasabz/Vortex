@@ -1,13 +1,13 @@
 // var width = document.getElementById('container').offsetWidth;
 // var height = document.getElementById('container').offsetHeight;
 
-// var stage = new Konva.Stage({
-//     container: "container",
-//     width: 3000,
-//     height: height
-// });
+var stage = new Konva.Stage({
+    container: "container1",
+    width: 3000,
+    height: 3000
+});
 // var layer = new Konva.Layer();
-
+var container = stage.container();
 
 // stage.add(layer)
 var first_point = {}

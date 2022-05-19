@@ -2,7 +2,7 @@
 var count = 0
 var partner_counter = 0
 var arrow_count = 0
-    // var invalid_empty_rec = document.querySelector('#invalid-empty-rec')
+var container_conut = 0
 var opt = getFormId('options')
 var opt_note = getFormId('options_note')
 var btn_param = getFormId('submit_btn')
@@ -14,10 +14,13 @@ var btn_delete_partner = getFormId('btn_delete_partner')
 var btn_key = getFormId('btnradio1')
 var btn_save = getFormId('save')
 let currentShape;
+var line_hg = 200
 var shape_id = ''
 var parent_shape = document.getElementById('parent-shape').addEventListener('dragstart', (e) => {
     shape_id = e.target.id
 })
+
+var protocol_name = ''
 
 var MAX_WIDTH = 3000;
 var MAX_HEIGHT = 3000;
@@ -69,7 +72,7 @@ var function_array = []
 var nonce_array = []
 var array_state_note = []
 var key_word_list = ["Hash(message)", "Mac(message,key)", "Enc(message,key)", "Dec(message,key)", "Sign(message,privateKey)", "VerifyMac(message,key)", "VerifySign(sign,publicKey)", "AEnc(message,publicKey)", "ADec(message,privateKey)"]
-var default_function_name = ["Hash", "Mac", "Enc", "Dec", "Sign", "VerifyMac", "VerifySign", "AEnc", "ADec"]
+var default_function_name = ["Hash", "Mac", "Enc", "Dec", "Sign", "VerifyMac", "VerifySign", "AEnc", "ADec", "inv", "sk", "pk"]
 var global_partner_list = {
         partners: []
     }
@@ -154,18 +157,20 @@ const INVALID_KEY_LIST = 10
 const INVALID_COMPATIBILITY = 20
 const INVALID_VALUE = 30
 const UNDEFINE_VALUE = 40
+const DUBLICATE_VALUE = 50
 const SUCCESSFULL = 0
+
 
 //#endregion
 //#endregion
 
 //#region Stage Design
-var width = document.getElementById('container').offsetWidth;
-var height = document.getElementById('container').offsetHeight;
+// var width = document.getElementById('container').offsetWidth;
+// var height = document.getElementById('container').offsetHeight;
 var GUIDELINE_OFFSET = 5;
 
 var stage = new Konva.Stage({
-    container: "container",
+    container: "container1",
     // width: 3000,
     width: MAX_WIDTH,
     height: MAX_HEIGHT
@@ -192,8 +197,8 @@ var containerRect = stage.container().getBoundingClientRect();
 //     }
 // }
 function transformTag(tagData) {
-    tagData.color = "hsl(199, 98%, 48%)";
-    tagData.style = "--tag-bg:" + tagData.color + ";" + "--tag-text-color:#FFF";
+    tagData.color = "hsl(230.9,98.8%,66.1%)";
+    tagData.style = "--tag-bg:" + tagData.color + ";" + "--tag-text-color:#FFF" + ";" + "--tag-remove-btn-color:#FFF" + ";" + "--tag-hover:#1A237E" + ";" + "--tag-remove-bg:rgba(179, 9, 9, 0.3)";
 
 }
 var input_reciver = new Tagify(document.querySelector('input[name=reciver]'), {
@@ -270,19 +275,6 @@ function remove_all_tag(inputs) {
     }
 }
 
-
-
-// btn_key.addEventListener('click', function() {
-
-//     rect_list.forEach(r => {
-//         if (r.name() !== rect_list[from_index.rect_index].name()) {
-//             reciver_list.push(r.name())
-//         }
-//     })
-
-//     input_reciver.whitelist = reciver_list
-// })
-
 //#region Form Edit
 // ----- دکمه ثبت تغییرات در فرم ------//
 btn_param.addEventListener('click', (e) => {
@@ -314,60 +306,16 @@ btn_param.addEventListener('click', (e) => {
             return elem.value;
         }) : []
 
-        // console.log(flag)
-        // console.log(check_reciver[0])
-
-        // let knowledge_obj = {
-        //     partner: rect_list[from_index.rect_index].children[1].text(),
-        //     macro: [],
-        //     nonce: []
-        // }
-
-        /*  اضافه کردن در ماکرو لیست در دکمه ران
-        // define.forEach(def => {
-        //     if (def.includes("=")) {
-        //         let split_mosavi = def.split("=")
-        //         macro_list.push({
-        //                 name: split_mosavi[0].trim(),
-        //                 value: split_mosavi[1].trim()
-        //             })
-        //             // knowledge_obj.macro.push(split_mosavi[0].trim())
-
-        //     }
-        //     // else if (!is_function(def)) {
-        //     //     knowledge_obj.nonce.push(def.replace(' ', ''))
-        //     // }
-        // })
-
-        */
         function_array = []
         nonce_array = []
         var err = SUCCESSFULL
-            // var index_tmp = 0
-            // var err = splite_string(params)
-            // console.log("========= SPLIT ========= ", err)
-            // console.log("========= NONC ========= ", nonce_array)
-            // while (index_tmp < params.length && err === SUCCESSFULL) {
-            //     console.log(params[index_tmp])
 
-        //     index_tmp++
-        // }
-        // params.forEach(param => {
-        //     err = splite_string(param)
-        //     if (err !== SUCCESSFULL) {
-        //         return err
-        //     }
-        // })
-
-
-        // if ((check_reciver[0] !== '') && flag && (check_reciver[0] !== rect_list[from_index.rect_index].children[1].text())) {
-        if (err === SUCCESSFULL) {
+        if ((define_value != '' || params_value != '') && err === SUCCESSFULL) {
             write_to_undo_redo_list()
 
             if (from_index.arrow_index != -1) {
                 index_arrow = from_index.arrow_index
                 arrow_list[index_arrow].arrow.destroy()
-                    // console.log("if => ", index_arrow)
             } else {
                 var connect_node2 = {
                     id: -1,
@@ -378,69 +326,48 @@ btn_param.addEventListener('click', (e) => {
                     abstract_msg: []
                 }
                 connect_node2.id = arrow_list.length
-                console.log("arrow list ---> ", arrow_list)
                 index_arrow = connect_node2.id
                 arrow_list.push(connect_node2)
                 connect_node2.from = rect_list[from_index.rect_index].children[1].text()
             }
 
-
-            // console.log(check_reciver[0])
             rect_list.forEach((rc, idx) => {
 
                 if (rc.children[1].attrs.text === check_reciver[0]) {
-                    // invalid_empty_rec.style.display = "none"
                     if (NotEmpty(obj_partner))
                         obj_partner = {}
 
                     obj_partner.reciver = reciver_value != '' ? JSON.parse(reciver_value).map(function(elem) {
-                            return elem.value;
-                        }) : []
-                        // connect_node2.to = rc.children[1].attrs.text
+                        return elem.value;
+                    }) : []
                     arrow_list[index_arrow].to = rc.children[1].attrs.text
-                        // console.log(rc.children[1].attrs.text)
                 }
             })
             obj_partner.define = define_value != '' ? JSON.parse(define_value).map(function(elem) {
-                    return elem.value;
-                }) : []
-                // obj_partner.define.forEach(def => {
-                //     if (def.includes("=")) {
-                //         let split_mosavi = def.split("=")
-                //         macro_list.push({
-                //             name: split_mosavi[0].trim(),
-                //             value: split_mosavi[1].trim()
-                //         })
-                //     }
-                // })
+                return elem.value;
+            }) : []
+
             msg_obj.define = obj_partner.define
             obj_partner.params = params_value != '' ? JSON.parse(params_value).map(function(elem) {
                 return elem.value;
             }) : []
             msg_obj.params = obj_partner.params
-                // connect_node2.message = msg_obj
-                // connect_node2.note = msg_obj
-
             arrow_list[index_arrow].message = msg_obj
-                // arrow_list[index_arrow].note = msg_obj
-
-            // obj_partner.partnerName = connect_node2.from
-            // obj_partner.sender = connect_node2.from
             obj_partner.partnerName = arrow_list[index_arrow].from
             obj_partner.sender = arrow_list[index_arrow].from
             send_list.push(obj_partner)
 
-
-
-
-
-
-            // console.log("index_arrow => ", index_arrow)
-
-            draw_arrow_from_arrow_list(index_arrow)
+            if (index_arrow == arrow_list.length - 1) {
+                draw_arrow_from_arrow_list(index_arrow)
+            } else {
+                macro_list = []
+                for (let i = 0; i < arrow_list.length; i++) {
+                    arrow_list[i].arrow.destroy()
+                    draw_arrow_from_arrow_list(i)
+                }
+            }
             line_height += 50
 
-            //arrow_count++
             $('#staticBackdrop').modal('toggle')
             opt.style.display = 'none'
             opt_note.style.display = 'none';
@@ -448,14 +375,11 @@ btn_param.addEventListener('click', (e) => {
             remove_all_tag(inputs)
         } else {
 
-
             Swal.fire({
                 icon: 'error',
                 title: err,
-                text: 'خطا در توابع تعریف شده',
+                text: '! مقادیر ورودی خالی است ',
             })
-
-            // alert('لطفا مقادیر را به درستی وارد کنید')
         }
     } else {
         Swal.fire({
@@ -474,13 +398,10 @@ btn_param.addEventListener('click', (e) => {
 //#region Delete arrow
 function delete_arrow(index) {
     var index_connect_node = arrow_list[index]
-        // console.log(index_connect_node)
     index_connect_node.arrow.destroy()
     arrow_list.splice(index, 1)
-        // console.log("sabz --> ", index, arrow_list)
-    for (let i = index; i < arrow_list.length; i++) {
+    for (let i = 0; i < arrow_list.length; i++) {
         arrow_list[i].arrow.destroy()
-            // console.log(arrow_list[i].arrow)
         draw_arrow_from_arrow_list(i)
     }
 }
@@ -501,17 +422,15 @@ function delete_function(btn_id) {
             if (result.isConfirmed) {
                 write_to_undo_redo_list()
                 if (from_index.arrow_index !== -1) {
+                    macro_list = []
                     delete_arrow(from_index.arrow_index)
                 } else {
                     let rect_index = rect_list[from_index.rect_index]
                     let partner_name = rect_index.children[1].text()
                     arrow_list.forEach((a, idx) => {
-                        // console.log("a ==========> ", a)
                         if (a.from === rect_index.children[1].text() || a.to === rect_index.children[1].text()) {
                             a.arrow.destroy()
-                                // console.log(idx)
                             delete_index.push(idx)
-
                         }
                     })
 
@@ -519,19 +438,14 @@ function delete_function(btn_id) {
                     filtered = arrow_list.filter(function(a) {
                         return !(a.from === rect_index.children[1].text() || a.to === rect_index.children[1].text())
                     });
-                    // arrow_list.splice(0, arrow_list.length)
                     arrow_list = filtered
-                        // console.log(arrow_list.length)
+                    macro_list = []
                     arrow_list.forEach((a, idx) => {
-
                         draw_arrow_from_arrow_list(idx)
                     })
 
-
                     rect_index.destroy()
                     rect_list.splice(from_index.rect_index, 1)
-
-                    // delete partner from key_list
                     partner_flag = true
                     var sk_index
                     key_list.filter((sk, idx) => {
@@ -564,11 +478,8 @@ function delete_function(btn_id) {
             }
         })
 
-
     })
 }
-
-
 
 delete_function(btn_delete_note)
 delete_function(btn_delete_partner)
@@ -672,74 +583,119 @@ function open_from_clipboard(src_from_clipboard) {
     arrow_list = []
     rect_list = []
     key_list = []
+    macro_list = []
     var partner = src_from_clipboard.partners
     var arrow = src_from_clipboard.arrows
     key_list = src_from_clipboard.key_list
     partner.forEach((p, index) => {
         var make_partner = create_partner(p.name, p.pos)
         rect_list.push(make_partner)
+        reciver_list.push(p.name)
     })
 
+    console.log("macro list 1 ", macro_list)
     arrow.forEach((a, index) => {
         arrow_list.push({ "id": index, "from": a.from, "to": a.to, "arrow": '', "message": a.message })
         draw_arrow_from_arrow_list(index)
-        console.log("MSG ==> ", a.message)
     })
 
-
-
+    console.log("macro list 2 ", macro_list)
 }
 
-function open_file() {
-    document.querySelector("#file-input").addEventListener('change', function() {
-        // files that user has chosen
-        var all_files = this.files;
-        if (all_files.length == 0) {
-            alert('Error : No file selected');
-            return;
+// function open_file() {
+document.querySelector("#file-input").addEventListener('change', function() {
+    // files that user has chosen
+    var all_files = this.files;
+    if (all_files.length == 0) {
+        alert('Error : No file selected');
+        return;
+    }
+
+    // first file selected by user
+    var file = all_files[0];
+    // files types allowed
+    var allowed_types = ['application/json'];
+    // if (allowed_types.indexOf(file.type) == -1) {
+    //     alert('Error : Incorrect file type');
+    //     return;
+    // }
+
+    // Max 5 MB allowed
+    var max_size_allowed = 5 * 1024 * 1024
+    if (file.size > max_size_allowed) {
+        alert('Error : Exceeded size 5MB');
+        return;
+    }
+
+    var reader = new FileReader();
+
+
+    // file reading finished successfully
+    reader.addEventListener('load', function(e) {
+        var text = e.target.result;
+        var splite_name = file.name.split('.')
+        var extension = ''
+        if (splite_name.length > 1) {
+            extension = splite_name[splite_name.length - 1]
         }
-
-        // first file selected by user
-        var file = all_files[0];
-
-        // files types allowed
-        var allowed_types = ['application/json'];
-        if (allowed_types.indexOf(file.type) == -1) {
-            alert('Error : Incorrect file type');
-            return;
+        if (!(extension == 'AnBx' || extension == 'json')) {
+            alert("Error : Incorrect file type" + extension)
+            return
         }
-
-        // Max 5 MB allowed
-        var max_size_allowed = 5 * 1024 * 1024
-        if (file.size > max_size_allowed) {
-            alert('Error : Exceeded size 5MB');
-            return;
+        if (extension === 'AnBx') {
+            text = AnbxToJson(text)
         }
+        var json_text = JSON.parse(text);
+        open_from_clipboard(json_text)
+        console.log("********* 1 ", macro_list)
 
-        var reader = new FileReader();
+        // اجرای توابع کامپایل
+        // Execute()
 
-
-        // // file reading finished successfully
-        reader.addEventListener('load', function(e) {
-            var text = e.target.result;
-            var json_text = JSON.parse(text);
-            open_from_clipboard(json_text)
-            if (text == "") {
-                alert('Error :File Is Empty!')
-            }
+        //-----------------------
+        protocol_name = json_text.protocol
+            // protocolName label
+        var protocolName = new Konva.Label({
+            x: 10,
+            y: 5,
+            opacity: 0.75,
         });
 
-        // file reading failed
-        reader.addEventListener('error', function() {
-            alert('Error : Failed to read file');
-        });
+        protocolName.add(
+            new Konva.Tag({
+                fill: 'yellow',
+            })
+        );
 
-        // read as text file
-        reader.readAsText(file);
+        protocolName.add(
+            new Konva.Text({
+                text: `Protocol Name : ${json_text.protocol}`,
+                fontFamily: 'consolas',
+                fontSize: 13,
+                padding: 5,
+                fill: 'black',
+            })
+        );
+        layer.add(protocolName);
+        if (text == "") {
+            alert('Error :File Is Empty!')
+        }
     });
-}
-open_file()
-    //#endregion
+
+    // file reading failed
+    reader.addEventListener('error', function() {
+        alert('Error : Failed to read file');
+    });
+
+    // read as text file
+    reader.readAsText(file);
+
+
+});
+
+// }
+// open_file()
+//#endregion
 
 //#region Undo & Redo
 function write_to_undo_redo_list() {
@@ -756,9 +712,6 @@ function write_to_undo_redo_list() {
 }
 
 function undo_redo(index) {
-    console.log(index)
-        // stage.clear()
-        // stage.clearCache()
     var output = {
         partners: [],
         arrows: []
@@ -766,25 +719,18 @@ function undo_redo(index) {
     if (index >= 0 && index < undo_redo_list.length) {
         if (undo_redo_list[index] != null) {
             output = undo_redo_list[index]
-            console.log(output)
         }
         open_from_clipboard(output)
     }
 }
 $("#redo").on('click', (e) => {
-    // stage.clear()
-    // stage.clearCache()
     if (undo_redo_index >= 0 && undo_redo_index < undo_redo_list.length) {
         undo_redo(undo_redo_index)
         if (undo_redo_index < undo_redo_list.length - 2)
             undo_redo_index++
-            console.log("redo")
     }
 })
 $("#undo").on('click', (e) => {
-        // stage.clear()
-        // stage.clearCache()
-        console.log("undo", undo_redo_list)
         if (undo_redo_index >= 0 && undo_redo_index < undo_redo_list.length) {
             undo_redo(undo_redo_index)
             if (undo_redo_index > 0)
@@ -798,8 +744,8 @@ $("#undo").on('click', (e) => {
     //----- ساختن اشیا پارتنر ---------//
 function create_partner(lbl, pos) {
     var labelName = new Konva.Text({
-        fontFamily: 'Calibri',
-        fontSize: 18,
+        fontFamily: 'Consolas',
+        fontSize: 16,
         padding: 5,
         fill: 'black',
         text: lbl,
@@ -809,22 +755,22 @@ function create_partner(lbl, pos) {
     var rec = new Konva.Rect({
         width: Dimensions.rect.width,
         height: Dimensions.rect.height,
-        fill: '#ffff',
-        stroke: '#7a797f',
+        fill: '#FFCCCC',
+        stroke: '#5864bd',
         strokeWidth: 2,
-        shadowOpacity: 0.4,
-        shadowBlur: 2,
-        shadowColor: 'black',
-        shadowOffset: {
-            x: 1,
-            y: 1
-        },
+        // shadowOpacity: 0.4,
+        // shadowBlur: 2,
+        // shadowColor: 'black',
+        // shadowOffset: {
+        //     x: 1,
+        //     y: 1
+        // },
         cornerRadius: [5, 5, 5, 5],
         id: "rect" + count,
     })
     var line = new Konva.Line({
-        points: Points.line,
-        stroke: 'black',
+        points: [50, 50, 50, 220, 50, line_hg],
+        stroke: '#5864bd',
         strokeWidth: 3,
         lineJoin: 'round',
         dash: [33, 10],
@@ -840,20 +786,12 @@ function create_partner(lbl, pos) {
     })
     partner_counter++
     var resize_gr = new Konva.Transformer({
-            ignoreStroke: true,
-            borderDash: [3, 3],
-            centeredScaling: true,
-            rotationSnaps: [0, 90, 180, 270],
-            padding: 5,
-        })
-        // resize_arrow: new Konva.Transformer({
-        //     ignoreStroke: true,
-        //     borderDash: [3, 3],
-        //     centeredScaling: true,
-        //     rotationSnaps: [0, 90, 180, 270],
-        //     padding: 5,
-        // }),
-
+        ignoreStroke: true,
+        borderDash: [3, 3],
+        centeredScaling: true,
+        rotationSnaps: [0, 90, 180, 270],
+        padding: 5,
+    })
 
     group.add(rec, labelName, line)
     var measure_text = labelName.measureSize(labelName.text())
@@ -862,7 +800,6 @@ function create_partner(lbl, pos) {
         x: group.attrs.x - (measure_text.width / 2) + (group.children[0].attrs.width / 2) - 5,
         y: group.attrs.y - (measure_text.height / 2) + (group.children[0].attrs.height / 2) - 5,
     })
-
 
     count++
     layer.add(group)
@@ -914,10 +851,6 @@ function add_element_to_array_if_not_exist(array, partner_list, element, val, la
         array.forEach(a => {
             if (a.children[2].attrs.text === val) {
                 flag = true
-                    // if (resolve != null) {
-                    //     resolve('Name already exist !')
-
-                // }
                 return
             } else if (a.attrs.id === element.attrs.id && flag == false) {
                 flag = true
@@ -925,12 +858,9 @@ function add_element_to_array_if_not_exist(array, partner_list, element, val, la
                 labelName.text(val)
                 var measure_text = labelName.measureSize(labelName.text())
                 labelName.absolutePosition({
-                        x: element.attrs.x - (measure_text.width / 2) + (element.children[1].attrs.width / 2) - 5,
-                        y: element.attrs.y - (measure_text.height / 2) + (element.children[1].attrs.height / 2) - 5,
-                    })
-                    // if (resolve != null) {
-                    //     resolve()
-                    // }
+                    x: element.attrs.x - (measure_text.width / 2) + (element.children[1].attrs.width / 2) - 5,
+                    y: element.attrs.y - (measure_text.height / 2) + (element.children[1].attrs.height / 2) - 5,
+                })
             }
 
         })
@@ -946,54 +876,8 @@ function add_element_to_array_if_not_exist(array, partner_list, element, val, la
             y: element.attrs.y - (measure_text.height / 2) + (element.children[1].attrs.height / 2) - 5,
         })
         array_json.push(element.toJSON())
-
-        // if (resolve != null)
-        //     resolve()
     }
 }
-
-//#region Create Partner Shape
-//----- ساختن اجزای پارتنر در زمان درگ یا باز کردن فایل ---------//
-// function partnerEventHandler(lbl, p = null) {
-
-//     var general_obj = gn_obj(lbl, p)
-//     var pos = {}
-//     if (p != null) {
-//         pos = p
-//     } else {
-//         if (obj.group) {
-//             pos.x = obj.group.attrs.x
-//             pos.y = obj.group.attrs.y
-//         }
-//     }
-//     if (obj.group) {
-//         obj.group.absolutePosition({
-//                 x: pos.x,
-//                 y: pos.y,
-//             })
-//             // obj.group.add(obj.rec, obj.labelName, obj.line)
-//             // var measure_text = obj.labelName.measureSize(obj.labelName.text())
-//             // obj.labelName.absolutePosition({
-//             //     x: obj.group.attrs.x - (measure_text.width / 2) + (obj.group.children[0].attrs.width / 2) - 5,
-//             //     y: obj.group.attrs.y - (measure_text.height / 2) + (obj.group.children[0].attrs.height / 2) - 5,
-//             // })
-
-//         if (rect_list.length != 0) {
-//             rect_list.forEach(a => {
-//                 if (a.name() != obj.group.name()) {
-//                     rect_list.push(obj.group)
-//                 }
-//             })
-//         } else {
-//             rect_list.push(obj.group)
-//         }
-//     }
-//     // partner_counter++
-//     // count++
-
-//     return obj
-// }
-//#endregion
 
 //#endregion
 
@@ -1016,6 +900,22 @@ container.addEventListener('drop', (e) => {
 
 
     }
+    if (shape_id == 'circle') {
+        var circle = new Konva.Circle({
+            x: pos.x,
+            y: pos.y,
+            radius: 70,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 4,
+            draggable: true,
+        });
+
+        console.log(circle)
+            // add the shape to the layer
+        layer.add(circle);
+        stage.add(layer);
+    }
 })
 
 
@@ -1030,32 +930,16 @@ btn_init.addEventListener('click', (e) => {
         var partner_flag = false
         reciver_list = []
 
-
-
-        // name_value = 
-        // console.log("object 1 ")
-        // rect_list.forEach(rc => {
-        // if ( === ) {
-
-        // console.log("object 2 ")
-
         rect_list.filter((ex, idx) => {
             if (ex.children[1].attrs.text === name_value && idx != from_index.rect_index) {
                 flag = false
-                    // break;
             }
 
         })
 
         if (name_value !== "" && flag) {
-            console.log(name_value)
             write_to_undo_redo_list()
-                // if (true) {
-                // console.log("object 3 ")
             new_name = name_value
-
-
-
             arrow_list.filter(ar => {
                 if (ar.from == old_name) {
                     ar.from = name_value
@@ -1090,8 +974,6 @@ btn_init.addEventListener('click', (e) => {
                     if (sk.partner === name_value) {
                         partner_flag = true
                         sk_index = idx
-
-
                     }
                 })
                 if (partner_flag == true) {
@@ -1128,13 +1010,10 @@ btn_init.addEventListener('click', (e) => {
             $('#initial').modal('toggle')
             opt.style.display = 'none'
             opt_note.style.display = 'none';
-            //input_sym.removeAllTags()
 
         } else {
-            // console.log("object 4 ")
             opt.style.display = 'none'
             opt_note.style.display = 'none';
-            // alert("ldcolmdldmvl")
             Swal.fire({
                 icon: 'error',
                 title: 'خطا',
@@ -1153,46 +1032,29 @@ btn_init.addEventListener('click', (e) => {
         })
         input_reciver.whitelist = reciver_list
 
+
     })
     //#region Transformer
 var tr = new Konva.Transformer();
 layer.add(tr);
 //#endregion
 
-
-// stage.on('mousedown', (e) => {
-
-//     console.log("mouseDown")
-// })
 stage.on('click', (e) => {
         e.evt.preventDefault();
-
-
-        // var encrypt = new Encrypt();
-        // encrypt.key
-
-        // console.log(encrypt.key);
-
         if (e.target === stage) {
             opt.style.display = 'none'
             opt_note.style.display = 'none';
             tr.nodes([])
             if (from_index.rect_index != '') {
                 rect_list[from_index.rect_index].draggable(false)
-                    // console.log("test drag", rect_list[from_index.rect_index].draggable())
             }
             return;
         }
 
-
         var group
         if (e.target.parent.getClassName() === "Group") {
-
             if (e.target.parent.parent.name().includes('arrow')) {
-                // console.log("object 1 ", arrow_list)
-                // console.log(" ===> ", e.target.parent.parent.name())
                 opt.style.display = 'none'
-                    // console.log(rect_list)
                 arrow_list.filter((fil, index) => {
                     if (fil.arrow.attrs.name === e.target.parent.parent.attrs.name) {
                         tr.nodes([fil.arrow.children[2]])
@@ -1201,21 +1063,18 @@ stage.on('click', (e) => {
                         input_params.removeAllTags()
                         from_index.arrow_index = index
                         rect_list.filter((rc, index) => {
-                                if (rc.children[1].text() === fil.from) {
-                                    from_index.rect_index = index
-                                }
-                            })
-                            // console.log("object 2", index)
+                            if (rc.children[1].text() === fil.from) {
+                                from_index.rect_index = index
+                            }
+                        })
                         opt_note.style.display = 'initial'
                         opt_note.style.top =
                             e.target.parent.attrs.y + 75 + 'px';
                         opt_note.style.left =
                             e.target.parent.attrs.x + 410 + 'px';
                         opt_note.addEventListener('click', () => {
-                                opt_note.style.display = 'none';
-                            })
-                            // invalid_empty_rec.style.display = "none"
-
+                            opt_note.style.display = 'none';
+                        })
                         input_reciver.addTags(fil.to)
                         input_def.addTags(fil.message.define)
                         input_params.addTags(fil.message.params)
@@ -1223,8 +1082,6 @@ stage.on('click', (e) => {
                 })
             } else if (e.target.parent.name().includes('partner')) {
                 var reciver_list_tmp
-                    // remove_all_tag(inputs)
-                    // console.log("arrow ===>", arrow_list)
                 input_reciver.removeAllTags()
                 input_def.removeAllTags()
                 input_params.removeAllTags()
@@ -1238,19 +1095,14 @@ stage.on('click', (e) => {
                 })
                 input_reciver.whitelist = reciver_list_tmp
                     //---------------------------------------------------
-                    // AsymKey_obj = {
-                    //     pk: `pk_${e.target.parent.children[1].text()}`,
-                    //     sk: `sk_${e.target.parent.children[1].text()}`
-                    // }
-
                 var Asym_array = []
-                for (var i = 0; i < 4; i++) {
-                    let AsymKey_obj = {
-                        pk: `pk${e.target.parent.children[1].text()}${i}`,
-                        sk: `sk${e.target.parent.children[1].text()}${i}`
-                    }
-                    Asym_array.push(`(${AsymKey_obj.pk},${AsymKey_obj.sk})`)
+                    // for (var i = 0; i < 4; i++) {
+                let AsymKey_obj = {
+                    pk: `pk(${e.target.parent.children[1].text()})`,
+                    sk: `sk(${e.target.parent.children[1].text()})`
                 }
+                Asym_array.push(`(${AsymKey_obj.pk},${AsymKey_obj.sk})`)
+                    // }
 
                 input_Asym.whitelist = Asym_array
 
@@ -1258,38 +1110,18 @@ stage.on('click', (e) => {
                     if (fil.attrs.name === e.target.parent.attrs.name) {
                         tr.nodes([fil])
                         fil.draggable(true)
-
-
-                        // connect_node2 = {
-                        //         id: 1000,
-                        //         from: '',
-                        //         to: '',
-                        //         arrow: '',
-                        //         message: {},
-                        //         note: {}
-                        //     }
-
-                        //-------مقدار دهی نود ابتدایی فلش ---------//
-                        // connect_node2.from = fil.attrs.name
-                        // ------ گرفتن شکل انتخاب شده ------------//
+                            //-------مقدار دهی نود ابتدایی فلش ---------//
+                            // connect_node2.from = fil.attrs.name
+                            // ------ گرفتن شکل انتخاب شده ------------//
                         group = fil
-
                         from_index.rect_index = index
                         from_index.arrow_index = -1
+                            // ----------- دکمه ثبت انتخاب یا تغییر نام پارتنر و وارد کردن کلیدها -----------//
 
-
-                        // ----------- دکمه ثبت انتخاب یا تغییر نام پارتنر و وارد کردن کلیدها -----------//
-
-
-                        // flag_cliced_group = index
                     }
                 })
 
-                // console.log("click ==> ")
-
-
                 $('input[name=name]').val(rect_list[from_index.rect_index].children[1].text())
-                console.log(key_list)
                 input_sym.removeAllTags()
                 input_Asym.removeAllTags()
                 key_list.forEach(key => {
@@ -1302,29 +1134,17 @@ stage.on('click', (e) => {
                                 return `(${key.pk},${key.sk})`
                             }))
                         }
-                        // $('input[name=key]').val(sym_key.key)
                     }
                 })
 
-
-                // console.log(rect_list)
                 //------- بروز محل المان ها پس از جابجایی شکل انتخاب شده ------//
                 group.on('dragmove', () => {
-
-                    // console.log(from_index.rect_index)
                     opt.style.left = e.target.parent.attrs.x + 370 + 'px';
                     opt.style.top = e.target.parent.attrs.y + 75 + 'px';
-
                     let rect_index = rect_list[from_index.rect_index]
-
                     arrow_list.filter((a, idx) => {
                         if (a.from === rect_index.children[1].text() || a.to === rect_index.children[1].text()) {
-                            // console.log(a)
                             arrow_points(a.from, a.to, idx)
-                                // var dim = arrow_points(a.from, a.to, idx)
-                                // a.arrow.children[0].setX(dim.first_x)
-                                // a.arrow.children[0].setY(dim.first_y)
-                                // a.arrow.children[0].points([0, 0, dim.width_arrow, dim.height_arrow])
                         }
                     })
 
@@ -1348,73 +1168,55 @@ var flag_error_func = 1000
 
 // آنالیز توابع رمزنگاری و قرار دادن در لیست های مربوطه
 function crypto_func_analys(func) {
-
     var result = INVALID_VALUE
-    console.log("=========== FUNC ==========", func)
     switch (func.name) {
         case 'Enc':
-            console.log("Enc")
             if (func.content != '' && func.content.length > 1) {
-                console.log("===========1 ==========")
-                    // if (key_list.length > 0) {
-                    // key_list.forEach(sk => {
-                    // if (sk.partner === array_partner[array_partner_index].name) {
                 let sk = array_partner[array_partner_index]
-                    // if (sk.symKey.includes(func.content[func.content.length - 1])) {
                 let plainText = func.content.slice(0, func.content.length - 1)
-                    // plainText.pop()
                 let func_string = `${func.name}(${func.content.toString()})`
                 let cipherText = {
                     name: func_string,
                     value: func_string
                 }
-                console.log(macro_list)
                 let macro_flag = false
                 macro_list.forEach(mc => {
-                        if (mc.value.replace(' ', '') === func_string) {
-                            cipherText.name = mc.name
-                            macro_flag = true
-                        }
+                    if (mc.value.replace(' ', '') === func_string) {
+                        cipherText.name = mc.name
+                        macro_flag = true
+                    }
 
-                    })
-                    // if (!macro_flag) {
-                    //     macro_list.push({
-                    //         name: cipherText,
-                    //         value: func_string
-                    //     })
-                    // }
+                })
 
-                let encrypt_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], cipherText: cipherText }
+
+                let encrypt_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], cipherText: cipherText, funcString: func_string, AnbxFormat: `{|${plainText.toString()}|}${func.content[func.content.length - 1]}`, from: '', to: '' }
+                sk.messages.forEach(msg => {
+                    if (msg.message.params.includes(func_string)) {
+                        encrypt_obj.from = msg.from
+                        encrypt_obj.to = msg.to
+                    } else {
+                        msg.message.define.forEach(def => {
+                            if (def.includes(func_string)) {
+                                encrypt_obj.from = msg.from
+                                encrypt_obj.to = msg.to
+                            }
+                        })
+                    }
+                })
                 encrypt_list.push(encrypt_obj)
-                console.log("=========== 2 ==========", encrypt_obj)
+                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                    array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
+                }
                 result = SUCCESSFULL
 
-                // } else {
-                //     result = INVALID_KEY_ENC
-                // }
-                // }
-                // else {
-                //     result = INVALID_VALUE_ENC
-                // }
-                // })
-                // } else {
-
-                //     result = INVALID_KEY_LIST
-                // }
             } else {
                 result = INVALID_VALUE_ENC
             }
 
             return result
-                // return SUCCESSFULL
-                // break;
         case 'Dec':
             if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
                 let sk = array_partner[array_partner_index]
-                    // if (key_list.length > 0) {
-                    // key_list.forEach(sk => {
-                    // if (sk.partner === rect_list[from_index.rect_index].children[1].text()) {
-                    // if (sk.symKey.includes(func.content[func.content.length - 1])) {
                 let func_string = `${func.name}(${func.content.toString()})`
                 let cipherText = func.content[0]
                 let decrypt_obj = {
@@ -1424,46 +1226,35 @@ function crypto_func_analys(func) {
                     name: {
                         name: func_string,
                         value: func_string
-                    }
+                    },
+                    funcString: func_string
                 }
                 encrypt_list.filter((enc, index) => {
-                        if (sk.symKey.includes(enc.symKey) && (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText)) {
-                            decrypt_obj.plainText = enc.plainText
-                            let macro_flag = false
-                            macro_list.forEach(mc => {
-                                    if (mc.value === func_string) {
-                                        decrypt_obj.name.name = mc.name
-                                        macro_flag = true
-                                    }
-                                })
-                                // if (!macro_flag) {
-                                //     macro_list.push({
-                                //         name: decrypt_obj.name,
-                                //         value: `Dec(${func.content})`
-                                //     })
-                                // }
-                            decrypt_list.push(decrypt_obj)
-                            result = SUCCESSFULL
-                        } else {
-                            result = INVALID_COMPATIBILITY
+                    if (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText) {
+                        decrypt_obj.plainText = enc.plainText
+                        let macro_flag = false
+                        macro_list.forEach(mc => {
+                            if (mc.value === func_string) {
+                                decrypt_obj.name.name = mc.name
+                                macro_flag = true
+                            }
+                        })
+                        decrypt_list.push(decrypt_obj)
+                        if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                            array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
                         }
-                    })
-                    // } else {
-                    //     result = INVALID_KEY_DEC
-                    // }
-                    // }
-                    // })
-                    // } else {
-                    //     result = INVALID_KEY_LIST
-                    // }
+                        result = SUCCESSFULL
+                    } else {
+                        result = INVALID_COMPATIBILITY
+                    }
+                })
             } else {
                 result = INVALID_VALUE_DEC
             }
             return result
-                // console.log("Dec")
-                // break;
         case 'Hash':
-            return (func.content != '' && func.content.length > 1) ? SUCCESSFULL : INVALID_VALUE_HASH
+            console.log(func)
+            return (func.content != '' && func.content.length > 0) ? SUCCESSFULL : INVALID_VALUE_HASH
         case 'Mac':
             if (func.content != '' && func.content.length > 1) {
                 let sk = array_partner[array_partner_index]
@@ -1474,32 +1265,26 @@ function crypto_func_analys(func) {
                     name: func_string,
                     value: func_string
                 }
-                console.log(macro_list)
                 macro_list.forEach(mc => {
                     if (mc.value.replace(' ', '') === func_string) {
                         mac.name = mc.name
                     }
                 })
-                let mac_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], mac: mac }
+                let mac_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], mac: mac, funcString: func_string }
                 mac_list.push(mac_obj)
-                console.log("=========== 2 ==========", mac_obj)
+                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                    array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
+                }
                 result = SUCCESSFULL
-
-                // } else {
-                //     result = INVALID_KEY_MAC
-                // }
             } else {
                 result = INVALID_VALUE_MAC
             }
 
             return result
-                // break;
         case 'VerifyMac':
             if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
                 let sk = array_partner[array_partner_index]
-                    // if (sk.symKey.includes(func.content[func.content.length - 1])) {
                 let func_string = `${func.name}(${func.content.toString()})`
-                    // let verify_mac = func.content[0]
                 let verify_mac_obj = {
                     mac: func.content[0],
                     symKey: func.content[1],
@@ -1507,37 +1292,61 @@ function crypto_func_analys(func) {
                     name: {
                         name: func_string,
                         value: func_string
-                    }
+                    },
+                    funcString: func_string
                 }
                 mac_list.filter(mc => {
-                        if (sk.symKey.includes(mc.symKey) && (mc.mac.name === verify_mac_obj.mac || mc.mac.value === verify_mac_obj.mac)) {
-                            verify_mac_obj.plainText = mc.plainText
+                    if (sk.symKey.includes(mc.symKey) && (mc.mac.name === verify_mac_obj.mac || mc.mac.value === verify_mac_obj.mac)) {
+                        verify_mac_obj.plainText = mc.plainText
 
-                            macro_list.forEach(mcro => {
-                                if (mcro.value === func_string) {
-                                    verify_mac_obj.name.name = mcro.name
+                        macro_list.forEach(mcro => {
+                            if (mcro.value === func_string) {
+                                verify_mac_obj.name.name = mcro.name
 
-                                }
-                            })
-                            verify_mac_list.push(verify_mac_obj)
-                            result = SUCCESSFULL
-                        } else {
-                            result = INVALID_COMPATIBILITY
+                            }
+                        })
+                        verify_mac_list.push(verify_mac_obj)
+                        if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                            array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
                         }
-                    })
-                    // } else {
-                    //     result = INVALID_KEY_VERIFY_MAC
-                    // }
+                        result = SUCCESSFULL
+                    } else {
+                        result = INVALID_COMPATIBILITY
+                    }
+                })
+
             } else {
                 result = INVALID_VALUE_VERIFY_MAC
             }
             return result
-                // break;
         case 'Sign':
+
             if (func.content != '' && func.content.length > 1) {
                 let sk = array_partner[array_partner_index]
-                var key_pair = sk.AsymKey.filter(k => k.sk == func.content[func.content.length - 1])
-                if (key_pair.length > 0) {
+                console.log("----------------------- SIGN", sk)
+                var privateKey = func.content[func.content.length - 1]
+                var res = []
+                array_partner.filter((a, idx) => {
+                    if (idx != array_partner_index) {
+                        a.AsymKey.filter(as => res.push(as.sk))
+                    }
+                })
+                if (!res.includes(privateKey) && privateKey == `sk(${sk.name})`) {
+                    var key_pair = sk.AsymKey.filter(k => k.sk == privateKey)
+                    let tmp_kryPair = {
+                        pk: `pk(${sk.name})`,
+                        sk: privateKey
+                    }
+                    if (key_pair.length == 0) {
+
+                        // const reg = /inv\(.*\)/
+                        // if (privateKey.match(reg) != null) {
+                        //     tmp_kryPair.pk = func_content(privateKey).content.toString()
+                        // }
+                        array_partner[array_partner_index].AsymKey.push(tmp_kryPair)
+
+                        console.log("******* ", key_list)
+                    }
                     let plainText = func.content.slice(0, func.content.length - 1)
                     let func_string = `${func.name}(${func.content.toString()})`
                     let sign = {
@@ -1550,11 +1359,14 @@ function crypto_func_analys(func) {
                         }
                     })
 
-                    let sign_obj = { plainText: plainText, sk: key_pair[0].sk, sign: sign }
+                    let sign_obj = { plainText: plainText, kepair: tmp_kryPair, sign: sign, funcString: func_string, AnbxFormat: `{${plainText.toString()}}inv(${tmp_kryPair.pk})` }
                     sign_list.push(sign_obj)
                     result = SUCCESSFULL
 
+                    console.log("------------------------------------")
+
                 } else {
+                    // کلید خصوصی تکراری استفاده شده است.
                     result = INVALID_KEY_SIGN
                 }
             } else {
@@ -1563,10 +1375,26 @@ function crypto_func_analys(func) {
             return result
         case 'VerifySign':
             if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
-                // let sk = array_partner[array_partner_index]
-                var key_pair = Asym_key_list.filter(kl => kl.pk == func.content[func.content.length - 1])
-                    // var key_pair = sk.AsymKey.fiter(k => k.pk == func.content[func.content.length - 1])
-                if (key_pair.length > 0) {
+                // var key_pair = Asym_key_list.filter(kl => kl.pk == func.content[func.content.length - 1])
+                let partner = array_partner[array_partner_index]
+                var publicKey = func.content[func.content.length - 1]
+                    // var res = []
+                    // array_partner.filter((a, idx) => {
+                    //     if (idx != array_partner_index) {
+                    //         a.AsymKey.filter(as => res.push(as.pk))
+                    //     }
+                    // })
+
+                // if (!res.includes(publicKey)) {
+
+                if (partner.nonces.var_array.includes(publicKey) || partner.AsymKey.publicKey.includes(publicKey)) {
+
+                    // var key_pair = partner.AsymKey.filter(k => k.pk == publicKey)
+                    let tmp_kryPair = {
+                        pk: publicKey,
+                        sk: ''
+                    }
+
                     let func_string = `${func.name}(${func.content.toString()})`
                     let sign = func.content[0]
                     let verify_sign = {
@@ -1576,10 +1404,12 @@ function crypto_func_analys(func) {
                         name: {
                             name: func_string,
                             value: func_string
-                        }
+                        },
+                        funcString: func_string
                     }
                     sign_list.filter(sg => {
-                        if (sg.sk == key_pair[0].sk && (sg.sign.name === sign || sg.sign.value === sign)) {
+                        if ((sg.sign.name === sign || sg.sign.value === sign) && sg.pk == publicKey) {
+                            tmp_kryPair.sk = sg.sk
                             verify_sign.plainText = sg.plainText
                             macro_list.forEach(mc => {
                                 if (mc.value === func_string) {
@@ -1588,10 +1418,14 @@ function crypto_func_analys(func) {
                             })
                             verify_sign_list.push(verify_sign)
                             result = SUCCESSFULL
-                        } else {
-                            result = INVALID_COMPATIBILITY
                         }
                     })
+                    if (result == SUCCESSFULL) {
+                        partner.AsymKey.push(tmp_kryPair)
+                    } else {
+                        result = INVALID_COMPATIBILITY
+                    }
+
                 } else {
                     result = INVALID_KEY_VERIFY_SIGN
                 }
@@ -1600,30 +1434,90 @@ function crypto_func_analys(func) {
             }
             return result
         case 'AEnc':
+            console.log("AEnc *******")
             if (func.content != '' && func.content.length > 1) {
-                // let sk = array_partner[array_partner_index]
+                let partner = array_partner[array_partner_index]
+                var publicKey = func.content[func.content.length - 1]
+                    // var res = []
+                    // array_partner.filter((a, idx) => {
+                    //     if (idx != array_partner_index) {
+                    //         a.AsymKey.filter(as => res.push(as.pk))
+                    //     }
+                    // })
 
-                var key_pair = Asym_key_list.filter(kl => kl.pk == func.content[func.content.length - 1])
-                if (key_pair.length > 0) {
-                    let plainText = func.content.slice(0, func.content.length - 1)
-                    let func_string = `${func.name}(${func.content.toString()})`
-                    let cipherText = {
-                        name: func_string,
-                        value: func_string
+                let plainText = func.content.slice(0, func.content.length - 1)
+                let func_string = `${func.name}(${func.content.toString()})`
+                let cipherText = {
+                    name: func_string,
+                    value: func_string
+                }
+                macro_list.forEach(mc => {
+                    if (mc.value.replace(' ', '') === func_string) {
+                        cipherText.name = mc.name
                     }
-                    macro_list.forEach(mc => {
-                        if (mc.value.replace(' ', '') === func_string) {
-                            cipherText.name = mc.name
-                        }
-                    })
+                })
 
-                    let Asym_obj = { plainText: plainText, pk: key_pair[0].pk, cipherText: cipherText }
+                var publickeyList = []
+                var to_index = ''
+                array_partner.filter(a => a.AsymKey.filter(k => publickeyList.push(k.pk)))
+                var privateKey = array_partner.filter((a, idx) => a.AsymKey.filter(k => {
+                    if (k.pk == publicKey) {
+                        to_index = idx
+                        return k.sk
+                    }
+
+                }))
+
+                var check_macro
+                macro_list.forEach(mc => mc.value == publicKey ? check_macro = mc.name : '')
+                if (((partner.nonces.var_array.includes(publicKey) || partner.nonces.var_array.includes(check_macro)) || partner.AsymKey[0].pk == publicKey) && publickeyList.includes(publicKey)) {
+                    let tmp_kryPair = {
+                        pk: publicKey,
+                        sk: privateKey
+                    }
+                    let Asym_obj = { plainText: plainText, keypair: tmp_kryPair, cipherText: cipherText, funcString: func_string, AnbxFormat: `{${plainText.toString()}}${publicKey}`, from: partner.name, to: array_partner[to_index].name }
                     Aencryp_list.push(Asym_obj)
                     result = SUCCESSFULL
+                        // var key_pair = partner.AsymKey.filter(k => k.pk == publicKey)
+
+
+                    console.log("AENC ===> ", Aencryp_list)
+                        // if (key_pair.length == 0) {
+                        //     partner.AsymKey.push(tmp_kryPair)
+                        // }
+
 
                 } else {
                     result = INVALID_KEY_AENC
                 }
+
+
+
+
+
+
+                // ---------------------------------------------------------------------------------------------
+                // var key_pair = Asym_key_list.filter(kl => kl.pk == func.content[func.content.length - 1])
+                // if (key_pair.length > 0) {
+                // let plainText = func.content.slice(0, func.content.length - 1)
+                // let func_string = `${func.name}(${func.content.toString()})`
+                // let cipherText = {
+                //     name: func_string,
+                //     value: func_string
+                // }
+                // macro_list.forEach(mc => {
+                //     if (mc.value.replace(' ', '') === func_string) {
+                //         cipherText.name = mc.name
+                //     }
+                // })
+
+                // let Asym_obj = { plainText: plainText, pk: key_pair[0].pk, cipherText: cipherText, funcString: func_string, AnbxFormat: `{|${plainText.toString()}|}${key_pair[0].pk}` }
+                // Aencryp_list.push(Asym_obj)
+                // result = SUCCESSFULL
+
+                // } else {
+                //     result = INVALID_KEY_AENC
+                // }
             } else {
                 result = INVALID_VALUE_AENC
             }
@@ -1642,10 +1536,11 @@ function crypto_func_analys(func) {
                         name: {
                             name: func_string,
                             value: func_string
-                        }
+                        },
+                        funcString: func_string
                     }
                     Aencryp_list.filter(Aenc => {
-                        if (Aenc.pk == key_pair[0].pk && (Aenc.cipherText.name === cipherText || Aenc.cipherText.value === cipherText)) {
+                        if (Aenc.kepair.pk == key_pair[0].pk && (Aenc.cipherText.name === cipherText || Aenc.cipherText.value === cipherText)) {
                             Adecrypt_obj.plainText = Aenc.plainText
                             macro_list.forEach(mc => {
                                 if (mc.value === func_string) {
@@ -1673,8 +1568,6 @@ function crypto_func_analys(func) {
 }
 
 
-
-
 function is_function(str) {
     return str.includes("(") || str.includes(")")
 }
@@ -1691,16 +1584,13 @@ function is_macro(str) {
 
 function error_handler_func(func) {
     var check_func = is_function(func)
-        // console.log(check_func)
     if (check_func == false) {
         return true
     } else {
         var out_func = func_content(func)
-            // console.log(out_func)
         switch (out_func.name) {
             case "Hash":
                 if (out_func.content.length < 1) {
-                    // console.log("object")
                     return false
                 }
                 break;
@@ -1769,11 +1659,14 @@ function func_content(func) {
     var cont = func.substring(first_parantez, end_parantez)
     obj_function.name = function_name.replace(',', '')
     obj_function.content = splite_content(cont)
+    obj_function.funcString = func
+    obj_function.AnbxFormat = func
+
     return obj_function
 }
 
 function splite_content(content) {
-    // console.log("============ splite_content ===========", content)
+    content.replace(' ', '')
     var split_array = []
     var split_array_tmp = []
     var counter = 0
@@ -1781,14 +1674,12 @@ function splite_content(content) {
     for (var i = 0; i < content.length; i++) {
 
         var c = content[i]
-            // console.log("============ splite_content =========== 2 ", c)
-            // console.log("============ splite_content =========== 3 ", counter)
-        if (counter == 0 && c == ",") {
+
+        if (counter == 0 && (c == ",")) {
             let tmp = content.slice(index, i).trim()
             if (tmp[0] === ',') {
                 tmp = tmp.slice(1)
             }
-            console.log(tmp)
             split_array.push(tmp)
             index = i
         }
@@ -1799,12 +1690,205 @@ function splite_content(content) {
             counter--
         }
     }
-    var tmp_content = content.substring(index + 1, content.length)
+    var tmp_content = content.substring(index, content.length)
+    if (tmp_content[0] === ',') {
+        tmp_content = tmp_content.slice(1)
+    }
     if (tmp_content != '') {
         split_array.push(tmp_content)
     }
+
     return split_array
 }
+
+
+function splite_content2(content) {
+    content.replace(' ', '')
+    var split_array = []
+    var split_array_tmp = []
+    var counter = 0
+    var index = 0
+    for (var i = 0; i < content.length; i++) {
+
+        var c = content[i]
+
+        if ((counter == 0 && (c == ",")) || counter == -1) {
+            let tmp = content.slice(index, i).trim()
+            if (tmp[0] === ',') {
+                tmp = tmp.slice(1)
+            }
+            split_array.push(tmp)
+            index = i
+        }
+        if (c == "(") {
+            counter++
+        }
+        if (c == ")") {
+            counter--
+        }
+    }
+    var tmp_content = content.substring(index, content.length)
+
+    if (tmp_content[0] === ',') {
+
+        tmp_content = tmp_content.slice(1)
+    }
+    if (tmp_content != '') {
+        split_array.push(tmp_content)
+    }
+
+    return split_array
+}
+// 00/12/21
+// تبدیل توابع با فرمت های Anbx به توابع با فرمت های معمولی
+// برای توابعی که فقط شامل کروشه تنها هستند
+// {x,y}sk
+
+
+
+// 00/12/21
+// تبدیل توابع با فرمت های Anbx به توابع با فرمت های معمولی
+// برای توابعی که شامل کروشه و پایپ هستند
+// {|x|}key
+// function splite_content_bracket(content) {
+//     content = content.replace(/\s+/g, '')
+//     var regex1 = /\{\|/g
+//     var regex2 = /\|\}/g
+
+//     content = content.replace(regex1, '[')
+//     content = content.replace(regex2, ']')
+
+//     var split_array_tmp = []
+//     var counter = 0
+//     var index = 0
+//     for (var i = 0; i < content.length; i++) {
+//         var c = content[i]
+//         if (counter == 1 && (c == "]")) {
+//             let tmp = content.slice(index + 1, i).trim()
+//             let tmp2 = content.slice(i + 1, content.length - 1).trim()
+//             var obj = {
+//                 content: tmp,
+//                 key: splite_content(tmp2).length > 0 ? splite_content(tmp2)[0] : null,
+//                 func_string: '',
+//                 Anbx_string: ''
+//             }
+//             obj.Anbx_string = `{|${obj.content}|}${obj.key}`
+//             split_array.push(obj)
+//             if (tmp.includes('['))
+//                 splite_content_bracket(tmp)
+//         }
+//         if (c == "[") {
+//             if (counter == 0)
+//                 index = i
+//             counter++
+//         }
+//         if (c == "]") {
+//             counter--
+//         }
+//     }
+// }
+
+var split_array = []
+
+function splite_content_bracket_pyp(content) {
+    content = content.replace(/\s+/g, '')
+    var regex1 = /\{\|/g
+    var regex2 = /\|\}/g
+
+    content = content.replace(regex1, '[')
+    content = content.replace(regex2, ']')
+
+    // console.log(content)
+
+    var split_array_tmp = []
+    var counter = 0
+    var index = 0
+    for (var i = 0; i < content.length; i++) {
+        var c = content[i]
+        if (counter == 1 && (c == "]")) {
+            let tmp = content.slice(index + 1, i).trim()
+            let tmp2 = content.slice(i + 1, content.length).trim()
+            var obj = {
+                content: tmp,
+                key: splite_content2(tmp2).length > 0 ? splite_content2(tmp2)[0] : null,
+                func_string: '',
+                Anbx_string: ''
+            }
+
+            obj.Anbx_string = `{|${obj.content.replace('[', '{|').replace(']', '|}')}|}${obj.key.replace('[', '{|').replace(']', '|}')}`
+
+            obj.func_string = `Enc(${obj.content.replace('[', '{|').replace(']', '|}')},${obj.key.replace('[', '{|').replace(']', '|}')})`
+            split_array.push(obj)
+            if (tmp.includes('[')) {
+                splite_content_bracket(tmp)
+            }
+        }
+        if (c == "[") {
+            if (counter == 0)
+                index = i
+            counter++
+        }
+        if (c == "]") {
+            counter--
+        }
+    }
+
+    //return split_array
+}
+
+
+function splite_content_bracket(content) {
+    const rg = /\s+/ig
+    content = content.replace(rg, '')
+    var regex1 = /\{/g
+    var regex2 = /\}/g
+
+    // content = content.replace(regex1, '[')
+    // content = content.replace(regex2, ']')
+
+
+    var split_array_tmp = []
+    var counter = 0
+    var index = 0
+    for (var i = 0; i < content.length; i++) {
+        var c = content[i]
+        if (counter == 1 && (c == "}")) {
+            let tmp = content.slice(index + 1, i).trim()
+            let tmp2 = content.slice(i + 1, content.length).trim()
+            var obj = {
+                content: tmp,
+                key: splite_content2(tmp2).length > 0 ? splite_content2(tmp2)[0] : null,
+                func_string: '',
+                Anbx_string: ''
+            }
+            obj.Anbx_string = `{${obj.content}}${obj.key}`
+                // console.log("******",obj.key.includes('inv') , obj.key)
+            if (obj.key.includes('inv')) {
+                obj.func_string = `Sign(${obj.content},${obj.key})`
+            } else {
+                obj.func_string = `AEnc(${obj.content},${obj.key})`
+            }
+
+
+            split_array.push(obj)
+            if (tmp.includes('{')) {
+                splite_content_bracket(tmp)
+            }
+        }
+        if (c == "{") {
+            if (counter == 0)
+                index = i
+            counter++
+        }
+        if (c == "}") {
+            counter--
+        }
+    }
+    return split_array
+}
+
+
+
 
 function splite_string(str) {
     var result = SUCCESSFULL
@@ -1812,7 +1896,6 @@ function splite_string(str) {
         // ------------ for macro check
         // let res_macro = is_macro(sp)
         if (array_partner[array_partner_index].macro.new_array.length > 0) {
-            console.log(" ======== IF 1 ========", array_partner[array_partner_index].macro.new_array)
             array_partner[array_partner_index].macro.new_array.forEach(mac => {
                 if (mac.name == sp) {
                     sp = mac.value
@@ -1820,7 +1903,6 @@ function splite_string(str) {
             })
         }
         if (macro_list.length > 0) {
-            console.log(" ======== IF 2 ========", macro_list)
             macro_list.forEach(mac => {
                 if (mac.value == sp && (array_partner[array_partner_index].nonces.var_array.includes(mac.name) || array_partner[array_partner_index].nonces.new_array.includes(mac.name))) {
                     sp = mac.name
@@ -1830,31 +1912,32 @@ function splite_string(str) {
         //-----------------
         if (is_function(sp)) {
             var fn = func_content(sp)
-            var func_exist_index = is_contain(function_array, fn.name)
-            if (func_exist_index < function_array.length) {
-                if (fn.content.length !== function_array[func_exist_index].content.length) {
-                    flag_error_func = func_exist_index
-                    result = INVALID_VALUE
-                        // return INVALID_VALUE
-                }
-            } else {
+            var func_exist_index = function_array.findIndex(f => f.name === fn.name)
+            var obj_error = {
+                id: '',
+                function: '',
+                result: ''
+            }
+            if ((func_exist_index > -1 && fn.content.length == function_array[func_exist_index].content.length) || func_exist_index == -1) {
                 let res = crypto_func_analys(fn)
-                console.log("RES ===============> ", res)
+                    // if (res === SUCCESSFULL && fn.name.trim() != '') {
                 if (res === SUCCESSFULL) {
-
                     function_array.push(fn)
                     result = SUCCESSFULL
                 } else {
                     result = res
-                    var obj_error = {
-                        id: '',
-                        function: `${fn.name}(${fn.content.toString()})`,
-                        result: res
-                    }
-
+                    obj_error.function = `${fn.name}(${fn.content.toString()})`
+                    obj_error.result = res
                     result_error_array_tmp.push(obj_error)
-                        // return res
                 }
+
+            } else if (fn.content.length !== function_array[func_exist_index].content.length) {
+                flag_error_func = func_exist_index
+                result = INVALID_VALUE
+                obj_error.function = `${fn.name}(${fn.content.toString()})`
+                obj_error.result = result
+                result_error_array_tmp.push(obj_error)
+
             }
             splite_string(func_content(sp).content)
         } else {
@@ -1866,9 +1949,10 @@ function splite_string(str) {
 }
 
 //#region parser_msg_to_partner
+
+// تابع قدیمی پارسر پیام
 function parser_msg_to_partner(array_list) {
     array_partner = []
-        // console.log("============> ", array_list)
     array_list.forEach((s) => {
         var index = is_contain(array_partner, s.from)
         var new_message = {
@@ -1937,51 +2021,34 @@ function parser_msg_to_partner(array_list) {
 
     })
 
-
-    // function_array = []
-    // macro_list = []
-
-    // console.log(macro_list)
+    // arrow_list.forEach((a, indx) => {
+    //     var idx
+    //     var n = array_partner.forEach((ap, index0) => ap.name == a.from ? ap : null)
+    // var n = array_partner.forEach((ap, index0) => {
+    //         if (ap.name === a.from) {
+    //             idx = index0
+    //             return ap
+    //         }
+    //     })
+    // })
     array_partner.forEach((n, idx) => {
-
+        // console.log("N ", n)
+        // console.log(n.messages, " ", indx)
         n.messages.forEach((m, index) => {
             if (n.name === m.from) {
                 n.macro.new_array = []
-                console.log("============> ", m.message)
                 m.message.define.forEach(def => {
                     if (def.includes("=")) {
-                        console.log("=====================> IF", def)
                         let split_mosavi = def.split("=")
                         let obj_macro = {
                             name: split_mosavi[0].trim(),
-                            value: split_mosavi[1].trim()
+                            value: split_mosavi[1].trim(),
+                            AnbxFormat: split_mosavi[1].trim(),
                         }
 
-
-                        var flag_macro = false
-                        macro_list.filter(m => {
-                            if (m.name == obj_macro.name && m.value == obj_macro.value) {
-                                console.log("=====================> 1")
-                                flag_macro = true
-
-                            } else if (m.name == obj_macro.name && m.value != obj_macro.value) {
-                                console.log("=====================> 2")
-                                flag_macro = true
-                            }
-                            // else {
-                            //     console.log("=====================> 3")
-                            //         // macro_list.push(obj_macro)
-                            //     n.macro.new_array.push(obj_macro)
-                            // }
-
-                        })
-                        if (!flag_macro) {
-                            console.log("=====================> 3")
-                            n.macro.new_array.push(obj_macro)
-                        }
+                        macro_list.filter(m => m.name).includes(obj_macro.name) ? null : n.macro.new_array.push(obj_macro)
 
                     } else if (!is_function(def)) {
-                        console.log("=====================> ELSE")
                         if (!n.nonce.new_array.includes(def)) {
                             n.nonce.new_array.push(def)
                         }
@@ -1991,7 +2058,6 @@ function parser_msg_to_partner(array_list) {
                 array_partner_index = idx
                 nonce_array = []
                 result_error_array_tmp = []
-
 
                 splite_string(m.message.params)
                     // آپدیت کردن آرایه خطا
@@ -2005,13 +2071,10 @@ function parser_msg_to_partner(array_list) {
 
 
                 nonce.forEach(ns => {
-                    if (!n.nonces.var_array.includes(ns) && !n.nonces.new_array.includes(ns) && ns.trim() != '' && !n.symKey.includes(ns) && !is_macro(ns) && n.AsymKey.filter(k => k.sk == ns || k.pk == ns).length == 0) {
+                    if (!n.nonces.var_array.includes(ns) && !n.nonces.new_array.includes(ns) && ns.trim() != '' && !n.symKey.includes(ns) && !is_macro(ns) && n.AsymKey.filter(k => k.sk == ns || k.pk == ns).length == 0 && ns !== n.name) {
                         if (n.name === m.from) {
                             n.nonces.new_array.push(ns)
                         }
-                        // else {
-                        //     n.nonces.var_array.push(ns)
-                        // }
                     }
                 })
             }
@@ -2050,10 +2113,260 @@ function parser_msg_to_partner(array_list) {
 
 //#endregion
 
+//#region pareser_msg_to_partner_new
+// تابع جدید پارسر پیام
+function parser_msg_to_partner_new(array_list) {
+    array_partner = []
+    array_list.forEach((s) => {
+        var index = is_contain(array_partner, s.from)
+        var new_message = {
+            from: s.from,
+            to: s.to,
+            message: s.message,
+        }
+        if (index === array_partner.length) {
+            var new_partner = {
+                name: s.from,
+                symKey: [],
+                AsymKey: [],
+                messages: [],
+                nonces: {
+                    new_array: [],
+                    var_array: []
+                },
+                macro: {
+                    new_array: [],
+                    var_array: []
+                }
+            }
+            var keypair = {
+                pk: `pk(${s.from})`,
+                sk: `sk(${s.from})`,
+            }
+
+            new_partner.AsymKey.push(keypair)
+            key_list.forEach((k) => {
+                    if (k.partner == s.from) {
+
+                        new_partner.symKey.push.apply(new_partner.symKey, k.sym)
+
+                    }
+                })
+                // new_partner.name = s.sender
+            new_partner.messages.push(new_message)
+            array_partner.push(new_partner)
+        } else {
+
+            array_partner[index].messages.push(new_message)
+        }
+        var index_1 = is_contain(array_partner, s.to)
+        if (index_1 === array_partner.length) {
+
+            var new_partner = {
+                name: s.to,
+                symKey: [],
+                AsymKey: [],
+                messages: [],
+                nonces: {
+                    new_array: [],
+                    var_array: []
+                },
+                macro: {
+                    new_array: [],
+                    var_array: []
+                }
+            }
+
+            var keypair = {
+                pk: `pk(${s.to})`,
+                sk: `sk(${s.to})`,
+            }
+
+            new_partner.AsymKey.push(keypair)
+                // new_partner.name = s.to
+            key_list.forEach((k) => {
+                if (k.partner == s.to) {
+
+                    new_partner.symKey.push.apply(new_partner.symKey, k.sym)
+                        // new_partner.AsymKey.push.apply(new_partner.AsymKey, k.Asym)
+                }
+            })
+            new_partner.messages.push(new_message)
+            array_partner.push(new_partner)
+
+        } else {
+            array_partner[index_1].messages.push(new_message)
+        }
+        if (array_partner[index].name === s.from) {
+            array_partner[index].macro.new_array = []
+            new_message.message.define.forEach(def => {
+                if (def.includes("=")) {
+                    let split_mosavi = def.split("=")
+                    let obj_macro = {
+                        name: split_mosavi[0].trim(),
+                        value: split_mosavi[1].trim(),
+                        AnbxFormat: split_mosavi[1].trim(),
+                    }
+
+                    macro_list.filter(m => m.name).includes(obj_macro.name) ? null : array_partner[index].macro.new_array.push(obj_macro)
+
+                } else if (!is_function(def)) {
+                    if (!array_partner[index].nonce.new_array.includes(def)) {
+                        array_partner[index].nonce.new_array.push(def)
+                    }
+
+                }
+            })
+            array_partner_index = index
+            nonce_array = []
+            result_error_array_tmp = []
+
+            splite_string(new_message.message.params)
+                // آپدیت کردن آرایه خطا
+            result_error_array_tmp.forEach((err, ix) => {
+                err.id = index
+                result_error_array.push(err)
+            })
+            macro_list.push.apply(macro_list, array_partner[index].macro.new_array)
+            var nonce = nonce_array
+
+
+            nonce.forEach(ns => {
+                if (!array_partner[index].nonces.var_array.includes(ns) && !array_partner[index].nonces.new_array.includes(ns) && ns.trim() != '' && !array_partner[index].symKey.includes(ns) && !is_macro(ns) && array_partner[index].AsymKey.filter(k => k.sk == ns || k.pk == ns).length == 0 && !array_partner.map(a => a.name).includes(ns)) {
+                    if (array_partner[index].name === s.from) {
+                        array_partner[index].nonces.new_array.push(ns)
+
+                    }
+                }
+            })
+            new_message.message.params.forEach(p => {
+                console.log(index, " ", index_1)
+
+                if (array_partner[index_1].name === s.to) {
+                    if (!is_function(p)) {
+                        if (!array_partner[index_1].nonces.var_array.includes(p) && !array_partner[index_1].nonces.new_array.includes(p) && p.trim() != '' && !array_partner[index_1].symKey.includes(p) && array_partner[index_1].AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
+                            array_partner[index_1].nonces.var_array.push(p)
+                        }
+                    } else {
+                        macro_list.filter(macro => {
+                            if (macro.value === p && !array_partner[index_1].nonces.var_array.includes(macro.name)) {
+                                array_partner[index_1].nonces.var_array.push(macro.name)
+                            }
+                        })
+                    }
+                }
+                if (array_partner[index].name === s.from) {
+                    if (is_macro(p)) {
+                        if (!array_partner[index].nonces.new_array.includes(p) && p.trim() != '' && !array_partner[index].symKey.includes(p) && array_partner[index].AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
+                            array_partner[index].nonces.var_array.push(p)
+                        }
+                    } else {
+                        macro_list.filter(macro => {
+                            if (macro.value === p && !array_partner[index].nonces.var_array.includes(macro.name) && !array_partner[index].nonces.new_array.includes(macro.name) && array_partner[index].AsymKey.filter(k => k.sk == macro.name || k.pk == macro.name).length == 0) {
+                                array_partner[index].nonces.var_array.push(macro.name)
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    })
+
+    // arrow_list.forEach((a, indx) => {
+    //     var idx
+    //     var n = array_partner.forEach((ap, index0) => ap.name == a.from ? ap : null)
+    // var n = array_partner.forEach((ap, index0) => {
+    //         if (ap.name === a.from) {
+    //             idx = index0
+    //             return ap
+    //         }
+    //     })
+    // })
+    // array_partner.forEach((n, idx) => {
+    //     // console.log("N ", n)
+    //     // console.log(n.messages, " ", indx)
+    //     n.messages.forEach((m, index) => {
+    //         if (n.name === m.from) {
+    //             n.macro.new_array = []
+    //             m.message.define.forEach(def => {
+    //                 if (def.includes("=")) {
+    //                     let split_mosavi = def.split("=")
+    //                     let obj_macro = {
+    //                         name: split_mosavi[0].trim(),
+    //                         value: split_mosavi[1].trim(),
+    //                         AnbxFormat: split_mosavi[1].trim(),
+    //                     }
+
+    //                     macro_list.filter(m => m.name).includes(obj_macro.name) ? null : n.macro.new_array.push(obj_macro)
+
+    //                 } else if (!is_function(def)) {
+    //                     if (!n.nonce.new_array.includes(def)) {
+    //                         n.nonce.new_array.push(def)
+    //                     }
+
+    //                 }
+    //             })
+    //             array_partner_index = idx
+    //             nonce_array = []
+    //             result_error_array_tmp = []
+
+    //             splite_string(m.message.params)
+    //                 // آپدیت کردن آرایه خطا
+    //             result_error_array_tmp.forEach((err, ix) => {
+    //                 err.id = index
+    //                 result_error_array.push(err)
+    //             })
+    //             macro_list.push.apply(macro_list, n.macro.new_array)
+    //             var nonce = nonce_array
+
+
+
+    //             nonce.forEach(ns => {
+    //                 if (!n.nonces.var_array.includes(ns) && !n.nonces.new_array.includes(ns) && ns.trim() != '' && !n.symKey.includes(ns) && !is_macro(ns) && n.AsymKey.filter(k => k.sk == ns || k.pk == ns).length == 0) {
+    //                     if (n.name === m.from) {
+    //                         n.nonces.new_array.push(ns)
+    //                     }
+    //                 }
+    //             })
+    //             m.message.params.forEach(p => {
+    //                 if (n.name === m.to) {
+    //                     if (!is_function(p)) {
+    //                         if (!n.nonces.var_array.includes(p) && !n.nonces.new_array.includes(p) && p.trim() != '' && !n.symKey.includes(p) && n.AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
+    //                             n.nonces.var_array.push(p)
+    //                         }
+    //                     } else {
+    //                         macro_list.filter(macro => {
+    //                             if (macro.value === p && !n.nonces.var_array.includes(macro.name)) {
+    //                                 n.nonces.var_array.push(macro.name)
+    //                             }
+    //                         })
+    //                     }
+    //                 }
+    //                 if (n.name === m.from) {
+    //                     if (is_macro(p)) {
+    //                         if (!n.nonces.new_array.includes(p) && p.trim() != '' && !n.symKey.includes(p) && n.AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
+    //                             n.nonces.var_array.push(p)
+    //                         }
+    //                     } else {
+    //                         macro_list.filter(macro => {
+    //                             if (macro.value === p && !n.nonces.var_array.includes(macro.name) && !n.nonces.new_array.includes(macro.name) && n.AsymKey.filter(k => k.sk == macro.name || k.pk == macro.name).length == 0) {
+    //                                 n.nonces.var_array.push(macro.name)
+    //                             }
+    //                         })
+    //                     }
+    //                 }
+    //             })
+    //         }
+
+    //     })
+    // })
+    return array_partner
+}
+//#endregion
+
 function is_contain(arr, partner) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].name === partner) {
-            // console.log("1 ",i)
             return i
         }
     }
@@ -2061,26 +2374,51 @@ function is_contain(arr, partner) {
 
 }
 
-$('#btn_run').click(function() {
-        // console.log(arrow_list)
-        function_array = []
-        macro_list = []
-        arrow_list.forEach(a => {
-            a.abstract_msg.forEach(ab => {
-                macro_list.push(ab)
-            })
+// کامپایل محتوای شماتیک و مقدار دهی آرایه پارتنرها
+function Execute() {
+    function_array = []
+    macro_list = []
+    key_list = []
+        // arrow_list.forEach(a => {
+        //     console.log(a)
+        //     if (a.abstract_msg != null) {
+        //         a.abstract_msg.forEach(ab => {
+        //             macro_list.push(ab)
+        //         })
+        //     }
 
+    // })
+    // parser_msg_to_partner_new(arrow_list)
+    array_partner.forEach(a => {
+        key_list.push({
+            partner: a.name,
+            sym: a.symKey,
+            Asym: a.AsymKey
         })
-        var parse = parser_msg_to_partner(arrow_list)
-            // console.log("Macro ==========> ", macro_list)
-            // ------------------------------- پارسر اصلی برای تنظیم مقادیر پارتنرها --------------------------//
-        var code = $('#console').val(JSON.stringify(parse));
-
-        // console.log(parse)
-
-        eval(code);
     })
-    //#endregion
+    console.log("AROW LIST", arrow_list)
+    console.log("ARR PAR", array_partner)
+}
+
+// $('#btn_run').click(function() {
+//         console.log("########")
+//         function_array = []
+//         macro_list = []
+//         arrow_list.forEach(a => {
+//             console.log(a)
+//             a.abstract_msg.forEach(ab => {
+//                 macro_list.push(ab)
+//             })
+
+//         })
+//         var parse = parser_msg_to_partner_new(arrow_list)
+//         console.log("********* ", array_partner)
+//             // ------------------------------- پارسر اصلی برای تنظیم مقادیر پارتنرها --------------------------//
+//         var code = $('#console').val(JSON.stringify(parse));
+
+//         eval(code);
+//     })
+//#endregion
 
 //#region Arrow Points
 function arrow_points(from, to, arrow_index, msg) {
@@ -2119,12 +2457,21 @@ function arrow_points(from, to, arrow_index, msg) {
     var base_node = note_group.children[0]
 
 
+
     arrow.absolutePosition({
         x: arrow_dimention.first_x,
         y: arrow_dimention.first_y
     })
 
-    arrow.points([0, 0, arrow_dimention.width_arrow, arrow_dimention.height_arrow])
+
+
+    if (labelArrow.text().trim() != '') {
+        arrow.points([0, 0, arrow_dimention.width_arrow, arrow_dimention.height_arrow])
+    } else {
+        arrow.points([0, 0, 0, 0])
+        arrow.pointerLength(0)
+        arrow.pointerWidth(0)
+    }
 
     var measure_text = labelArrow.measureSize(labelArrow.text())
     var noteX = arrow.getX() + 10
@@ -2147,12 +2494,13 @@ function arrow_points(from, to, arrow_index, msg) {
         y: arrow.getY() - measure_text.height,
     })
 
+    // line_hg = arrow.getY()
 
 }
 //#endregion
 
 //#region Send Messages
-function send_msg(msg, arrow_index, arrow_fill = 'black', lbl_fontSize = 20, lbl_fill = 'green', y2 = null) {
+function send_msg(msg, arrow_index, arrow_fill = '#5864bd', lbl_fontSize = 20, lbl_fill = '#F50057', y2 = null) {
     var arrow_group = new Konva.Group({
         name: "arrow_" + (arrow_count),
         draggable: true,
@@ -2163,14 +2511,16 @@ function send_msg(msg, arrow_index, arrow_fill = 'black', lbl_fontSize = 20, lbl
         points: [0, 0, 0, 0],
         pointerLength: 10,
         pointerWidth: 10,
-        fill: arrow_fill,
+        fill: '#5864bd',
         stroke: arrow_fill,
         strokeWidth: 2,
     });
     var labelArrow = new Konva.Text({
         fontSize: lbl_fontSize,
-        fontFamily: 'Calibri',
+        fontFamily: 'Consolas',
         fill: lbl_fill,
+        fontSize: 15,
+        fontStyle: 'bold',
     });
 
 
@@ -2184,23 +2534,27 @@ function send_msg(msg, arrow_index, arrow_fill = 'black', lbl_fontSize = 20, lbl
 
     let text_note = new Konva.Text({
         fontSize: 13,
-        fontFamily: 'Calibri',
+        fontFamily: 'Consolas',
+        fontStyle: 'bold',
         fill: '#000',
         padding: 10,
-        align: 'left'
+        align: 'left',
+        lineHeight: 1.4
     })
 
     let base_node = new Konva.Rect({
-        fill: '#fdfd80',
-        shadowOpacity: 0.4,
-        shadowBlur: 2,
-        cornerRadius: [0, 0, 0, 0],
-        shadowColor: 'black',
-        shadowOffset: {
-            x: 1,
-            y: 1
-        },
-        strokeWidth: 4,
+        fill: '#CCFFCC',
+        // shadowOpacity: 0.4,
+        // shadowBlur: 2,
+        stroke: '#000',
+        strokeWidth: 1,
+        cornerRadius: [5, 5, 5, 5],
+        // shadowColor: 'black',
+        // shadowOffset: {
+        //     x: 1,
+        //     y: 1
+        // },
+        // strokeWidth: 4,
     })
     note_group.add(base_node, text_note)
     arrow_group.add(arrow, labelArrow, note_group)
@@ -2224,17 +2578,17 @@ function params_to_note_parser(input_params, index) {
                 name: "P" + (index) + i.toString(),
                 value: input_params[i]
             }
-            if (macro_list.length == 0) {
+            if (macro_list.length == 0)
                 macro_list.push(label_message)
-            } else {
-                macro_list.forEach(el => {
-                    if (el.value === label_message.value) {
-                        label_message.name = el.name
-                    } else {
-                        macro_list.push(label_message)
-                    }
-                })
-            }
+                // } else {
+
+            macro_list.forEach(el => {
+                if (el.value === label_message.value) {
+                    label_message.name = el.name
+                }
+            })
+            macro_list.filter(el => el.value == label_message.value).length > 0 ? null : macro_list.push(label_message)
+                // }
             p.func.push(label_message)
         } else {
             p.nonce.push(input_params[i])
@@ -2254,8 +2608,8 @@ function draw_arrow_from_arrow_list(index) {
         //------------- تبدیل پارمترهای ورودی به آبجکت --------//
     var msg = idx_arrow_list.message
     let lbl_msg = ''
-    let note_msg = msg.define.join("\n")
-    note_msg += "\n"
+    let note_msg = msg.define.length > 0 ? msg.define.join("\n") : ''
+        // note_msg += "\n"
     let array_obj_params = params_to_note_parser(msg.params, index)
     array_obj_params.func.forEach(ar => {
         lbl_msg += `(${ar.name})  `
@@ -2264,24 +2618,33 @@ function draw_arrow_from_arrow_list(index) {
     array_obj_params.nonce.forEach(ar => {
         lbl_msg += `(${ar})  `
     })
-    arrow_list[index].abstract_msg = array_obj_params
+
+
+
 
     //---------- تنظیم مقادیر برچسب و پیام --------------//
     var note_group = idx_arrow_list.arrow.children[2]
-    note_group.children[1].text(note_msg)
+    note_group.children[1].text(note_msg.trim())
     idx_arrow_list.arrow.children[1].text(lbl_msg)
 
-    note_group.children[0].width(note_group.children[1].width())
-    note_group.children[0].height(note_group.children[1].height())
+    if (note_msg.trim() != '') {
+        note_group.children[0].width(note_group.children[1].width())
+        note_group.children[0].height(note_group.children[1].height())
+    } else {
+        note_group.children[0].width(0)
+        note_group.children[0].height(0)
+    }
 
 
+    arrow_list[index].abstract_msg = array_obj_params
 
+    // if (lbl_msg.trim() != '') {
     arrow_points(idx_arrow_list.from, idx_arrow_list.to, index)
-        // arrow_group_coordinates(index)
-        // console.log(arrow_list[index].arrow)
-
-
-
+        // ------  بروز رسانی اندازه خط هر پارتنر -------------//
+    rect_list.forEach(el => {
+            el.children[2].attrs.points[5] = arrow_list.slice(-1)[0].arrow.children[0].getY() + 50
+        })
+        // }
 }
 //#endregion
 
@@ -2307,8 +2670,8 @@ function draw_arrow(stage, layer, tex = null) {
         const pos = stage.getPointerPosition();
         arrow = new Konva.Arrow({
             points: [pos.x, pos.y],
-            stroke: 'black',
-            fill: 'black',
+            stroke: '#3399FF',
+            fill: '#3399FF',
             id: "arr_id",
             draggable: true,
             dragBoundFunc: function(pos) {
@@ -2324,14 +2687,11 @@ function draw_arrow(stage, layer, tex = null) {
 
 
         arrow.on('mouseover', () => {
-            // console.log("arrow ==--> ")
             stage.container().style.cursor = 'text';
         })
 
         arrow.on('dblclick dbltap', (e) => {
-            // write_text(stage, layer, e.evt.layerX / 2, e.evt.layerY - 15)
             write_text(stage, layer, e.evt.layerX / 2, e.evt.layerY - 15)
-
         });
 
         var resize_arr = new Konva.Transformer({
@@ -2355,10 +2715,6 @@ function draw_arrow(stage, layer, tex = null) {
         })
         arrow.on('click', (e) => {
             layer.add(resize_arr)
-
-            // var on_drag = layer.find('#arr_id')[0]
-            // on_drag.setAttrs(draggable, true)
-            // layer.draw()
         })
         stage.on('click', (e) => {
             if (e.target.parent == null) {
@@ -2421,7 +2777,6 @@ function write_text(stage, layer, x = null, y = null, text = null, group = null)
 
 
     layer.add(textNode);
-    // group.add(textNode)
 
     var tr = new Konva.Transformer({
 
@@ -2557,29 +2912,6 @@ function write_text(stage, layer, x = null, y = null, text = null, group = null)
                 textNode.text(textarea.value);
                 removeTextarea();
                 tr.remove()
-                    // if (group != null) {
-
-                //     group.name(textNode.text())
-                //     console.log("2 =====> ", group.getAttrs())
-
-                //     // console.log("ID ------> ", group.getId())
-                //     // console.log("Position ------> ", group.getAbsolutePosition())
-                //     // console.log("Value --------> ", group.name())
-                //     var obj = {}
-                //     obj.id = group.getId()
-                //     obj.position = group.getAbsolutePosition()
-                //     obj.value = group.name()
-                //     obj.msg = {
-                //         message: '',
-                //         actions: ''
-                //     }
-                //     obj.actions = []
-                //     obj.counter_arrow = 0
-
-
-                //     rect_list.push(obj)
-                // }
-
             }
             // on esc do not set value back to node
             if (e.keyCode === 27) {
@@ -2690,9 +3022,6 @@ function toolbox_manager(type) {
 
             break;
         case 'palet':
-            console.log(json)
-                // ln(stage, layer)
-                // alert("palet");
             break;
         case 'pen':
             free_drawing(stage, layer, 'brush', false);
@@ -2713,64 +3042,80 @@ var counter_tab = 0;
 var tab_list = [];
 
 
+function functionFormatToAnbxFormat() {
+    if (function_array.length > 0) {
+        function_array.forEach(fn => {
+            switch (fn.name) {
+                case "Enc":
+                    encrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.AnbxFormat : null)
+                    break
+                case "AEnc":
+                    Aencryp_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.AnbxFormat : null)
+                    break
+                case "Sign":
+                    sign_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.AnbxFormat : null)
+                    break
+                case "Dec":
+                    decrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.plainText : null)
+                    break;
+                case "ADec":
+                    ADecrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.plainText : null)
+                    break;
+            }
 
+        })
 
-// function registerRunButtonEvent() {
-//     $('#runApp').click(() => {
-//         result_error_array = []
-//         parser_msg_to_partner(arrow_list)
-//         counter_tab++
-//         if ($('.nav-item').find('a').hasClass('active')) {
-//             $('.nav-item').find('a').removeClass('active')
-//             $('.tab-pane').removeClass('active')
-//         }
-//         $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon far fa-times-circle"></i></span>` + '</li>')
-//         $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}"><div class="card custom_vh"><pre><code id="html">dsdvsdvsdvsdvsdvsdv</code></pre><div></div>`)
-//             // ${array_partner}
-//         console.log(array_partner)
-//         console.log("-----------------> ERROR ", result_error_array)
-//         console.log("=====================> KEY LIST ", key_list)
-//         registerCloseEvent()
-//     })
-// }
+        function_array.reverse().forEach(fn => {
+            fn.content.forEach((content, idx) => {
+                if (is_function(content)) {
+                    let tmp = function_array.find(a => a.funcString === content)
+                    if (tmp != null) {
+                        fn.content[idx] = tmp.AnbxFormat
+                        fn.AnbxFormat = fn.AnbxFormat.replace(content, tmp.AnbxFormat)
+                    }
+                }
+            })
+        })
+    }
 
-// function registerCloseEvent() {
-//     $('.custom-close-icon-2').click(function() {
-//         $(this).parent().remove()
-//         $('.tab-content').children($(this).parent().children('a').attr('href')).remove()
-//         $('#myTab a:last').addClass('active')
-//         $('.tab-content').find('div[id="' + $('#myTab a:last').attr('href').replace('#', '') + '"]').addClass('active')
-//     })
-// }
+}
 
-// $(function() {
-//     registerRunButtonEvent()
-//     registerCloseEvent()
-
-// })
-
-
-
-
-
+function fideRepeade(array) {
+    var result = [];
+    array.filter(firstEl => array.filter(secodEl => secodEl == firstEl).length > 1 && !result.includes(firstEl) ? result.push(firstEl) : null)
+    return result
+}
 
 
 function registerRunButtonEvent() {
+
     $('#runApp').click(() => {
-        result_error_array = []
-        parser_msg_to_partner(arrow_list)
-        counter_tab++
-        if ($('.nav-item').find('a').hasClass('active')) {
-            $('.nav-item').find('a').removeClass('active')
-            $('.tab-pane').removeClass('active')
-        }
-        $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
+
+
+
+                result_error_array = []
+                encrypt_list = []
+                function_array = []
+                    // macro_list = []
+                key_list = []
+                console.log("********* ", macro_list)
+
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+                parser_msg_to_partner_new(arrow_list)
+
+                counter_tab++
+                if ($('.nav-item').find('a').hasClass('active')) {
+                    $('.nav-item').find('a').removeClass('active')
+                    $('.tab-pane').removeClass('active')
+                    $('.nav-item').find('a').removeClass('active_tab')
+                }
+                $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active c_tab active_tab" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
         fas fa-times"></i></span>` + '</li>')
-        $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}">
+                $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}">
         <div class="card custom_vh ">
             <div class="row">
                 <div class="col">
-                    <div class="card-header text-white bg-dark">
+                    <div class="card-header text-white bg-dark custom_header_code">
                         Protocol
                     </div>
                     <div id="html-${counter_tab}"></div>
@@ -2783,93 +3128,211 @@ function registerRunButtonEvent() {
                 </div>
             </div>
         </div>`)
-            // console.log("-----------------> ERROR ", result_error_array)
-            // console.log("=====================> KEY LIST ", key_list)
-        var Agent = array_partner.map(a => a.name)
-        var public_key = array_partner.map(a => a.AsymKey.map(Ak => Ak.pk))
-        var Nonces = array_partner.map(a => a.nonces.new_array.length > 0 ? a.nonces.new_array : null).toString().split(',').filter(a => a != null)
+                var Agent = array_partner.map(a => a.name)
+                var public_key = array_partner.map(a => a.AsymKey.map(Ak => Ak.pk))
 
-        // symetric key Type
-        var pre_symkey = array_partner.filter(a => a.symKey.length > 0 ? a.symKey : null)
-        var getTypeSym = encrypt_list.map(tp => !pre_symkey.includes(tp.symKey) ? tp.symKey : null).concat(mac_list.filter(mac => !pre_symkey.includes(mac.symKey) ? mac.symKey : null))
-        var user_define_function = []
-        function_array.forEach(fn => {
-            if (!default_function_name.includes(fn.name)) {
-                var obj = {
-                    name: fn.name,
-                    inType: [],
-                    outType: ''
+
+                // symetric key Type
+                // var pre_symkey = []
+                // array_partner.filter(a => a.symKey.length > 0 ? pre_symkey = pre_symkey.concat(a.symKey) : null)
+                var pre_symkey = array_partner.filter(a => a.symKey.length > 0 ? a.symKey : null)
+
+
+                var getTypeSym = []
+                getTypeSym = encrypt_list.map(tp => !pre_symkey.includes(tp.symKey) ? tp.symKey : null).concat(mac_list.filter(mac => !pre_symkey.includes(mac.symKey) ? mac.symKey : null))
+
+                console.log("getTypeSym ", getTypeSym)
+                console.log("encrypt_list ", encrypt_list)
+
+                var Nonces = array_partner.map(a => a.nonces.new_array.length > 0 ? a.nonces.new_array : null).toString().split(',').filter(a => a != null && !getTypeSym.includes(a) && !Agent.includes(a))
+                var repeatedNunce = fideRepeade(Nonces)
+                if (repeatedNunce.length > 0) {
+                    repeatedNunce.forEach(a => {
+                        result_error_array.push({
+                            function: a,
+                            result: DUBLICATE_VALUE
+                        })
+                    })
                 }
-                fn.content.forEach(content => {
-                    console.log(content)
-                    if (getTypeSym.includes(content)) {
-                        obj.inType.push("Symmetric_key")
-                    }
-                    if (Agent.includes(content)) {
-                        obj.inType.push("Agent")
-                    }
-                    if (Nonces.includes(content)) {
-                        obj.inType.push("Number")
-                    }
-                    if (public_key.includes(content)) {
-                        obj.inType.push("PublicKey")
+
+                var tmp_Nonce = []
+                Nonces.filter(n => !tmp_Nonce.includes(n) ? tmp_Nonce.push(n) : null)
+                Nonces = tmp_Nonce
+                var user_define_function = []
+                function_array.forEach(fn => {
+                    if (!default_function_name.includes(fn.name)) {
+                        var obj = {
+                            name: fn.name,
+                            inType: [],
+                            outType: ''
+                        }
+                        fn.content.forEach(content => {
+                            if (getTypeSym.includes(content)) {
+                                obj.inType.push("Symmetric_key")
+                            } else if (Agent.includes(content)) {
+                                obj.inType.push("Agent")
+                            } else if (Nonces.includes(content)) {
+                                obj.inType.push("Number")
+                            } else if (public_key.includes(content)) {
+                                obj.inType.push("PublicKey")
+                            } else {
+                                obj.inType.push("Number")
+                            }
+
+
+                        })
+                        var fn_string = `${fn.name}(${fn.content.toString()})`
+                        var fn_tmp = function_array.filter(mc => mc.funcString === fn_string ? mc.name : null).filter(mc => mc != null)
+                        var mc_tmp = macro_list.filter(mc => mc.value === fn_string ? mc.name : null).filter(mc => mc != null)
+
+                        getTypeSym.includes(fn_string) || getTypeSym.includes(mc_tmp.length > 0 ? mc_tmp[0].name : null) ? obj.outType = "Symmetric_key" : obj.outType = "Number"
+                        if ((user_define_function.findIndex(a => a.name === fn.name) === -1) && obj.name != "inv")
+                            user_define_function.push(obj)
                     }
                 })
-                var fn_string = `${fn.name}(${fn.content.toString()})`
-                getTypeSym.includes(fn_string) || getTypeSym.includes(macro_list.filter(mc => mc.value === fn_string ? mc.name : null)[0].name) ? obj.outType = "Symmetric_key" : obj.outType = "Number"
-                user_define_function.push(obj)
+
+                console.log("####### ", macro_list)
+
+                var Functions = function_array.map(a => !default_function_name.includes(a.name) ? a.name : null).filter(a => a != null)
+                var Knowledge = []
+                array_partner.forEach(a => {
+                    var obj_know = {
+                        name: a.name,
+                        value: Agent.concat(a.symKey, Functions)
+                    }
+                    if (a.AsymKey.length > 0) {
+                        obj_know.value.push(a.AsymKey[0].pk, `inv(${a.AsymKey[0].pk})`)
+                        console.log("AR => ", a)
+                        Knowledge.push(obj_know)
+                    }
+                })
+                var defineFuncString = user_define_function.map(a => `Function [${a.inType.toString()} -> ${a.outType}] ${a.name}`).join(`;\n\t\t`)
+                    // var defineKnowledgeString = Knowledge.filter(a => `${a.name}: ${a.value.toString()}`).join(`;\n\t\t`)
+
+                var defineKnowledgeString = ''
+                Knowledge.filter(a => {
+                    defineKnowledgeString += `${a.name}: ${a.value.filter(v => v.trim() != '').toString()};\n\t\t`
+                })
+
+                var Actions = []
+                arrow_list.forEach((ar, index) => {
+                    Actions.push({
+                        from: ar.from,
+                        to: ar.to,
+                        message: ar.message
+                    })
+                })
+
+                var defineActionString = Actions.map(a => `${a.from} -> ${a.to} : ${a.message.params.map(f => {
+            let tmp = macro_list.find(m => m.value === f)
+            if (tmp != null) {
+                return tmp.name
+            } else {
+                return f
             }
-        })
-        var Functions = function_array.map(a => !default_function_name.includes(a.name) ? a.name : null).filter(a => a != null)
-        var Knowledge = []
-        array_partner.forEach(a => {
-            Knowledge.push({
-                name: a.name,
-                value: Agent.concat(a.symKey, Functions)
-            })
-        })
-        var defineFuncString = user_define_function.map(a => `Function [${a.inType.toString()} -> ${a.outType}] ${a.name}`).join(`;\n\t\t`)
-        var defineKnowledgeString = Knowledge.map(a => `${a.name}: ${a.value.toString()}`).join(`;\n\t\t`)
-        var protocol = `
-Protocol: Amended_NSCK
+        }).toString()}`).join(`\n\t\t`)
+
+
+                functionFormatToAnbxFormat()
+                console.log("SIGN LIST > ", sign_list)
+                    // بروزرسانی ماکرو لیست و تبدیل به فرمت جدید
+                macro_list.forEach(a => {
+                    let tmp = function_array.find(f => f.funcString === a.value)
+                    if (tmp != null)
+                        a.AnbxFormat = tmp.AnbxFormat
+                })
+                var definitions = macro_list.map(a => `${a.name} : ${a.AnbxFormat}`).join(`\n\t\t`)
+
+                console.log("MACRO LIST > ", macro_list)
+
+                var str = "A -> B: {|A,({SA,exp(g,XxKEa),Na,Nb}inv(sk(A))),SA|}h(Na,Nb,SA,exp(exp(g,XxKEa),YxKEb))"
+                    // var st = "{{dsofokdf}}"
+                    // console.log(st.replaceAll("{", "["))
+
+                // splite_content_bracket_pyp(str)
+                // split_array.forEach(s => {
+                //     str = str.replace(s.Anbx_string, s.func_string)
+                // })
+                splite_content_bracket_pyp(str)
+                split_array.forEach(s => {
+                    str = str.replace(s.Anbx_string, s.func_string)
+                })
+
+                splite_content_bracket(str)
+                split_array.forEach(s => {
+                    str = str.replace(s.Anbx_string, s.func_string)
+                })
+
+                // console.log("===============================>  ", split_array)
+                console.log(function_array)
+                    // console.log("===============================>  ", )
+
+
+                var GoalsFunc = []
+                array_partner.forEach(a => {
+                    array_partner.forEach(b => {
+                        if (a.name != b.name) {
+                            a.nonces.new_array.forEach(n => {
+                                GoalsFunc.push(`${a.name} authenticates ${b.name} on ${n}`)
+                            })
+                        }
+                    })
+                })
+
+                encrypt_list.forEach(a => {
+                    GoalsFunc.push(`${a.symKey} secret between ${a.from},${a.to}`)
+                    a.plainText.forEach(p => {
+                        GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
+                    })
+                })
+                Aencryp_list.forEach(a => {
+                    a.plainText.forEach(p => {
+                        GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
+                    })
+                })
+
+                console.log("ARRAY PARTNER => ", array_partner)
+                var protocol = `
+Protocol: ${protocol_name}
 
 Types:
 \t\tAgent ${Agent};
 \t\tNumber ${Nonces};
-\t\tSymmetric_key ${getTypeSym};
+\t\t${getTypeSym.length > 0 ? 'Symmetric_key ' : ''}${getTypeSym}${getTypeSym.length > 0 ? ';' : ''}
 \t\tFunction [Agent,Agent ->* Symmetric_key] shk;
 \t\tFunction [Agent ->* PublicKey] pk;
 \t\tFunction hash;
 \t\t${defineFuncString}
 
+Definitions:
+\t\t${definitions}
+
 Knowledge:
 \t\t${defineKnowledgeString}
 
 Actions:
-	A -> B: A
-	B -> A: {|A,NxNB0|}shk(B,s)
-	A -> s: A,B,NxNA,{|A,NxNB0|}shk(B,s)
-	s -> A: {|NxNA,B,KxKAB,{|KxKAB,NxNB0,A|}shk(B,s)|}shk(A,s)
-	A -> B: {|KxKAB,NxNB0,A|}shk(B,s)
-	B -> A: {|NxNB|}KxKAB
-	A -> B: {|pre(NxNB)|}KxKAB
+\t\t${defineActionString}
 
 Goals:
-	A authenticates B on NxNB
-	B authenticates A on NxNB
-	NxNB secret between A,B
-	B *->* A: NxNB
+\t\t${GoalsFunc.join(`\n\t\t`)}
         `
+
+        // A authenticates B on NxNB
+        // B authenticates A on NxNB
+        // NxNB secret between A,B
+        // B *->* A: NxNB
         var Output = CodeMirror(document.querySelector("#output-" + counter_tab), {
             // width: "50%",
             lineNumbers: true,
+            lineWrapping: true,
             tabSize: 2,
-            value: JSON.stringify(array_partner, null, ' '),
+            value: JSON.stringify(result_error_array, null, ' '),
             mode: "javascript",
             theme: "material-darker",
             keyword: {
                 "Protocol:": "style4",
                 "Types:": "style4",
+                "Definitions:": "style4",
                 "Knowledge:": "style4",
                 "Actions:": "style4",
                 "Goals:": "style4",
@@ -2885,6 +3348,7 @@ Goals:
         var myCodeMirror = CodeMirror(document.querySelector('#html-' + counter_tab), {
             // width: "20%",
             lineNumbers: true,
+            lineWrapping: true,
             tabSize: 2,
             value: protocol,
             mode: "javascript",
@@ -2893,6 +3357,7 @@ Goals:
                 "Protocol:": "style4",
                 "Types:": "style4",
                 "Knowledge:": "style4",
+                "Definitions:": "style4",
                 "Actions:": "style4",
                 "Goals:": "style4",
                 "Agent": "style2",
@@ -2904,27 +3369,49 @@ Goals:
                 "abc\\d+": "style2",
             }
         });
+
+        console.log(macro_list)
+
         registerCloseEvent()
+
+        const BASE_URL = 'http://localhost:8000/api/runExe'
+
+        axios.post(BASE_URL, {
+                file_name: protocol_name,
+                file_content: protocol
+            })
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+
+        // fetch(BASE_URL, {
+        //     method: "POST",
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         "file_name": "protocol",
+        //         "file_content": protocol
+        //     })
+        // }).then(res => {
+        //     console.log("Request complete! response:", res);
+        // });
+
+        // Execute()
+        console.log("===============================>  key_list ", key_list)
+
     })
+
+
 }
 
-// function make_function() {
-
-//     var name
-//     var content
-//     var functions = function_array.forEach(a => {
-//         if (!default_function_name.includes(a.name)) {
-//             a.content.forEach(cn => {
-//                     if ()
-//                 })
-//                 // name = a.name
-//                 // content = a.content
-//         }
-//     })
-
-//     return "[Agent ->* PublicKey] pk"
-
-// }
+setInterval(function() {
+    $('#myTab').children('li').each(function() {
+        $(this).children().hasClass('active') ? $(this).children("a").addClass('active_tab') : $(this).children().removeClass('active_tab')
+    })
+}, 100)
 
 function registerCloseEvent() {
     $('.custom-close-icon-2').click(function() {
@@ -2942,5 +3429,179 @@ $(function() {
 })
 
 
+function AnbxToJson(str) {
+    var obj = {}
+
+    var keywordList = ['Protocol', 'Definitions', 'Types', 'Knowledge', 'Actions', 'Goals']
+    var index_list = []
+
+    keywordList.forEach(k => {
+        var obj = {
+            name: k,
+            index: str.indexOf(k),
+            value: ''
+        }
+        index_list.push(obj)
+    })
+
+    index_list.sort((a, b) => {
+        return a.index - b.index
+    })
+
+    for (var i = 0; i < index_list.length; i++) {
+        var ii = ''
+        if (i == index_list.length - 1) {
+            ii = str.length - 1
+        } else {
+            ii = index_list[i + 1].index
+        }
+        index_list[i].value = str.substring(index_list[i].index + index_list[i].name.length + 1, ii).replace(/\t|;/g, '').replace(/\n\n+/g, '\n').trim().split('\n')
+    }
+
+
+    let protocol = index_list.find((i) => i.name === 'Protocol').value
+    let actions = index_list.find((i) => i.name === 'Actions').value
+    let definitions = index_list.find((i) => i.name === 'Definitions').value
+
+    var output = {
+        partners: [],
+        arrows: [],
+        key_list: [],
+        protocol: protocol,
+    }
+
+    var x_pos = 200
+
+    actions.forEach(e => {
+
+        split_array = []
+        splite_content_bracket_pyp(e)
+        split_array.forEach(s => {
+                e = e.replace(s.Anbx_string, s.func_string)
+            })
+            // console.log(split_array)
+        split_array = []
+        splite_content_bracket(e)
+        split_array.forEach(s => {
+                e = e.replace(s.Anbx_string, s.func_string)
+            })
+            // console.log(split_array)
+        let tmp = e.split(':')
+        let tmp2 = tmp[0].split('->')
+        let tmp3 = splite_content(tmp[1].trim())
+
+
+
+
+        if (output.partners.findIndex(p => p.name == tmp2[0].trim()) == -1) {
+            output.partners.push({
+                name: tmp2[0].trim(),
+                pos: {
+                    x: x_pos,
+                    y: 50
+                }
+            })
+
+            x_pos += 300
+        }
+        if (output.partners.findIndex(p => p.name == tmp2[1].trim()) == -1) {
+            output.partners.push({
+                name: tmp2[1].trim(),
+                pos: {
+                    x: x_pos,
+                    y: 50
+                }
+            })
+
+            x_pos += 300
+        }
+
+
+        output.arrows.push({
+            from: tmp2[0].trim(),
+            to: tmp2[1].trim(),
+            message: {
+                define: [],
+                params: tmp3
+            }
+        })
+
+    })
+
+    definitions.forEach(d => {
+
+        split_array = []
+        splite_content_bracket_pyp(d)
+        split_array.forEach(s => {
+                d = d.replace(s.Anbx_string, s.func_string)
+            })
+            // console.log("SPLIT 1 : ", split_array)
+        split_array = []
+        splite_content_bracket(d)
+        split_array.forEach(s => {
+                d = d.replace(s.Anbx_string, s.func_string)
+            })
+            // console.log("SPLIT 2 : ", split_array)
+        let tmp = d.split(':')
+
+
+        let idx_param = output.arrows.findIndex(o => o.message.params.includes(tmp[0].trim()))
+        if (idx_param > -1) {
+            output.arrows[idx_param].message.define.push(d.replace(':', '='))
+        }
+
+    })
+
+
+
+    return JSON.stringify(output)
+
+    // console.log(output)
+
+    // var blob = new Blob([JSON.stringify(output)], {
+    //     type: "text/plain;charset=utf-8"
+    // });
+    // saveAs(blob, "sample.json");
+
+}
+
+
+//#endregion
+
+//#region Build
+
+
+// fetch("/post/data/here", {
+//     method: "POST",
+//     headers: {'Content-Type': 'application/json'}, 
+//     body: JSON.stringify(data)
+//   }).then(res => {
+//     console.log("Request complete! response:", res);
+//   });
+
+// $('#BuildApp').on('click', () => {
+//     const BASE_URL = 'http://localhost:8000/api/runExe'
+//     fetch(BASE_URL, {
+//         method: "POST",
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             "file_name": "protocol",
+//             "file_content": protocol
+//         })
+//     }).then(res => {
+//         console.log("Request complete! response:", res);
+//     });
+
+
+//     // try {
+//     //     fetch(BASE_URL).then(res => res.json()).then(data => console.log(data[0]))
+//     // } catch (error) {
+//     //     console.error(errors);
+//     // }
+// })
+
+//#endregion
+
+//#region Grapviz
 
 //#endregion
