@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: derivation for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Explained derivation</H1>
+
+<ol>
+
+<li><a name=step1>The message <span class="fun">pk</span>(<span class="name">s</span>[]) may be sent to the attacker at output <a href="process_0.html#occ2" target="process" class="occ">{2}</a>.<br>
+<span class="pred">attacker</span>(<span class="fun">pk</span>(<span class="name">s</span>[])).<br>
+
+<li><a name=step2>By <a href="#step1">1</a>, the attacker may know <span class="fun">pk</span>(<span class="name">s</span>[]).<br>
+So the attacker may know <span class="fun">pk</span>(<span class="name">s</span>[]) (resp. <span class="fun">pk</span>(<span class="name">s</span>[])) in off-line phase.<br>
+<span class="pred">attacker_guess</span>(<span class="fun">pk</span>(<span class="name">s</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])).<br>
+
+<li><a name=step3>The attacker has the weak secret <span class="name">w</span>[] in the first component, a guess <span class="fun">@weaksecretcst</span> in the second.<br>
+<span class="pred">attacker_guess</span>(<span class="name">w</span>[],<span class="fun">@weaksecretcst</span>).<br>
+
+<li><a name=step4>By <a href="#step3">3</a>, the attacker may know <span class="name">w</span>[] (resp. <span class="fun">@weaksecretcst</span>) in off-line phase.<br>
+Using the function <span class="fun">h</span> the attacker may obtain <span class="fun">h</span>(<span class="name">w</span>[]) (resp. <span class="fun">h</span>(<span class="fun">@weaksecretcst</span>)) in off-line phase.<br>
+<span class="pred">attacker_guess</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>)).<br>
+
+<li><a name=step5>By <a href="#step4">4</a>, the attacker may know <span class="fun">h</span>(<span class="name">w</span>[]) (resp. <span class="fun">h</span>(<span class="fun">@weaksecretcst</span>)) in off-line phase.<br>
+By <a href="#step2">2</a>, the attacker may know <span class="fun">pk</span>(<span class="name">s</span>[]) (resp. <span class="fun">pk</span>(<span class="name">s</span>[])) in off-line phase.<br>
+Using the function <span class="fun">penc</span> the attacker may obtain <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) (resp. <span class="fun">penc</span>(<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>),<span class="fun">pk</span>(<span class="name">s</span>[]))) in off-line phase.<br>
+<span class="pred">attacker_guess</span>(<span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])),<span class="fun">penc</span>(<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>),<span class="fun">pk</span>(<span class="name">s</span>[]))).<br>
+
+<li><a name=step6>The message <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.<br>
+<span class="pred">attacker</span>(<span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[]))).<br>
+
+<li><a name=step7>By <a href="#step6">6</a>, the attacker may know <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])).<br>
+So the attacker may know <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) (resp. <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[]))) in off-line phase.<br>
+<span class="pred">attacker_guess</span>(<span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])),<span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[]))).<br>
+
+<li><a name=step8>By <a href="#step7">7</a>, the attacker may know <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) (resp. <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[]))) in off-line phase.<br>
+By <a href="#step5">5</a>, the attacker may know <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) (resp. <span class="fun">penc</span>(<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>),<span class="fun">pk</span>(<span class="name">s</span>[]))) in off-line phase.<br>
+We have <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) <span class="conn">&lt;&gt;</span> <span class="fun">penc</span>(<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>),<span class="fun">pk</span>(<span class="name">s</span>[])).<br>
+The attacker tests equality between the two terms he knows, which may allow it to distinguish cases.<br>
+<span class="pred">bad</span>.<br>
+
+</ol>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: derivation for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Explained derivation</H1>
+Abbreviations:
+<ul>
+
+<li><span class="var">x_13526</span> <span class="conn">=</span> <span class="name">x</span>[!1 = <span class="var">@sid_13514</span>]
+<li><span class="var">x_13527</span> <span class="conn">=</span> <span class="name">x</span>[!1 = <span class="var">@sid_13518</span>]
+<li><span class="var">x4_13528</span> <span class="conn">=</span> <span class="name">x4</span>[b_106 = <span class="var">x_13527</span>,!2 = <span class="var">@sid_13515</span>,!1 = <span class="var">@sid_13514</span>]
+<li><span class="var">x9_13529</span> <span class="conn">=</span> <span class="name">x9_113</span>[x4_108 = <span class="fun">initiator_auth</span>(<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">hash</span>(<span class="fun">fh1</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>)))),a_107 = <span class="var">x_13526</span>,!3 = <span class="var">@sid_13521</span>,b_106 = <span class="var">b_13520</span>,!2 = <span class="var">@sid_13522</span>,!1 = <span class="var">@sid_13518</span>]
+</ul>
+
+<ol>
+
+<li><a name=step1>We assume as hypothesis that<br>
+<span class="pred">attacker</span>(<span class="var">b_13520</span>).<br>
+
+<li><a name=step2>The message <span class="var">x_13526</span> may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.<br>
+<span class="pred">attacker</span>(<span class="var">x_13526</span>).<br>
+
+<li><a name=step3>The message <span class="var">x_13527</span> may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.<br>
+<span class="pred">attacker</span>(<span class="var">x_13527</span>).<br>
+
+<li><a name=step4>The message <span class="var">x_13527</span> that the attacker may have by <a href="#step3">3</a> may be received at input <a href="process_0.html#occ5" target="process" class="occ">{5}</a>.<br>
+So the message <span class="fun">initiator_auth</span>(<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">hash</span>(<span class="fun">fh1</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>)))) may be sent to the attacker at output <a href="process_0.html#occ7" target="process" class="occ">{7}</a>.<br>
+<span class="pred">attacker</span>(<span class="fun">initiator_auth</span>(<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">hash</span>(<span class="fun">fh1</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>))))).<br>
+
+<li><a name=step5>The attacker has some term <span class="var">x10_13516</span>.<br>
+<span class="pred">attacker</span>(<span class="var">x10_13516</span>).<br>
+
+<li><a name=step6>The message <span class="var">b_13520</span> that the attacker may have by <a href="#step1">1</a> may be received at input <a href="process_0.html#occ5" target="process" class="occ">{5}</a>.<br>
+The message <span class="var">x_13526</span> that the attacker may have by <a href="#step2">2</a> may be received at input <a href="process_0.html#occ22" target="process" class="occ">{22}</a>.<br>
+The message <span class="fun">initiator_auth</span>(<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">hash</span>(<span class="fun">fh1</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="fun">scrypt</span>(<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>),<span class="fun">fn</span>(<span class="var">x4_13528</span>)),<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>)))) that the attacker may have by <a href="#step4">4</a> may be received at input <a href="process_0.html#occ23" target="process" class="occ">{23}</a>.<br>
+The message <span class="var">x10_13516</span> that the attacker may have by <a href="#step5">5</a> may be received at input <a href="process_0.html#occ32" target="process" class="occ">{32}</a>.<br>
+We have <span class="var">x_13526</span> <span class="conn">&lt;&gt;</span> <span class="name">i</span>[].<br>
+So event <span class="fun">wrequestkdffh2abnanbshkabAB</span>(<span class="fun">kdf</span>(<span class="fun">fh2</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="var">x4_13528</span>,<span class="var">x9_13529</span>,<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>))),<span class="var">x_13526</span>,<span class="var">x_13527</span>) may be executed at <a href="process_0.html#occ35" target="process" class="occ">{35}</a>.<br>
+<span class="pred">end</span>(<span class="fun">wrequestkdffh2abnanbshkabAB</span>(<span class="fun">kdf</span>(<span class="fun">fh2</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>,<span class="var">x4_13528</span>,<span class="var">x9_13529</span>,<span class="fun">shk</span>(<span class="var">x_13526</span>,<span class="var">x_13527</span>))),<span class="var">x_13526</span>,<span class="var">x_13527</span>)).<br>
+
+</ol>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: main result page</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>ProVerif results</H1>
+<A HREF="eq.html">Equations & Destructors</A><br>
+<A HREF="process_0.html" TARGET="process">Process</A><br>
+<UL>
+<LI><span class="query">Query <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">InvpkINVPBB</span>[])</span><br>
+<A HREF="clauses1.html" TARGET="clauses">Clauses</A><br>
+<A HREF="compclauses1.html">Completed clauses</A><br>
+<span class="result">RESULT <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">InvpkINVPBB</span>[]) is <span class="trueresult">true</span>.</span><br>
+<LI><span class="query">Query <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">InvpkINVPAA</span>[])</span><br>
+<A HREF="clauses2.html" TARGET="clauses">Clauses</A><br>
+<A HREF="compclauses2.html">Completed clauses</A><br>
+<span class="result">RESULT <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">InvpkINVPAA</span>[]) is <span class="trueresult">true</span>.</span><br>
+<LI><span class="query">Query <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">MESSAGEAB</span>[])</span><br>
+<A HREF="clauses3.html" TARGET="clauses">Clauses</A><br>
+<A HREF="compclauses3.html">Completed clauses</A><br>
+<UL>
+<LI>goal reachable: <span class="pred">attacker_bitstring</span>(<span class="name">MESSAGEAB</span>[])<br>
+<A HREF="derivation1.html">Derivation</A> <A HREF="derivationexplained1.html">Explained derivation</A><br>
+<A HREF="unifyDeriv1.html" TARGET="unifderiv">Unify derivation</A><br>
+<A HREF="trace1.html">Trace</A><br>
+</UL>
+<span class="result">RESULT <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">MESSAGEAB</span>[]) is <span class="falseresult">false</span>.</span><br>
+<LI><span class="query">Query <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">KEYABAB</span>[])</span><br>
+<A HREF="clauses4.html" TARGET="clauses">Clauses</A><br>
+<A HREF="compclauses4.html">Completed clauses</A><br>
+<UL>
+<LI>goal reachable: <span class="pred">attacker_bitstring</span>(<span class="name">KEYABAB</span>[])<br>
+<A HREF="derivation2.html">Derivation</A> <A HREF="derivationexplained2.html">Explained derivation</A><br>
+<A HREF="unifyDeriv2.html" TARGET="unifderiv">Unify derivation</A><br>
+<A HREF="trace2.html">Trace</A><br>
+</UL>
+<span class="result">RESULT <span class="keyword">not </span><span class="pred">attacker_bitstring</span>(<span class="name">KEYABAB</span>[]) is <span class="falseresult">false</span>.</span><br>
+<LI><span class="query">Query inj-event(<span class="fun">request_auth_MESSAGEAB</span>(<span class="var">m_130</span>,<span class="var">a1</span>,<span class="var">a2</span>)) <span class="conn">==&gt;</span> inj-event(<span class="fun">witness_auth_MESSAGEAB</span>(<span class="var">m_130</span>,<span class="var">a1</span>,<span class="var">a2</span>))</span><br>
+<A HREF="clauses5.html" TARGET="clauses">Clauses</A><br>
+<A HREF="compclauses5.html">Completed clauses</A><br>
+<UL>
+<LI>goal reachable: <span class="pred">begin</span>(<span class="fun">witness_auth_MESSAGEAB</span>(<span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">endsid_2849</span>],<span class="name">A</span>[],<span class="name">B</span>[]), <span class="var">VAR_B_R0</span> = <span class="fun">encS</span>(<span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">endsid_2849</span>],<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[])), <span class="var">XA</span> = <span class="name">A</span>[], <span class="var">@sid_307</span> = <span class="var">@sid_2850</span>, <span class="var">@occ16</span> = <span class="fun">@occ_cst</span>) <span class="conn">-&gt;</span> <span class="pred">end</span>(<span class="var">endsid_2849</span>,<span class="fun">request_auth_MESSAGEAB</span>(<span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">endsid_2849</span>],<span class="name">A</span>[],<span class="name">B</span>[]))<br>
+</UL>
+<span class="result">RESULT inj-event(<span class="fun">request_auth_MESSAGEAB</span>(<span class="var">m_130</span>,<span class="var">a1</span>,<span class="var">a2</span>)) <span class="conn">==&gt;</span> inj-event(<span class="fun">witness_auth_MESSAGEAB</span>(<span class="var">m_130</span>,<span class="var">a1</span>,<span class="var">a2</span>)) is <span class="trueresult">true</span>.</span><br>
+</UL>
+</body>
+</html>

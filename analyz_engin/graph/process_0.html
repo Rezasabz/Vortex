@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: process</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Process</H1>
+(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ1 class="occ">{1}</a> <span class="keyword">!</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ2 class="occ">{2}</a> <span class="keyword">new</span> <span class="name">X</span>: <span class="type">bitstring</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ3 class="occ">{3}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="name">X</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ4 class="occ">{4}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">priv_pk</span>(<span class="name">X</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ5 class="occ">{5}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">priv_hk</span>(<span class="name">X</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ6 class="occ">{6}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">priv_sk</span>(<span class="name">X</span>))<br>
+) | (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ7 class="occ">{7}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="name">A</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ8 class="occ">{8}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="name">B</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ9 class="occ">{9}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">A</span>)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ10 class="occ">{10}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">B</span>)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ11 class="occ">{11}</a> <span class="keyword">!</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ12 class="occ">{12}</a> <span class="keyword">in</span>(<span class="name">ch</span>, <span class="var">XA</span>: <span class="type">bitstring</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ13 class="occ">{13}</a> <span class="keyword">in</span>(<span class="name">ch</span>, <span class="var">VAR_B_R0</span>: <span class="type">bitstring</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ14 class="occ">{14}</a> <span class="keyword">let</span> <span class="var">VAR_B_DSBR0KEYAB</span>: <span class="type">bitstring</span> = <span class="fun">decS</span>(<span class="var">VAR_B_R0</span>,<span class="fun">key</span>(<span class="var">XA</span>,<span class="name">B</span>)) <span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ15 class="occ">{15}</a> <span class="keyword">if</span> (<span class="var">VAR_B_DSBR0KEYAB</span> <span class="fun">=</span> <span class="var">VAR_B_DSBR0KEYAB</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ16 class="occ">{16}</a> <span class="keyword">event</span> <span class="fun">witness_auth_MESSAGEAB</span>(<span class="var">VAR_B_DSBR0KEYAB</span>,<span class="var">XA</span>,<span class="name">B</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ17 class="occ">{17}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">VAR_B_DSBR0KEYAB</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ18 class="occ">{18}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">InvpkINVPBB</span>,<span class="fun">priv_pk</span>(<span class="name">B</span>)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ19 class="occ">{19}</a> <span class="keyword">if</span> (<span class="var">XA</span> <span class="fun">=</span> <span class="name">A</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ20 class="occ">{20}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">MESSAGEAB</span>,<span class="var">VAR_B_DSBR0KEYAB</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ21 class="occ">{21}</a> <span class="keyword">if</span> (<span class="var">XA</span> <span class="fun">=</span> <span class="name">A</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ22 class="occ">{22}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">KEYABAB</span>,<span class="fun">key</span>(<span class="var">XA</span>,<span class="name">B</span>)))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;) | (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ23 class="occ">{23}</a> <span class="keyword">!</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ24 class="occ">{24}</a> <span class="keyword">in</span>(<span class="name">ch</span>, <span class="var">XB</span>: <span class="type">bitstring</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ25 class="occ">{25}</a> <span class="keyword">new</span> <span class="name">Message</span>: <span class="type">bitstring</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ26 class="occ">{26}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">Message</span>,<span class="fun">key</span>(<span class="name">A</span>,<span class="var">XB</span>)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ27 class="occ">{27}</a> <span class="keyword">in</span>(<span class="name">ch</span>, <span class="var">VAR_A_R1</span>: <span class="type">bitstring</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ28 class="occ">{28}</a> <span class="keyword">if</span> (<span class="name">Message</span> <span class="fun">=</span> <span class="var">VAR_A_R1</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ29 class="occ">{29}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">InvpkINVPAA</span>,<span class="fun">priv_pk</span>(<span class="name">A</span>)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ30 class="occ">{30}</a> <span class="keyword">if</span> (<span class="var">XB</span> <span class="fun">=</span> <span class="name">B</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ31 class="occ">{31}</a> <span class="keyword">event</span> <span class="fun">request_auth_MESSAGEAB</span>(<span class="name">Message</span>,<span class="name">A</span>,<span class="var">XB</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ32 class="occ">{32}</a> <span class="keyword">if</span> (<span class="var">XB</span> <span class="fun">=</span> <span class="name">B</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ33 class="occ">{33}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">MESSAGEAB</span>,<span class="name">Message</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ34 class="occ">{34}</a> <span class="keyword">if</span> (<span class="var">XB</span> <span class="fun">=</span> <span class="name">B</span>) <span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ35 class="occ">{35}</a> <span class="keyword">out</span>(<span class="name">ch</span>, <span class="fun">encS</span>(<span class="name">KEYABAB</span>,<span class="fun">key</span>(<span class="name">A</span>,<span class="var">XB</span>)))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+)<br>
+<br>
+</body>
+</html>

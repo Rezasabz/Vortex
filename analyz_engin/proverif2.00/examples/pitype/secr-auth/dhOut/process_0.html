@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: process</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Process</H1>
+(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ1 class="occ">{1}</a> <span class="keyword">!</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ2 class="occ">{2}</a> <span class="keyword">new</span> <span class="name">n0</span>: <span class="type">exponent</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ3 class="occ">{3}</a> <span class="keyword">out</span>(<span class="name">c</span>, <span class="fun">exp</span>(<span class="fun">g</span>,<span class="name">n0</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;) | (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ4 class="occ">{4}</a> <span class="keyword">in</span>(<span class="name">c</span>, <span class="var">x1</span>: <span class="type">G</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ5 class="occ">{5}</a> <span class="keyword">let</span> <span class="var">k</span>: <span class="type">G</span> = <span class="fun">exp</span>(<span class="var">x1</span>,<span class="name">n0</span>) <span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ6 class="occ">{6}</a> <span class="keyword">out</span>(<span class="name">c</span>, <span class="fun">enc</span>(<span class="name">s</span>,<span class="var">k</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+) | (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ7 class="occ">{7}</a> <span class="keyword">!</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ8 class="occ">{8}</a> <span class="keyword">new</span> <span class="name">n1</span>: <span class="type">exponent</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ9 class="occ">{9}</a> <span class="keyword">out</span>(<span class="name">c</span>, <span class="fun">exp</span>(<span class="fun">g</span>,<span class="name">n1</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;) | (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ10 class="occ">{10}</a> <span class="keyword">in</span>(<span class="name">c</span>, <span class="var">x0</span>: <span class="type">G</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ11 class="occ">{11}</a> <span class="keyword">let</span> <span class="var">k_15</span>: <span class="type">G</span> = <span class="fun">exp</span>(<span class="var">x0</span>,<span class="name">n1</span>) <span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ12 class="occ">{12}</a> <span class="keyword">in</span>(<span class="name">c</span>, <span class="var">m</span>: <span class="type">bitstring</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a name=occ13 class="occ">{13}</a> <span class="keyword">let</span> <span class="var">s2</span>: <span class="type">bitstring</span> = <span class="fun">dec</span>(<span class="var">m</span>,<span class="var">k_15</span>) <span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">0</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+)<br>
+<br>
+</body>
+</html>

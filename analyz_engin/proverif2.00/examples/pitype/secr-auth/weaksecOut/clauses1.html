@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: clauses for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Initial clauses</H1>
+
+<ul>
+
+<li><a name=clause0>Clause 0:</a> <span class="pred">attacker</span>(<span class="fun">true</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">true</span>.)</span><br>
+
+<li><a name=clause1>Clause 1:</a> <span class="pred">attacker</span>(<span class="var">v_26</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="fun">pk</span>(<span class="var">v_26</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pk</span>.)</span><br>
+
+<li><a name=clause2>Clause 2:</a> <span class="pred">attacker</span>(<span class="var">v_29</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker</span>(<span class="var">v_30</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="fun">penc</span>(<span class="var">v_29</span>,<span class="var">v_30</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">penc</span>.)</span><br>
+
+<li><a name=clause3>Clause 3:</a> <span class="pred">attacker</span>(<span class="var">v_33</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker</span>(<span class="var">v_34</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="fun">pdec</span>(<span class="var">v_33</span>,<span class="var">v_34</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span>.)</span><br>
+
+<li><a name=clause4>Clause 4:</a> <span class="pred">attacker</span>(<span class="fun">penc</span>(<span class="var">x_35</span>,<span class="fun">pk</span>(<span class="var">y_36</span>))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker</span>(<span class="var">y_36</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="var">x_35</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span>.)</span><br>
+
+<li><a name=clause5>Clause 5:</a> <span class="pred">attacker</span>(<span class="var">v_39</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="fun">h</span>(<span class="var">v_39</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">h</span>.)</span><br>
+
+<li><a name=clause6>Clause 6:</a> <span class="pred">attacker</span>(<span class="fun">false</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">false</span>.)</span><br>
+
+<li><a name=clause7>Clause 7:</a> <span class="pred">mess</span>(<span class="var">v_45</span>,<span class="var">v_44</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker</span>(<span class="var">v_45</span>) <span class="conn">-&gt;</span> <span class="pred">attacker</span>(<span class="var">v_44</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause8>Clause 8:</a> <span class="pred">attacker</span>(<span class="var">v_47</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker</span>(<span class="var">v_46</span>) <span class="conn">-&gt;</span> <span class="pred">mess</span>(<span class="var">v_47</span>,<span class="var">v_46</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause9>Clause 9:</a> <span class="pred">attacker</span>(<span class="fun">fail-any</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause10>Clause 10:</a> <span class="pred">attacker</span>(<span class="name">c</span>[])<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause11>Clause 11:</a> <span class="pred">equal</span>(<span class="var">v_49</span>,<span class="var">v_49</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause12>Clause 12:</a> <span class="pred">attacker</span>(<span class="var">new-name</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name</span> <span class="conn">=</span> <span class="name">new-name</span>[!att = <span class="var">v_50</span>]
+</ul>
+
+<li><a name=clause13>Clause 13:</a> <span class="pred">attacker_guess</span>(<span class="name">w</span>[],<span class="fun">@weaksecretcst</span>)<br>
+<span class="explain">(The attacker has the weak secret in the first component, a guess in the second.)</span><br>
+
+<li><a name=clause14>Clause 14:</a> <span class="var">v_65</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_65</span>,<span class="fun">true</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_66</span>,<span class="var">@mayfail_67</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_66</span>,<span class="fun">true</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">||</span> in off-line phase.)</span><br>
+
+<li><a name=clause15>Clause 15:</a> <span class="var">v_71</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="var">v_71</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_70</span>,<span class="var">@mayfail_72</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="var">@mayfail_72</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">||</span> in off-line phase.)</span><br>
+
+<li><a name=clause16>Clause 16:</a> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="fun">true</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">true</span> in off-line phase.)</span><br>
+
+<li><a name=clause17>Clause 17:</a> <span class="pred">attacker_guess</span>(<span class="var">v_76</span>,<span class="var">v_77</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">pk</span>(<span class="var">v_76</span>),<span class="fun">pk</span>(<span class="var">v_77</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pk</span> in off-line phase.)</span><br>
+
+<li><a name=clause18>Clause 18:</a> <span class="pred">attacker_guess</span>(<span class="var">v_80</span>,<span class="var">v_82</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_81</span>,<span class="var">v_83</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">penc</span>(<span class="var">v_80</span>,<span class="var">v_81</span>),<span class="fun">penc</span>(<span class="var">v_82</span>,<span class="var">v_83</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">penc</span> in off-line phase.)</span><br>
+
+<li><a name=clause19>Clause 19:</a> <span class="pred">attacker_guess</span>(<span class="var">v_86</span>,<span class="var">v_88</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_87</span>,<span class="var">v_89</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">pdec</span>(<span class="var">v_86</span>,<span class="var">v_87</span>),<span class="fun">pdec</span>(<span class="var">v_88</span>,<span class="var">v_89</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span> in off-line phase.)</span><br>
+
+<li><a name=clause20>Clause 20:</a> <span class="pred">attacker_guess</span>(<span class="var">v_90</span>,<span class="fun">penc</span>(<span class="var">x_92</span>,<span class="fun">pk</span>(<span class="var">y_93</span>))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_91</span>,<span class="var">y_93</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">pdec</span>(<span class="var">v_90</span>,<span class="var">v_91</span>),<span class="var">x_92</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span> in off-line phase.)</span><br>
+
+<li><a name=clause21>Clause 21:</a> <span class="pred">attacker_guess</span>(<span class="fun">penc</span>(<span class="var">x_94</span>,<span class="fun">pk</span>(<span class="var">y_95</span>)),<span class="var">v_96</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">y_95</span>,<span class="var">v_97</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="var">x_94</span>,<span class="fun">pdec</span>(<span class="var">v_96</span>,<span class="var">v_97</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span> in off-line phase.)</span><br>
+
+<li><a name=clause22>Clause 22:</a> <span class="pred">attacker_guess</span>(<span class="fun">penc</span>(<span class="var">x_98</span>,<span class="fun">pk</span>(<span class="var">y_99</span>)),<span class="fun">penc</span>(<span class="var">x_100</span>,<span class="fun">pk</span>(<span class="var">y_101</span>))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">y_99</span>,<span class="var">y_101</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="var">x_98</span>,<span class="var">x_100</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">pdec</span> in off-line phase.)</span><br>
+
+<li><a name=clause23>Clause 23:</a> <span class="var">v_106</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_106</span>,<span class="fun">true</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="fun">false</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">not</span> in off-line phase.)</span><br>
+
+<li><a name=clause24>Clause 24:</a> <span class="var">v_107</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="var">v_107</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">false</span>,<span class="fun">true</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">not</span> in off-line phase.)</span><br>
+
+<li><a name=clause25>Clause 25:</a> <span class="pred">attacker_guess</span>(<span class="var">v_109</span>,<span class="var">v_110</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">h</span>(<span class="var">v_109</span>),<span class="fun">h</span>(<span class="var">v_110</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">h</span> in off-line phase.)</span><br>
+
+<li><a name=clause26>Clause 26:</a> <span class="pred">attacker_guess</span>(<span class="fun">false</span>,<span class="fun">false</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">false</span> in off-line phase.)</span><br>
+
+<li><a name=clause27>Clause 27:</a> <span class="var">v_125</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_125</span>,<span class="fun">true</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_126</span>,<span class="var">@mayfail_127</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="fun">false</span>,<span class="var">@mayfail_127</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">&&</span> in off-line phase.)</span><br>
+
+<li><a name=clause28>Clause 28:</a> <span class="var">v_131</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="fun">true</span>,<span class="var">v_131</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_130</span>,<span class="var">@mayfail_132</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="var">@mayfail_130</span>,<span class="fun">false</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">&&</span> in off-line phase.)</span><br>
+
+<li><a name=clause29>Clause 29:</a> <span class="pred">attacker_guess</span>(<span class="var">v_135</span>,<span class="fun">fail-any</span>) <span class="conn">-&gt;</span> <span class="pred">bad</span><br>
+<span class="explain">(The attacker can test the failure of a term) in off-line phase.)</span><br>
+
+<li><a name=clause30>Clause 30:</a> <span class="pred">attacker_guess</span>(<span class="fun">fail-any</span>,<span class="var">v_135</span>) <span class="conn">-&gt;</span> <span class="pred">bad</span><br>
+<span class="explain">(The attacker can test the failure of a term) in off-line phase.)</span><br>
+
+<li><a name=clause31>Clause 31:</a> <span class="pred">attacker</span>(<span class="var">v_136</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_guess</span>(<span class="var">v_136</span>,<span class="var">v_136</span>)<br>
+<span class="explain">(Knowledge is communicated from one phase to the next.)</span><br>
+
+<li><a name=clause32>Clause 32:</a> <span class="var">v_138</span> <span class="conn">&lt;&gt;</span> <span class="var">v_139</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_137</span>,<span class="var">v_138</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_137</span>,<span class="var">v_139</span>) <span class="conn">-&gt;</span> <span class="pred">bad</span><br>
+<span class="explain">(The attacker tests equality in off-line phase.)</span><br>
+
+<li><a name=clause33>Clause 33:</a> <span class="var">v_141</span> <span class="conn">&lt;&gt;</span> <span class="var">v_142</span> <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_141</span>,<span class="var">v_140</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_guess</span>(<span class="var">v_142</span>,<span class="var">v_140</span>) <span class="conn">-&gt;</span> <span class="pred">bad</span><br>
+<span class="explain">(The attacker tests equality in off-line phase.)</span><br>
+
+<li><a name=clause34>Clause 34:</a> <span class="pred">attacker</span>(<span class="fun">pk</span>(<span class="name">s</span>[]))<br>
+<span class="explain">(The message <span class="fun">pk</span>(<span class="name">s</span>[]) may be sent to the attacker at output <a href="process_0.html#occ2" target="process" class="occ">{2}</a>.)</span><br>
+
+<li><a name=clause35>Clause 35:</a> <span class="pred">attacker</span>(<span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])))<br>
+<span class="explain">(The message <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>[]),<span class="fun">pk</span>(<span class="name">s</span>[])) may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.)</span><br>
+
+</ul>
+</body>
+</html>

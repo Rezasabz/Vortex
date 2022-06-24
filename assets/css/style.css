@@ -3814,7 +3814,7 @@ table tr:hover .table-links {
 .nav .nav-item .nav-link .fab,
 .nav .nav-item .nav-link .fal {
     margin-right: 3px;
-    font-size: 12px
+    font-size: 15px
 }
 
 .sticky {
@@ -4070,7 +4070,7 @@ h6 .badge {
 .btn.btn-icon .fab,
 .btn.btn-icon .fal {
     margin-left: 0 !important;
-    font-size: 12px
+    font-size: 19px
 }
 
 .btn.btn-icon.icon-left .ion,
@@ -4604,7 +4604,7 @@ h6 .badge {
     z-index: 890;
     background-color: transparent;
     height: 70px;
-    left: 250px;
+    left: 280px;
     right: 0;
     padding: .5rem 1rem;
     position: absolute;
@@ -5944,12 +5944,12 @@ pre {
 }
 
 .main-sidebar {
-    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, .1);
+    /* box-shadow: 0 4px 25px 0 rgba(0, 0, 0, .1); */
     position: fixed;
     top: 0;
     height: 100%;
-    width: 250px;
-    background-color: #fff;
+    width: 277px;
+    /* background-color: #fff; */
     z-index: 880;
     left: 0
 }
@@ -8512,7 +8512,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-purple .navbar {
-    background-color: #5864bd
+    /* background-color: #5864bd */
 }
 
 .theme-purple .navbar .nav-link .feather {
@@ -10117,10 +10117,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     border-color: #fff !important
 }
 
-.theme-white .navbar {
+
+/* .theme-white .navbar {
     background-color: #fff;
     box-shadow: 15px 9px 25px 0 rgba(0, 0, 0, .1)
-}
+} */
 
 .theme-white .jqvmap-circle {
     background-color: #6777ef;
@@ -10186,7 +10187,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .nav-tabs .nav-item .nav-link {
-    color: #6777ef
+    /* color: #6777ef */
 }
 
 .theme-white .swal-button.swal-button--confirm {
@@ -10256,7 +10257,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .navbar .nav-link .feather {
-    color: #555556
+    color: #077afd
 }
 
 .theme-white .navbar .form-inline .form-control {
@@ -11234,7 +11235,17 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     font-size: 20px !important;
 }
 
-#container1 {
+
+/* #container1 {
+    width: 3000px;
+    height: 3000px;
+    overflow: hidden;
+    background-color: #fdfdfd;
+    background-image: radial-gradient(circle, #ddd 1px, rgba(0, 0, 0, 0) 1px);
+    background-size: 1rem 1rem;
+} */
+
+.container-style {
     width: 3000px;
     height: 3000px;
     overflow: hidden;
@@ -11243,7 +11254,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     background-size: 1rem 1rem;
 }
 
-#stageparent {
+.stageparent {
     width: 78vw;
     height: 73vh;
     overflow: scroll;
@@ -11272,17 +11283,24 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     padding: 0 12px;
 }
 
-.custom_padding {
+
+/* .custom_padding {
     padding-top: 27px !important;
-}
+} */
 
-.custom_padding {
+
+/* .custom_padding {
     padding: 20px !important;
-}
+} */
 
-#main {
+
+/* #main {
     margin-left: -20px;
     margin-top: 6px;
+} */
+
+.mgt-tab-content {
+    margin-top: 1.7rem !important;
 }
 
 .close {
@@ -11388,9 +11406,10 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     padding: 0px 20px 0px 20px !important;
 }
 
-.active_tab {
-    border-top: 2px solid #5864bd !important;
-}
+
+/* .active_tab {
+    border-top: 2px solid #097afd !important;
+} */
 
 .card .card-header {
     padding: 0px !important;
@@ -11398,4 +11417,51 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .custom_header_code {
     padding: 3px !important;
+}
+
+.mr-6 {
+    margin-right: 6px !important;
+}
+
+.ml-6 {
+    margin-left: 6px !important;
+}
+
+.mt-7 {
+    margin: 7px 0 0 0 !important;
+}
+
+.manage-tool {
+    background-color: #fff;
+    box-shadow: 15px 9px 25px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+}
+
+.bg-tools {
+    background-color: #f5f5f7;
+    border-radius: 10px;
+}
+
+.p-tools {
+    padding: 22px 11px !important;
+}
+
+.m-card {
+    margin: 0px 8px !important;
+    /* height: 73vh; */
+}
+
+.cd-header {
+    padding: 3px !important;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+}
+
+.m-copy-paste {
+    margin: 200px;
+}
+
+.my_font {
+    font-family: 'consolas' !important;
 }

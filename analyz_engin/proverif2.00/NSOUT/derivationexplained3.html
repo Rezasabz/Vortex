@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: derivation for query 3</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Explained derivation</H1>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_13531</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]),hostX = <span class="var">hostX_13516</span>,xA = <span class="name">B</span>[],!1 = <span class="var">@sid_13517</span>]
+<li><span class="var">Nb_13532</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="name">skB</span>[]),<span class="name">B</span>[]),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">endsid_13528</span>]
+</ul>
+
+<ol>
+
+<li><a name=step1>The attacker initially knows <span class="name">A</span>[].<br>
+<span class="pred">attacker_host</span>(<span class="name">A</span>[]).<br>
+
+<li><a name=step2>The message <span class="fun">pk</span>(<span class="name">skA</span>[]) may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.<br>
+<span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="name">skA</span>[])).<br>
+
+<li><a name=step3>The attacker initially knows <span class="name">B</span>[].<br>
+<span class="pred">attacker_host</span>(<span class="name">B</span>[]).<br>
+
+<li><a name=step4>We assume as hypothesis that<br>
+<span class="pred">attacker_skey</span>(<span class="var">y_13520</span>).<br>
+
+<li><a name=step5>We assume as hypothesis that<br>
+<span class="pred">attacker_host</span>(<span class="var">hostX_13516</span>).<br>
+
+<li><a name=step6>By <a href="#step3">3</a>, the attacker may know <span class="name">B</span>[].<br>
+By <a href="#step5">5</a>, the attacker may know <span class="var">hostX_13516</span>.<br>
+Using the function <span class="fun">host-host-tuple</span> the attacker may obtain <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>)).<br>
+
+<li><a name=step7>The attacker has some term <span class="var">a_13445</span>.<br>
+<span class="pred">attacker_host</span>(<span class="var">a_13445</span>).<br>
+
+<li><a name=step8>By <a href="#step7">7</a>, the attacker may know <span class="var">a_13445</span>.<br>
+By <a href="#step5">5</a>, the attacker may know <span class="var">hostX_13516</span>.<br>
+Using the function <span class="fun">host-host-tuple</span> the attacker may obtain <span class="fun"></span>(<span class="var">a_13445</span>,<span class="var">hostX_13516</span>).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">a_13445</span>,<span class="var">hostX_13516</span>)).<br>
+
+<li><a name=step9>By <a href="#step4">4</a>, the attacker may know <span class="var">y_13520</span>.<br>
+Using the function <span class="fun">pk</span> the attacker may obtain <span class="fun">pk</span>(<span class="var">y_13520</span>).<br>
+<span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="var">y_13520</span>)).<br>
+
+<li><a name=step10>By <a href="#step5">5</a>, the attacker may know <span class="var">hostX_13516</span>.<br>
+By <a href="#step9">9</a>, the attacker may know <span class="fun">pk</span>(<span class="var">y_13520</span>).<br>
+Using the function <span class="fun">host-pkey-tuple</span> the attacker may obtain <span class="fun"></span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>)).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>))).<br>
+
+<li><a name=step11>The message <span class="fun"></span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>)) that the attacker may have by <a href="#step10">10</a> may be received at input <a href="process_0.html#occ132" target="process" class="occ">{132}</a>.<br>
+We have <span class="var">hostX_13516</span> <span class="conn">&lt;&gt;</span> <span class="name">B</span>[] & <span class="var">hostX_13516</span> <span class="conn">&lt;&gt;</span> <span class="name">A</span>[].<br>
+So the entry <span class="fun">keys</span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>)) may be inserted in a table at insert <a href="process_0.html#occ134" target="process" class="occ">{134}</a>.<br>
+<span class="pred">table</span>(<span class="fun">keys</span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>))).<br>
+
+<li><a name=step12>The message <span class="fun"></span>(<span class="var">a_13445</span>,<span class="var">hostX_13516</span>) that the attacker may have by <a href="#step8">8</a> may be received at input <a href="process_0.html#occ128" target="process" class="occ">{128}</a>.<br>
+The entry <span class="fun">keys</span>(<span class="var">hostX_13516</span>,<span class="fun">pk</span>(<span class="var">y_13520</span>)) that may be in a table by <a href="#step11">11</a> may be read at get <a href="process_0.html#occ130" target="process" class="occ">{130}</a>.<br>
+So the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]) may be sent to the attacker at output <a href="process_0.html#occ129" target="process" class="occ">{129}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[])).<br>
+
+<li><a name=step13>The message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>) that the attacker may have by <a href="#step6">6</a> may be received at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>.<br>
+The event <span class="fun">beginBparam</span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>) (with environment <span class="var">ms_47</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]), <span class="var">hostX</span> = <span class="var">hostX_13516</span>, <span class="var">xA</span> = <span class="name">B</span>[], <span class="var">@sid</span> = <span class="var">@sid_13517</span>, <span class="var">@occ36</span> = <span class="fun">@occ_cst</span>) may be executed at <a href="process_0.html#occ36" target="process" class="occ">{36}</a>.<br>
+The message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]) that the attacker may have by <a href="#step12">12</a> may be received at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>.<br>
+So the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="var">y_13520</span>)) may be sent to the attacker at output <a href="process_0.html#occ41" target="process" class="occ">{41}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="var">y_13520</span>))).<br>
+
+<li><a name=step14>By <a href="#step13">13</a>, the attacker may know <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="var">y_13520</span>)).<br>
+By <a href="#step4">4</a>, the attacker may know <span class="var">y_13520</span>.<br>
+Using the function <span class="fun">decrypt</span> the attacker may obtain <span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[])).<br>
+
+<li><a name=step15>By <a href="#step14">14</a>, the attacker may know <span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]).<br>
+Using the function <span class="fun">1-proj-nonce-host-tuple</span> the attacker may obtain <span class="var">Na_13531</span>.<br>
+<span class="pred">attacker_nonce</span>(<span class="var">Na_13531</span>).<br>
+
+<li><a name=step16>By <a href="#step15">15</a>, the attacker may know <span class="var">Na_13531</span>.<br>
+By <a href="#step3">3</a>, the attacker may know <span class="name">B</span>[].<br>
+Using the function <span class="fun">nonce-host-tuple</span> the attacker may obtain <span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[])).<br>
+
+<li><a name=step17>By <a href="#step16">16</a>, the attacker may know <span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]).<br>
+By <a href="#step2">2</a>, the attacker may know <span class="fun">pk</span>(<span class="name">skA</span>[]).<br>
+Using the function <span class="fun">encrypt</span> the attacker may obtain <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[]))).<br>
+
+<li><a name=step18>The attacker has some term <span class="var">a_13460</span>.<br>
+<span class="pred">attacker_host</span>(<span class="var">a_13460</span>).<br>
+
+<li><a name=step19>By <a href="#step18">18</a>, the attacker may know <span class="var">a_13460</span>.<br>
+By <a href="#step3">3</a>, the attacker may know <span class="name">B</span>[].<br>
+Using the function <span class="fun">host-host-tuple</span> the attacker may obtain <span class="fun"></span>(<span class="var">a_13460</span>,<span class="name">B</span>[]).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">a_13460</span>,<span class="name">B</span>[])).<br>
+
+<li><a name=step20>The entry <span class="fun">keys</span>(<span class="name">B</span>[],<span class="fun">pk</span>(<span class="name">skB</span>[])) may be inserted in a table at insert <a href="process_0.html#occ8" target="process" class="occ">{8}</a>.<br>
+<span class="pred">table</span>(<span class="fun">keys</span>(<span class="name">B</span>[],<span class="fun">pk</span>(<span class="name">skB</span>[]))).<br>
+
+<li><a name=step21>The message <span class="fun"></span>(<span class="var">a_13460</span>,<span class="name">B</span>[]) that the attacker may have by <a href="#step19">19</a> may be received at input <a href="process_0.html#occ128" target="process" class="occ">{128}</a>.<br>
+The entry <span class="fun">keys</span>(<span class="name">B</span>[],<span class="fun">pk</span>(<span class="name">skB</span>[])) that may be in a table by <a href="#step20">20</a> may be read at get <a href="process_0.html#occ130" target="process" class="occ">{130}</a>.<br>
+So the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="name">skB</span>[]),<span class="name">B</span>[]),<span class="name">skS</span>[]) may be sent to the attacker at output <a href="process_0.html#occ129" target="process" class="occ">{129}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="name">skB</span>[]),<span class="name">B</span>[]),<span class="name">skS</span>[])).<br>
+
+<li><a name=step22>The message <span class="fun">pk</span>(<span class="name">skB</span>[]) may be sent to the attacker at output <a href="process_0.html#occ7" target="process" class="occ">{7}</a>.<br>
+<span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="name">skB</span>[])).<br>
+
+<li><a name=step23>The message <span class="name">A</span>[] that the attacker may have by <a href="#step1">1</a> may be received at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>.<br>
+The message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) that the attacker may have by <a href="#step17">17</a> may be received at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>.<br>
+The message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="name">skB</span>[]),<span class="name">B</span>[]),<span class="name">skS</span>[]) that the attacker may have by <a href="#step21">21</a> may be received at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>.<br>
+So the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) may be sent to the attacker at output <a href="process_0.html#occ83" target="process" class="occ">{83}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))).<br>
+
+<li><a name=step24>The message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>) that the attacker may have by <a href="#step6">6</a> may be received at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>.<br>
+The event <span class="fun">beginBparam</span>(<span class="name">B</span>[],<span class="var">hostX_13516</span>) (with environment <span class="var">ms_47</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]), <span class="var">hostX</span> = <span class="var">hostX_13516</span>, <span class="var">xA</span> = <span class="name">B</span>[], <span class="var">@sid</span> = <span class="var">@sid_13517</span>, <span class="var">@occ36</span> = <span class="fun">@occ_cst</span>) may be executed at <a href="process_0.html#occ36" target="process" class="occ">{36}</a>.<br>
+The message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="var">y_13520</span>),<span class="var">hostX_13516</span>),<span class="name">skS</span>[]) that the attacker may have by <a href="#step12">12</a> may be received at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>.<br>
+The message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) that the attacker may have by <a href="#step23">23</a> may be received at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>.<br>
+So the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="var">y_13520</span>)) may be sent to the attacker at output <a href="process_0.html#occ45" target="process" class="occ">{45}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="var">y_13520</span>))).<br>
+
+<li><a name=step25>By <a href="#step24">24</a>, the attacker may know <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="var">y_13520</span>)).<br>
+By <a href="#step4">4</a>, the attacker may know <span class="var">y_13520</span>.<br>
+Using the function <span class="fun">decrypt</span> the attacker may obtain <span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>)).<br>
+
+<li><a name=step26>By <a href="#step25">25</a>, the attacker may know <span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>).<br>
+Using the function <span class="fun">1-proj-nonce_to_bitstring</span> the attacker may obtain <span class="var">Nb_13532</span>.<br>
+<span class="pred">attacker_nonce</span>(<span class="var">Nb_13532</span>).<br>
+
+<li><a name=step27>By <a href="#step26">26</a>, the attacker may know <span class="var">Nb_13532</span>.<br>
+Using the function <span class="fun">nonce_to_bitstring</span> the attacker may obtain <span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>)).<br>
+
+<li><a name=step28>By <a href="#step27">27</a>, the attacker may know <span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>).<br>
+By <a href="#step22">22</a>, the attacker may know <span class="fun">pk</span>(<span class="name">skB</span>[]).<br>
+Using the function <span class="fun">encrypt</span> the attacker may obtain <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])).<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))).<br>
+
+<li><a name=step29>The message <span class="name">A</span>[] that the attacker may have by <a href="#step1">1</a> may be received at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>.<br>
+The message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_13531</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) that the attacker may have by <a href="#step17">17</a> may be received at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>.<br>
+The message <span class="fun">sign</span>(<span class="fun"></span>(<span class="fun">pk</span>(<span class="name">skB</span>[]),<span class="name">B</span>[]),<span class="name">skS</span>[]) that the attacker may have by <a href="#step21">21</a> may be received at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>.<br>
+The message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_13532</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) that the attacker may have by <a href="#step28">28</a> may be received at input <a href="process_0.html#occ84" target="process" class="occ">{84}</a>.<br>
+So event <span class="fun">endBparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]) may be executed at <a href="process_0.html#occ87" target="process" class="occ">{87}</a> in session <span class="var">endsid_13528</span>.<br>
+<span class="pred">end</span>(<span class="var">endsid_13528</span>,<span class="fun">endBparam</span>(<span class="name">B</span>[],<span class="name">A</span>[])).<br>
+
+</ol>
+</body>
+</html>

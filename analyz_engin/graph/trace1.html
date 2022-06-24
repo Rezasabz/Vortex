@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: trace for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Trace</H1>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M</span>) with <span class="var">~M</span> = <span class="name">A</span> at <a href="process_0.html#occ7" target="process" class="occ">{7}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1597</span>) with <span class="var">~M_1597</span> = <span class="name">B</span> at <a href="process_0.html#occ8" target="process" class="occ">{8}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1599</span>) with <span class="var">~M_1599</span> = <span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">A</span>)) at <a href="process_0.html#occ9" target="process" class="occ">{9}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1601</span>) with <span class="var">~M_1601</span> = <span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">B</span>)) at <a href="process_0.html#occ10" target="process" class="occ">{10}</a><br>
+<br>
+<span class="keyword">in</span>(<span class="name">ch</span>, <span class="name">A</span>) at <a href="process_0.html#occ12" target="process" class="occ">{12}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">ch</span>, <span class="name">A</span>) at <a href="process_0.html#occ12" target="process" class="occ">{12}</a> in copy <span class="name">a_1593</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">ch</span>, <span class="name">B</span>) at <a href="process_0.html#occ24" target="process" class="occ">{24}</a> in copy <span class="name">a</span><br>
+<br>
+<span class="keyword">new</span> <span class="name">Message</span>: <span class="type">bitstring</span> creating <span class="name">Message_1594</span> at <a href="process_0.html#occ25" target="process" class="occ">{25}</a> in copy <span class="name">a</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1633</span>) with <span class="var">~M_1633</span> = <span class="fun">encS</span>(<span class="name">Message_1594</span>,<span class="fun">key</span>(<span class="name">A</span>,<span class="name">B</span>)) at <a href="process_0.html#occ26" target="process" class="occ">{26}</a> in copy <span class="name">a</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">ch</span>, <span class="var">~M_1633</span>) with <span class="var">~M_1633</span> = <span class="fun">encS</span>(<span class="name">Message_1594</span>,<span class="fun">key</span>(<span class="name">A</span>,<span class="name">B</span>)) at <a href="process_0.html#occ13" target="process" class="occ">{13}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">event</span> <span class="fun">witness_auth_MESSAGEAB</span>(<span class="name">Message_1594</span>,<span class="name">A</span>,<span class="name">B</span>) at <a href="process_0.html#occ16" target="process" class="occ">{16}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1639</span>) with <span class="var">~M_1639</span> = <span class="name">Message_1594</span> at <a href="process_0.html#occ17" target="process" class="occ">{17}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1641</span>) with <span class="var">~M_1641</span> = <span class="fun">encS</span>(<span class="name">InvpkINVPBB</span>,<span class="fun">priv_pk</span>(<span class="name">B</span>)) at <a href="process_0.html#occ18" target="process" class="occ">{18}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1644</span>) with <span class="var">~M_1644</span> = <span class="fun">encS</span>(<span class="name">MESSAGEAB</span>,<span class="name">Message_1594</span>) at <a href="process_0.html#occ20" target="process" class="occ">{20}</a> in copy <span class="name">a_1592</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">ch</span>, <span class="var">~M_1647</span>) with <span class="var">~M_1647</span> = <span class="fun">encS</span>(<span class="name">KEYABAB</span>,<span class="fun">key</span>(<span class="name">A</span>,<span class="name">B</span>)) at <a href="process_0.html#occ22" target="process" class="occ">{22}</a> in copy <span class="name">a_1592</span><br>
+<br>
+The attacker has the message <span class="fun">decS</span>(<span class="var">~M_1644</span>,<span class="var">~M_1639</span>) = <span class="name">MESSAGEAB</span>.<br>
+A trace has been found.<br>
+</body>
+</html>

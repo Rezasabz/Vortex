@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: derivation for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Explained derivation</H1>
+Abbreviations:
+<ul>
+
+<li><span class="var">n0_328</span> <span class="conn">=</span> <span class="name">n0</span>[!1 = <span class="var">@sid_325</span>]
+</ul>
+
+<ol>
+
+<li><a name=step1>The message <span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>) may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.<br>
+<span class="pred">attacker</span>(<span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>)).<br>
+
+<li><a name=step2>Using the function <span class="fun">g</span> the attacker may obtain <span class="fun">g</span>.<br>
+<span class="pred">attacker</span>(<span class="fun">g</span>).<br>
+
+<li><a name=step3>The message <span class="fun">g</span> that the attacker may have by <a href="#step2">2</a> may be received at input <a href="process_0.html#occ4" target="process" class="occ">{4}</a>.<br>
+So the message <span class="fun">enc</span>(<span class="name">s</span>[],<span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>)) may be sent to the attacker at output <a href="process_0.html#occ6" target="process" class="occ">{6}</a>.<br>
+<span class="pred">attacker</span>(<span class="fun">enc</span>(<span class="name">s</span>[],<span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>))).<br>
+
+<li><a name=step4>By <a href="#step3">3</a>, the attacker may know <span class="fun">enc</span>(<span class="name">s</span>[],<span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>)).<br>
+By <a href="#step1">1</a>, the attacker may know <span class="fun">exp</span>(<span class="fun">g</span>,<span class="var">n0_328</span>).<br>
+Using the function <span class="fun">dec</span> the attacker may obtain <span class="name">s</span>[].<br>
+<span class="pred">attacker</span>(<span class="name">s</span>[]).<br>
+
+</ol>
+</body>
+</html>

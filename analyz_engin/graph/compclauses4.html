@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: completed clauses for query 4</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Completed clauses</H1>
+
+<ul>
+
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">InvpkINVPAA</span>[],<span class="fun">priv_pk</span>(<span class="name">A</span>[])))
+<li><span class="pred">attacker_bitstring</span>(<span class="name">MESSAGEAB</span>[])
+<li><span class="pred">attacker_bitstring</span>(<span class="name">KEYABAB</span>[])
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">MESSAGEAB</span>[],<span class="name">KEYABAB</span>[]))
+<li><span class="pred">attacker_bitstring</span>(<span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">@sid_2126</span>])
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">InvpkINVPBB</span>[],<span class="fun">priv_pk</span>(<span class="name">B</span>[])))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">MESSAGEAB</span>[],<span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">@sid_2125</span>]))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">KEYABAB</span>[],<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[])))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">XB_1963</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">Message</span>[XB = <span class="var">XB_1963</span>,!1 = <span class="var">@sid_1964</span>],<span class="fun">key</span>(<span class="name">A</span>[],<span class="var">XB_1963</span>)))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">B</span>[])))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">pk</span>(<span class="fun">priv_pk</span>(<span class="name">A</span>[])))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">priv_sk</span>(<span class="name">X</span>[!1 = <span class="var">@sid_1796</span>]))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">priv_hk</span>(<span class="name">X</span>[!1 = <span class="var">@sid_1790</span>]))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">priv_pk</span>(<span class="name">X</span>[!1 = <span class="var">@sid_1784</span>]))
+<li><span class="pred">attacker_bitstring</span>(<span class="name">X</span>[!1 = <span class="var">@sid_1778</span>])
+<li><span class="pred">attacker_bitstring</span>(<span class="name">new-name_bitstring</span>[!att = <span class="var">v_1775</span>])
+<li><span class="pred">equal_bitstring</span>(<span class="var">v_1774</span>,<span class="var">v_1774</span>)
+<li><span class="pred">attacker_bool</span>(<span class="name">new-name_bool</span>[!att = <span class="var">v_1773</span>])
+<li><span class="pred">equal_bool</span>(<span class="var">v_1772</span>,<span class="var">v_1772</span>)
+<li><span class="pred">attacker_channel</span>(<span class="name">new-name_channel</span>[!att = <span class="var">v_1771</span>])
+<li><span class="pred">equal_channel</span>(<span class="var">v_1770</span>,<span class="var">v_1770</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="name">A</span>[])
+<li><span class="pred">attacker_bitstring</span>(<span class="name">B</span>[])
+<li><span class="pred">attacker_channel</span>(<span class="name">ch</span>[])
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">fail-bitstring</span>)
+<li><span class="pred">attacker_bool</span>(<span class="fun">fail-bool</span>)
+<li><span class="pred">attacker_channel</span>(<span class="fun">fail-channel</span>)
+<li><span class="pred">attacker_channel</span>(<span class="var">v_1766</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1765</span>) <span class="conn">-&gt;</span> <span class="pred">mess_bitstring</span>(<span class="var">v_1766</span>,<span class="var">v_1765</span>)
+<li><span class="pred">attacker_channel</span>(<span class="var">v_1762</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bool</span>(<span class="var">v_1761</span>) <span class="conn">-&gt;</span> <span class="pred">mess_bool</span>(<span class="var">v_1762</span>,<span class="var">v_1761</span>)
+<li><span class="pred">attacker_channel</span>(<span class="var">v_1758</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_1757</span>) <span class="conn">-&gt;</span> <span class="pred">mess_channel</span>(<span class="var">v_1758</span>,<span class="var">v_1757</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1747</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1748</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_1747</span>,<span class="var">v_1748</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1742</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_1742</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">empty</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1711</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1712</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">enc</span>(<span class="var">v_1711</span>,<span class="var">v_1712</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1707</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1708</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="var">v_1707</span>,<span class="var">v_1708</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1703</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1704</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">enc_hk</span>(<span class="var">v_1703</span>,<span class="var">v_1704</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1699</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1700</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">enc_pk</span>(<span class="var">v_1699</span>,<span class="var">v_1700</span>))
+<li><span class="pred">attacker_bool</span>(<span class="fun">false</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">g</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1693</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">hash</span>(<span class="var">v_1693</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1691</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">hk</span>(<span class="var">v_1691</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1688</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1689</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">hmac</span>(<span class="var">v_1688</span>,<span class="var">v_1689</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1684</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1685</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">kap</span>(<span class="var">v_1684</span>,<span class="var">v_1685</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1678</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1679</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">kas</span>(<span class="var">v_1678</span>,<span class="var">v_1679</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1674</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">pk</span>(<span class="var">v_1674</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1671</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1672</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign_sk</span>(<span class="var">v_1671</span>,<span class="var">v_1672</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1668</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sk</span>(<span class="var">v_1668</span>))
+<li><span class="pred">attacker_bool</span>(<span class="fun">true</span>)
+<li><span class="pred">attacker_bitstring</span>(<span class="var">v_1654</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_1655</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">xor</span>(<span class="var">v_1654</span>,<span class="var">v_1655</span>))
+<li><span class="pred">attacker_bitstring</span>(<span class="fun">zero</span>)
+</ul>
+</body>
+</html>

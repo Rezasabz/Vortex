@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: trace for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Trace</H1>
+<span class="keyword">new</span> <span class="name">s</span>: <span class="type">skey</span> creating <span class="name">s_512</span> at <a href="process_0.html#occ1" target="process" class="occ">{1}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M</span>) with <span class="var">~M</span> = <span class="fun">pk</span>(<span class="name">s_512</span>) at <a href="process_0.html#occ2" target="process" class="occ">{2}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_515</span>) with <span class="var">~M_515</span> = <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>),<span class="fun">pk</span>(<span class="name">s_512</span>)) at <a href="process_0.html#occ3" target="process" class="occ">{3}</a><br>
+<br>
+The attacker tests whether <br>
+<span class="var">~M_515</span> = <span class="fun">penc</span>(<span class="fun">h</span>(<span class="fun">@weaksecretcst</span>),<span class="var">~M</span>)<br>
+knowing<br>
+<span class="var">~M</span> = <span class="fun">pk</span>(<span class="name">s_512</span>),<br>
+<span class="var">~M_515</span> = <span class="fun">penc</span>(<span class="fun">h</span>(<span class="name">w</span>),<span class="fun">pk</span>(<span class="name">s_512</span>)).<br>
+This allows the attacker to know whether <span class="fun">@weaksecretcst</span> = <span class="name">w</span>.<br>
+A trace has been found.<br>
+</body>
+</html>

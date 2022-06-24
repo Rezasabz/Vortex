@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: trace for query 3</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Trace</H1>
+<span class="keyword">new</span> <span class="name">sskA</span>: <span class="type">sskey</span> creating <span class="name">sskA_6617</span> at <a href="process_0.html#occ1" target="process" class="occ">{1}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_6700</span>) with <span class="var">~M_6700</span> = <span class="fun">spk</span>(<span class="name">sskA_6617</span>) at <a href="process_0.html#occ3" target="process" class="occ">{3}</a><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">sign_keys</span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)) at <a href="process_0.html#occ4" target="process" class="occ">{4}</a><br>
+<br>
+<span class="keyword">new</span> <span class="name">skA</span>: <span class="type">skey</span> creating <span class="name">skA_6701</span> at <a href="process_0.html#occ5" target="process" class="occ">{5}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_6763</span>) with <span class="var">~M_6763</span> = <span class="fun">pk</span>(<span class="name">skA_6701</span>) at <a href="process_0.html#occ7" target="process" class="occ">{7}</a><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">enc_keys</span>(<span class="name">A</span>,<span class="fun">pk</span>(<span class="name">skA_6701</span>)) at <a href="process_0.html#occ8" target="process" class="occ">{8}</a><br>
+<br>
+<span class="keyword">new</span> <span class="name">sskB</span>: <span class="type">sskey</span> creating <span class="name">sskB_6764</span> at <a href="process_0.html#occ9" target="process" class="occ">{9}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_6825</span>) with <span class="var">~M_6825</span> = <span class="fun">spk</span>(<span class="name">sskB_6764</span>) at <a href="process_0.html#occ11" target="process" class="occ">{11}</a><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">sign_keys</span>(<span class="name">B</span>,<span class="fun">spk</span>(<span class="name">sskB_6764</span>)) at <a href="process_0.html#occ12" target="process" class="occ">{12}</a><br>
+<br>
+<span class="keyword">new</span> <span class="name">skB</span>: <span class="type">skey</span> creating <span class="name">skB_6619</span> at <a href="process_0.html#occ13" target="process" class="occ">{13}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_6885</span>) with <span class="var">~M_6885</span> = <span class="fun">pk</span>(<span class="name">skB_6619</span>) at <a href="process_0.html#occ15" target="process" class="occ">{15}</a><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">enc_keys</span>(<span class="name">B</span>,<span class="fun">pk</span>(<span class="name">skB_6619</span>)) at <a href="process_0.html#occ16" target="process" class="occ">{16}</a><br>
+<br>
+<span class="keyword">new</span> <span class="name">skS</span>: <span class="type">sskey</span> creating <span class="name">skS_6616</span> at <a href="process_0.html#occ17" target="process" class="occ">{17}</a><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="var">~M_6944</span>) with <span class="var">~M_6944</span> = <span class="fun">spk</span>(<span class="name">skS_6616</span>) at <a href="process_0.html#occ19" target="process" class="occ">{19}</a><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="name">A</span>) at <a href="process_0.html#occ21" target="process" class="occ">{21}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="name">B</span>) at <a href="process_0.html#occ59" target="process" class="occ">{59}</a> in copy <span class="name">a_6599</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6603</span>,<span class="name">B</span>)) at <a href="process_0.html#occ97" target="process" class="occ">{97}</a> in copy <span class="name">a_6606</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">A</span>,<span class="name">a_6607</span>)) at <a href="process_0.html#occ97" target="process" class="occ">{97}</a> in copy <span class="name">a_6610</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">sign_keys</span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)) at <a href="process_0.html#occ100" target="process" class="occ">{100}</a> in copy <span class="name">a_6610</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6611</span>,<span class="name">a_6600</span>)) at <a href="process_0.html#occ97" target="process" class="occ">{97}</a> in copy <span class="name">a_6615</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6603</span>,<span class="name">a_6604</span>)) at <a href="process_0.html#occ102" target="process" class="occ">{102}</a> in copy <span class="name">a_6605</span><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">sign_keys</span>(<span class="name">a_6603</span>,<span class="name">a_6604</span>) at <a href="process_0.html#occ104" target="process" class="occ">{104}</a> in copy <span class="name">a_6605</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">sign_keys</span>(<span class="name">a_6603</span>,<span class="name">a_6604</span>) at <a href="process_0.html#occ100" target="process" class="occ">{100}</a> in copy <span class="name">a_6606</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">enc_keys</span>(<span class="name">B</span>,<span class="fun">pk</span>(<span class="name">skB_6619</span>)) at <a href="process_0.html#occ99" target="process" class="occ">{99}</a> in copy <span class="name">a_6606</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7209</span>,<span class="var">~M_7210</span>)) with <span class="var">~M_7209</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6603</span>,<span class="name">a_6604</span>),<span class="name">skS_6616</span>), <span class="var">~M_7210</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">B</span>,<span class="fun">pk</span>(<span class="name">skB_6619</span>)),<span class="name">skS_6616</span>) at <a href="process_0.html#occ98" target="process" class="occ">{98}</a> in copy <span class="name">a_6606</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6611</span>,<span class="name">a_6612</span>)) at <a href="process_0.html#occ102" target="process" class="occ">{102}</a> in copy <span class="name">a_6614</span><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">sign_keys</span>(<span class="name">a_6611</span>,<span class="name">a_6612</span>) at <a href="process_0.html#occ104" target="process" class="occ">{104}</a> in copy <span class="name">a_6614</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">sign_keys</span>(<span class="name">a_6611</span>,<span class="name">a_6612</span>) at <a href="process_0.html#occ100" target="process" class="occ">{100}</a> in copy <span class="name">a_6615</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6607</span>,<span class="name">a_6608</span>)) at <a href="process_0.html#occ106" target="process" class="occ">{106}</a> in copy <span class="name">a_6609</span><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">enc_keys</span>(<span class="name">a_6607</span>,<span class="name">a_6608</span>) at <a href="process_0.html#occ108" target="process" class="occ">{108}</a> in copy <span class="name">a_6609</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">enc_keys</span>(<span class="name">a_6607</span>,<span class="name">a_6608</span>) at <a href="process_0.html#occ99" target="process" class="occ">{99}</a> in copy <span class="name">a_6610</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7247</span>,<span class="var">~M_7248</span>)) with <span class="var">~M_7247</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)),<span class="name">skS_6616</span>), <span class="var">~M_7248</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6607</span>,<span class="name">a_6608</span>),<span class="name">skS_6616</span>) at <a href="process_0.html#occ98" target="process" class="occ">{98}</a> in copy <span class="name">a_6610</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>))) at <a href="process_0.html#occ106" target="process" class="occ">{106}</a> in copy <span class="name">a_6613</span><br>
+<br>
+<span class="keyword">insert</span> <span class="fun">enc_keys</span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>)) at <a href="process_0.html#occ108" target="process" class="occ">{108}</a> in copy <span class="name">a_6613</span><br>
+<br>
+<span class="keyword">get </span><span class="fun">enc_keys</span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>)) at <a href="process_0.html#occ99" target="process" class="occ">{99}</a> in copy <span class="name">a_6615</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7267</span>,<span class="var">~M_7268</span>)) with <span class="var">~M_7267</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6611</span>,<span class="name">a_6612</span>),<span class="name">skS_6616</span>), <span class="var">~M_7268</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>)),<span class="name">skS_6616</span>) at <a href="process_0.html#occ98" target="process" class="occ">{98}</a> in copy <span class="name">a_6615</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7247</span>,<span class="var">~M_7268</span>)) with <span class="var">~M_7247</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)),<span class="name">skS_6616</span>), <span class="var">~M_7268</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>)),<span class="name">skS_6616</span>) at <a href="process_0.html#occ27" target="process" class="occ">{27}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">event</span> <span class="fun">beginBparam</span>(<span class="name">A</span>,<span class="name">a_6600</span>) at <a href="process_0.html#occ30" target="process" class="occ">{30}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">new</span> <span class="name">k_43</span>: <span class="type">key</span> creating <span class="name">k_6618</span> at <a href="process_0.html#occ31" target="process" class="occ">{31}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">event</span> <span class="fun">beginBkey</span>(<span class="name">A</span>,<span class="name">a_6600</span>,<span class="name">k_6618</span>) at <a href="process_0.html#occ32" target="process" class="occ">{32}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">out</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7285</span>,<span class="var">~M_7286</span>,<span class="var">~M_7287</span>)) with <span class="var">~M_7285</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)),<span class="name">skS_6616</span>), <span class="var">~M_7286</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">a_6600</span>,<span class="fun">pk</span>(<span class="name">a_6601</span>)),<span class="name">skS_6616</span>), <span class="var">~M_7287</span> = <span class="fun">encrypt</span>(<span class="fun">sign</span>(<span class="name">k_6618</span>,<span class="name">sskA_6617</span>),<span class="fun">pk</span>(<span class="name">a_6601</span>)) at <a href="process_0.html#occ33" target="process" class="occ">{33}</a> in copy <span class="name">a_6602</span><br>
+<br>
+<span class="keyword">in</span>(<span class="name">c</span>, <span class="fun"></span>(<span class="var">~M_7247</span>,<span class="var">~M_7210</span>,<span class="fun">encrypt</span>(<span class="fun">decrypt</span>(<span class="var">~M_7287</span>,<span class="name">a_6601</span>),<span class="var">~M_6885</span>))) with <span class="var">~M_7247</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">A</span>,<span class="fun">spk</span>(<span class="name">sskA_6617</span>)),<span class="name">skS_6616</span>), <span class="var">~M_7210</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="name">B</span>,<span class="fun">pk</span>(<span class="name">skB_6619</span>)),<span class="name">skS_6616</span>), <span class="fun">encrypt</span>(<span class="fun">decrypt</span>(<span class="var">~M_7287</span>,<span class="name">a_6601</span>),<span class="var">~M_6885</span>) = <span class="fun">encrypt</span>(<span class="fun">sign</span>(<span class="name">k_6618</span>,<span class="name">sskA_6617</span>),<span class="fun">pk</span>(<span class="name">skB_6619</span>)) at <a href="process_0.html#occ76" target="process" class="occ">{76}</a> in copy <span class="name">a_6599</span><br>
+<br>
+<span class="keyword">event</span> <span class="fun">endBparam</span>(<span class="name">A</span>,<span class="name">B</span>) at <a href="process_0.html#occ82" target="process" class="occ">{82}</a> in copy <span class="name">a_6599</span><br>
+<br>
+<span class="keyword">event</span> <span class="fun">endBkey</span>(<span class="name">A</span>,<span class="name">B</span>,<span class="name">k_6618</span>) at <a href="process_0.html#occ83" target="process" class="occ">{83}</a> in copy <span class="name">a_6599</span> (goal)<br>
+<br>
+The event <span class="fun">endBkey</span>(<span class="name">A</span>,<span class="name">B</span>,<span class="name">k_6618</span>) is executed in session <span class="name">a_6599</span>.<br>
+A trace has been found.<br>
+</body>
+</html>

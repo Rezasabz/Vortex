@@ -1,5 +1,7 @@
 //#region Global Variables
+var container_id
 var count = 0
+var counter_treewiew = 0
 var partner_counter = 0
 var arrow_count = 0
 var container_conut = 0
@@ -12,7 +14,12 @@ var btn_delete_note = getFormId('btn_delete_note')
 var btn_init = getFormId('btn_init')
 var btn_delete_partner = getFormId('btn_delete_partner')
 var btn_key = getFormId('btnradio1')
-var btn_save = getFormId('save')
+var btn_json = getFormId('json')
+var btn_anb = getFormId('anb')
+var btn_pv = getFormId('build-pv')
+var btn_spdl = getFormId('spdl')
+var btn_build = getFormId('BuildApp')
+var open_file = getFormId('open_file')
 let currentShape;
 var line_hg = 200
 var shape_id = ''
@@ -21,6 +28,7 @@ var parent_shape = document.getElementById('parent-shape').addEventListener('dra
 })
 
 var protocol_name = ''
+var spdl_file_name = ''
 
 var MAX_WIDTH = 3000;
 var MAX_HEIGHT = 3000;
@@ -82,7 +90,11 @@ var undo_redo_list = []
 var undo_redo_index = undo_redo_list.length - 1
 const CONST_CLIPBOARD_SIZE = 10
 
-// Knowledge List
+// آرایه ای از کلیدها با مشخصه پارتنرهای مربوطه
+// این آرایه برای تبدیل کلیدها به فرمت ANBX استفاده می شوند. =====> shk(A,B)
+// obj_key_from_to_list = {key: '', from: '', to: ''}
+var key_from_to_list = []
+    // Knowledge List
 var knowledge_list = []
 
 // پس از اجرای دکمه run تمام خطاها در این لیست ذخیره می شود
@@ -159,7 +171,7 @@ const INVALID_VALUE = 30
 const UNDEFINE_VALUE = 40
 const DUBLICATE_VALUE = 50
 const SUCCESSFULL = 0
-
+var stage
 
 //#endregion
 //#endregion
@@ -169,12 +181,437 @@ const SUCCESSFULL = 0
 // var height = document.getElementById('container').offsetHeight;
 var GUIDELINE_OFFSET = 5;
 
-var stage = new Konva.Stage({
-    container: "container1",
+stage = new Konva.Stage({
+    container: "container-main",
     // width: 3000,
     width: MAX_WIDTH,
     height: MAX_HEIGHT
 });
+
+
+
+var project_name
+$('#create-project').click(function() {
+    project_name = $('#project-name').val();
+    new_Project(project_name)
+
+    // delete prop of element
+    $('#file-input-label').removeClass('disabled')
+    $('#open-file').removeProp("aria-disabled")
+
+    $('.dropdown').find('a').click(function() {
+            if ($(this).hasClass('active')) {
+                var active_tab = $(this).attr('href')
+                stage.container($(this).attr('href').replace('#', ''))
+                console.log("active_tab ", active_tab)
+            }
+        })
+        // ---------------------- tree view -------------------------//
+    // $('.tree-view').append(`
+    //         <details class="tree-nav__item is-expandable my_font" id="detail-${project_name}">
+    //         <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>${project_name}</summary>
+    //         </details>`)
+        // ---------------------------------------------------------//
+
+    setTimeout(() => {
+        TreeView()
+        // var listFile = getListFiles(`${project_name}`);
+        // var getfileElements = $(`#pFile-${project_name}`).attr('id')
+        // if (getfileElements === undefined || getfileElements === null) {
+        //     listFile.forEach((element, idx) => {
+        //         if (element !== 'output') {
+        //             $(`#detail-${project_name}`).append(`
+        //             <div class="tree-nav__item" id="pFile-${project_name}">
+        //             <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+        //             </div>
+        //             `)
+        //         }
+
+        //     });
+
+        // }
+    }, 1000);
+
+    $('#NewProjectModal').modal('toggle')
+    $('#project-name').val('');
+
+})
+
+
+
+// var contents
+
+function readSingleFile(e) {
+    // files that user has chosen
+    var all_files = this.files;
+    if (all_files.length == 0) {
+        alert('Error : No file selected');
+        return;
+    }
+
+    // first file selected by user
+    var file = all_files[0];
+    // files types allowed
+    // var allowed_types = ['application/json'];
+    // if (allowed_types.indexOf(file.type) == -1) {
+    //     alert('Error : Incorrect file type');
+    //     return;
+    // }
+
+    // Max 5 MB allowed
+    var max_size_allowed = 5 * 1024 * 1024
+    if (file.size > max_size_allowed) {
+        alert('Error : Exceeded size 5MB');
+        return;
+    }
+
+    var reader = new FileReader();
+
+
+    // file reading finished successfully
+    reader.addEventListener('load', function(e) {
+        var text = e.target.result;
+        var splite_name = file.name.split('.')
+        protocol_name = splite_name[0]
+        project_name = splite_name[0]
+        var extension = ''
+
+
+        // ---------------------- add treeview ----------------------//
+        // delete prop of element
+        $('#file-input-label').removeClass('disabled')
+        $('#open-file').removeProp("aria-disabled")
+
+        $('.dropdown').find('a').click(function() {
+                if ($(this).hasClass('active')) {
+                    var active_tab = $(this).attr('href')
+                    stage.container($(this).attr('href').replace('#', ''))
+                    console.log("active_tab ", active_tab)
+                }
+            })
+            // ---------------------- tree view -------------------------//
+
+            // ---------------------------------------------------------//
+
+
+        if (splite_name.length > 1) {
+            extension = splite_name[splite_name.length - 1]
+        }
+        if (!(extension == 'project')) {
+            alert("Error : Incorrect file type" + extension)
+            return
+        } else {
+            setTimeout(() => {
+                TreeView()
+            }, 300);
+
+            var protocolName = new Konva.Label({
+                x: 10,
+                y: 5,
+                opacity: 0.75,
+            });
+
+            protocolName.add(
+                new Konva.Tag({
+                    fill: 'yellow',
+                })
+            );
+
+            protocolName.add(
+                new Konva.Text({
+                    text: `Protocol Name : ${project_name}`,
+                    fontFamily: 'consolas',
+                    fontSize: 13,
+                    padding: 5,
+                    fill: 'black',
+                })
+            );
+            layer.add(protocolName);
+        }
+        // if (extension === 'AnBx') {
+        //     text = AnbxToJson(text)
+        // }
+        // if (extension === 'pv') {
+        //     console.log("pv -======> ", project_name);
+        //     $.each($('.main-content > ul > li > a'), function(index, value) {
+        //         if ($(this).attr('href') === `#${splite_name[1]}_viewer`) {
+        //             console.log("value ====> ", $(this).attr('href'));
+        //             // remove active class from all tabs
+        //             $('.nav-tabs > li > a').removeClass('active');
+        //             $('.tab-pane').removeClass('active');
+        //             $(this).addClass('active');
+        //             $(`#${splite_name[1]}_viewer`).addClass('active');
+        //         }
+        //     })
+        //     var Output = CodeMirror(document.querySelector("#output_pv"), {
+        //         lineNumbers: true,
+        //         lineWrapping: true,
+        //         tabSize: 2,
+        //         value: text,
+        //         mode: "javascript",
+        //         theme: "material-darker",
+        //         keyword: {
+        //             "Protocol:": "style4",
+        //             "Types:": "style4",
+        //             "Definitions:": "style4",
+        //             "Knowledge:": "style4",
+        //             "Actions:": "style4",
+        //             "Goals:": "style4",
+        //             "Agent": "style2",
+        //             "Number": "style2",
+        //             "Symmetric_key": "style2",
+        //             "Function": "style2",
+        //             "word3": "style3",
+        //             "example\.com": "style4",
+        //             "abc\\d+": "style2",
+
+        //         }
+        //     });
+
+
+
+        // }
+        // if (extension === 'json') {
+        //     var json_text = JSON.parse(text);
+        //     open_from_clipboard(json_text)
+        //     $('.tree-view').append(`
+        //     <details class="tree-nav__item is-expandable my_font" id="detail-${project_name}">
+        //     <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>${project_name}</summary>
+        //     </details>`)
+
+        //     // To Do : show AnBx and pv
+
+        //     TreeView()
+        // }
+        // if (extension === 'project') {
+
+        //     setTimeout(() => {
+        //         var listFile = getListFiles(`${project_name}`);
+        //         var getfileElements = $(`#pFile-${project_name}`).attr('id')
+        //         if (getfileElements === undefined || getfileElements === null) {
+        //             listFile.forEach((element, idx) => {
+        //                 if (element !== 'output') {
+        //                     $(`#detail-${project_name}`).append(`
+        //                 <div class="tree-nav__item" id="pFile-${project_name}">
+        //                 <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+        //                 </div>
+        //                 `)
+        //                 }
+
+        //             });
+
+        //         }
+        //     }, 300);
+
+        // }
+        // To Do : show AnBx and pv
+
+        // TreeView()
+
+
+        // if (text == "") {
+        //     alert('Error :File Is Empty!')
+        // }
+
+    });
+
+    // file reading failed
+    reader.addEventListener('error', function() {
+        alert('Error : Failed to read file');
+    });
+
+
+
+    // read as text file
+    reader.readAsText(file);
+};
+
+
+function readpvFile(e) {
+    // files that user has chosen
+    var all_files = this.files;
+    if (all_files.length == 0) {
+        alert('Error : No file selected');
+        return;
+    }
+
+    // first file selected by user
+    var file = all_files[0];
+    // files types allowed
+    // var allowed_types = ['application/json'];
+    // if (allowed_types.indexOf(file.type) == -1) {
+    //     alert('Error : Incorrect file type');
+    //     return;
+    // }
+
+    // Max 5 MB allowed
+    var max_size_allowed = 5 * 1024 * 1024
+    if (file.size > max_size_allowed) {
+        alert('Error : Exceeded size 5MB');
+        return;
+    }
+
+    var reader = new FileReader();
+
+    // var path_file = reader.readAsDataURL(file);
+    // console.log("path_file ====> ", path_file);
+    // file reading finished successfully
+    reader.addEventListener('load', function(e) {
+        var text = e.target.result;
+        var splite_name = file.name.split('.')
+            // path file
+
+        // protocol_name = splite_name[0]
+        // project_name = splite_name[0]
+        var extension = ''
+        if (splite_name.length > 1) {
+            extension = splite_name[splite_name.length - 1]
+        }
+        console.log("extension ====> ", extension);
+        if (!(extension == 'AnBx' || extension == 'json' || extension == 'pv' || extension == 'spdl')) {
+            alert("Error : Incorrect file type" + extension)
+            return
+        }
+        if (extension === 'AnBx') {
+            text = AnbxToJson(text)
+        }
+        if (extension === 'pv') {
+            spdl_file_name = splite_name[0]
+            console.log("pv -======> ", project_name);
+            $.each($('.main-content > ul > li > a'), function(index, value) {
+                if ($(this).attr('href') === `#${splite_name[1]}_viewer`) {
+                    // $('#build-pv').removeClass('disabled')
+                    // $('#build-pv').removeProp('aria-disabled')
+                    console.log("value ====> ", $(this).attr('href'));
+                    // remove active class from all tabs
+                    $('.nav-tabs > li > a').removeClass('active');
+                    $('.tab-pane').removeClass('active');
+                    $(this).addClass('active');
+                    $(`#${splite_name[1]}_viewer`).addClass('active');
+                }
+            })
+
+
+            var Output = CodeMirror(document.querySelector("#output_pv"), {
+                lineNumbers: true,
+                lineWrapping: true,
+                tabSize: 2,
+                value: text,
+                mode: "javascript",
+                theme: "material-darker",
+                keyword: {
+                    "Protocol:": "style4",
+                    "Types:": "style4",
+                    "Definitions:": "style4",
+                    "Knowledge:": "style4",
+                    "Actions:": "style4",
+                    "Goals:": "style4",
+                    "Agent": "style2",
+                    "Number": "style2",
+                    "Symmetric_key": "style2",
+                    "Function": "style2",
+                    "word3": "style3",
+                    "example\.com": "style4",
+                    "abc\\d+": "style2",
+
+                }
+            });
+
+
+
+        }
+
+        if (extension === 'spdl') {
+            // console.log("spdl -======> ", text);
+            spdl_file_name = splite_name[0]
+                // setTimeout(() => {
+            createFileSpdl(project_name, spdl_file_name, text)
+                // }, 500);
+            $('#spdl').removeClass('disabled')
+            $('#spdl').removeProp('aria-disabled')
+                // TreeViewFile()
+            $.each($('.main-content > ul > li > a'), function(index, value) {
+                if ($(this).attr('href') === `#${splite_name[1]}_viewer`) {
+                    console.log("value ====> ", $(this).attr('href'));
+                    // remove active class from all tabs
+                    $('.nav-tabs > li > a').removeClass('active');
+                    $('.tab-pane').removeClass('active');
+                    $(this).addClass('active');
+                    $(`#${splite_name[1]}_viewer`).addClass('active');
+                }
+            })
+            var OutputSpdl = CodeMirror(document.querySelector("#output_scyther"), {
+                lineNumbers: true,
+                lineWrapping: true,
+                tabSize: 2,
+                value: text,
+                mode: "javascript",
+                theme: "material-darker",
+                keyword: {
+                    "Protocol:": "style4",
+                    "Types:": "style4",
+                    "Definitions:": "style4",
+                    "Knowledge:": "style4",
+                    "Actions:": "style4",
+                    "Goals:": "style4",
+                    "Agent": "style2",
+                    "Number": "style2",
+                    "Symmetric_key": "style2",
+                    "Function": "style2",
+                    "word3": "style3",
+                    "example\.com": "style4",
+                    "abc\\d+": "style2",
+
+                }
+            });
+
+
+
+        }
+
+        setTimeout(() => {
+            TreeView()
+        }, 1000);
+        // if (text == "") {
+        //     alert('Error :File Is Empty!')
+        // }
+
+    });
+
+    // file reading failed
+    reader.addEventListener('error', function() {
+        alert('Error : Failed to read file');
+    });
+
+
+
+    // read as text file
+    reader.readAsText(file);
+};
+
+document.getElementById('open-file').addEventListener('change', readpvFile, false);
+
+document.getElementById('open_project')
+    .addEventListener('change', readSingleFile, false);
+
+// $('#open_project').click((e) => {
+
+//     var file = e.target.files;
+//     if (!file) {
+//         return;
+//     }
+//     var reader = new FileReader();
+//     reader.onload = function(e) {
+//         contents = e.target.result;
+//         console.log("content ====> ", contents)
+
+//     };
+//     reader.readAsText(file);
+
+// })
+
+
+
 var layer = new Konva.Layer();
 stage.add(layer)
 var container = stage.container()
@@ -183,6 +620,8 @@ var containerRect = stage.container().getBoundingClientRect();
 
 
 //#region Form
+
+
 
 //#region Send Form
 // function transformTag(tagData) {
@@ -284,6 +723,7 @@ btn_param.addEventListener('click', (e) => {
     var params_value = $('input[name=params]').val()
     let index_arrow
     let flag = false
+    let flag_new_message = false
 
     var check_reciver = JSON.parse(reciver_value).map(function(elem) {
         return elem.value;
@@ -315,8 +755,9 @@ btn_param.addEventListener('click', (e) => {
 
             if (from_index.arrow_index != -1) {
                 index_arrow = from_index.arrow_index
-                arrow_list[index_arrow].arrow.destroy()
+                    // arrow_list[index_arrow].arrow.destroy()
             } else {
+                flag_new_message = true
                 var connect_node2 = {
                     id: -1,
                     from: '',
@@ -357,11 +798,12 @@ btn_param.addEventListener('click', (e) => {
             obj_partner.sender = arrow_list[index_arrow].from
             send_list.push(obj_partner)
 
-            if (index_arrow == arrow_list.length - 1) {
+            if (flag_new_message) {
                 draw_arrow_from_arrow_list(index_arrow)
             } else {
                 macro_list = []
                 for (let i = 0; i < arrow_list.length; i++) {
+                    console.log("i ))))))> ", i)
                     arrow_list[i].arrow.destroy()
                     draw_arrow_from_arrow_list(i)
                 }
@@ -565,7 +1007,17 @@ function save_source_to_file(path = '') {
     saveAs(blob, "sample.json");
 
 }
-btn_save.addEventListener('click', (e) => {
+
+function save_code_to_file(formatFile, textFile) {
+    var blob = new Blob([textFile], {
+        type: "text/plain;charset=utf-8"
+    });
+    saveAs(blob, `${project_name}\\${project_name}.${formatFile}`);
+
+}
+
+
+btn_json.addEventListener('click', (e) => {
         save_source_to_file()
     })
     //#endregion
@@ -603,95 +1055,95 @@ function open_from_clipboard(src_from_clipboard) {
 }
 
 // function open_file() {
-document.querySelector("#file-input").addEventListener('change', function() {
-    // files that user has chosen
-    var all_files = this.files;
-    if (all_files.length == 0) {
-        alert('Error : No file selected');
-        return;
-    }
+// document.querySelector("#file-input").addEventListener('change', function() {
+//     // files that user has chosen
+//     var all_files = this.files;
+//     if (all_files.length == 0) {
+//         alert('Error : No file selected');
+//         return;
+//     }
 
-    // first file selected by user
-    var file = all_files[0];
-    // files types allowed
-    var allowed_types = ['application/json'];
-    // if (allowed_types.indexOf(file.type) == -1) {
-    //     alert('Error : Incorrect file type');
-    //     return;
-    // }
+//     // first file selected by user
+//     var file = all_files[0];
+//     // files types allowed
+//     var allowed_types = ['application/json'];
+//     // if (allowed_types.indexOf(file.type) == -1) {
+//     //     alert('Error : Incorrect file type');
+//     //     return;
+//     // }
 
-    // Max 5 MB allowed
-    var max_size_allowed = 5 * 1024 * 1024
-    if (file.size > max_size_allowed) {
-        alert('Error : Exceeded size 5MB');
-        return;
-    }
+//     // Max 5 MB allowed
+//     var max_size_allowed = 5 * 1024 * 1024
+//     if (file.size > max_size_allowed) {
+//         alert('Error : Exceeded size 5MB');
+//         return;
+//     }
 
-    var reader = new FileReader();
-
-
-    // file reading finished successfully
-    reader.addEventListener('load', function(e) {
-        var text = e.target.result;
-        var splite_name = file.name.split('.')
-        var extension = ''
-        if (splite_name.length > 1) {
-            extension = splite_name[splite_name.length - 1]
-        }
-        if (!(extension == 'AnBx' || extension == 'json')) {
-            alert("Error : Incorrect file type" + extension)
-            return
-        }
-        if (extension === 'AnBx') {
-            text = AnbxToJson(text)
-        }
-        var json_text = JSON.parse(text);
-        open_from_clipboard(json_text)
-        console.log("********* 1 ", macro_list)
-
-        // اجرای توابع کامپایل
-        // Execute()
-
-        //-----------------------
-        protocol_name = json_text.protocol
-            // protocolName label
-        var protocolName = new Konva.Label({
-            x: 10,
-            y: 5,
-            opacity: 0.75,
-        });
-
-        protocolName.add(
-            new Konva.Tag({
-                fill: 'yellow',
-            })
-        );
-
-        protocolName.add(
-            new Konva.Text({
-                text: `Protocol Name : ${json_text.protocol}`,
-                fontFamily: 'consolas',
-                fontSize: 13,
-                padding: 5,
-                fill: 'black',
-            })
-        );
-        layer.add(protocolName);
-        if (text == "") {
-            alert('Error :File Is Empty!')
-        }
-    });
-
-    // file reading failed
-    reader.addEventListener('error', function() {
-        alert('Error : Failed to read file');
-    });
-
-    // read as text file
-    reader.readAsText(file);
+//     var reader = new FileReader();
 
 
-});
+//     // file reading finished successfully
+//     reader.addEventListener('load', function(e) {
+//         var text = e.target.result;
+//         var splite_name = file.name.split('.')
+//         var extension = ''
+//         if (splite_name.length > 1) {
+//             extension = splite_name[splite_name.length - 1]
+//         }
+//         if (!(extension == 'AnBx' || extension == 'json')) {
+//             alert("Error : Incorrect file type" + extension)
+//             return
+//         }
+//         if (extension === 'AnBx') {
+//             text = AnbxToJson(text)
+//         }
+//         var json_text = JSON.parse(text);
+//         open_from_clipboard(json_text)
+//         console.log("********* 1 ", macro_list)
+
+//         // اجرای توابع کامپایل
+//         // Execute()
+
+//         //-----------------------
+//         protocol_name = json_text.protocol
+//             // protocolName label
+//         var protocolName = new Konva.Label({
+//             x: 10,
+//             y: 5,
+//             opacity: 0.75,
+//         });
+
+//         protocolName.add(
+//             new Konva.Tag({
+//                 fill: 'yellow',
+//             })
+//         );
+
+//         protocolName.add(
+//             new Konva.Text({
+//                 text: `Protocol Name : ${project_name}`,
+//                 fontFamily: 'consolas',
+//                 fontSize: 13,
+//                 padding: 5,
+//                 fill: 'black',
+//             })
+//         );
+//         layer.add(protocolName);
+//         if (text == "") {
+//             alert('Error :File Is Empty!')
+//         }
+//     });
+
+//     // file reading failed
+//     reader.addEventListener('error', function() {
+//         alert('Error : Failed to read file');
+//     });
+
+//     // read as text file
+//     reader.readAsText(file);
+
+
+// });
 
 // }
 // open_file()
@@ -740,8 +1192,12 @@ $("#undo").on('click', (e) => {
     })
     //#endregion
     //#region Global Functions
-    //#region Partner Shape  
-    //----- ساختن اشیا پارتنر ---------//
+    //#region Capitalize First Letter
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+//#region Partner Shape  
+//----- ساختن اشیا پارتنر ---------//
 function create_partner(lbl, pos) {
     var labelName = new Konva.Text({
         fontFamily: 'Consolas',
@@ -881,13 +1337,32 @@ function add_element_to_array_if_not_exist(array, partner_list, element, val, la
 
 //#endregion
 
+// // run exe file in js
+// function run_exe(exe_path) {
+//     var exec = require('child_process').exec;
+//     exec(exe_path, function(error, stdout, stderr) {
+//         if (error) {
+//             console.log(error);
+//         }
+//         console.log(stdout);
+//     });
+// }
+
+// var run = new ActiveXObject('WSCRIPT.Shell').Run("commands to run");
+
+// var objShell = new ActiveXObject("WSCRIPT.Shell");
+// objShell.ShellExecute("cmd.exe", "C: cd C:\\pr main.exe blablafile.txt auto", "C:\\WINDOWS\\system32", "open", "1");
 
 //#region Event Handlers
+container.addEventListener('dragover', (e) => {
+    e.preventDefault()
+
+})
 
 container.addEventListener('drop', (e) => {
     e.preventDefault()
     stage.setPointersPositions(e)
-
+    console.log("drop")
     var label = `Partner${partner_counter}`
     var pos = stage.getPointerPosition()
     if (shape_id == 'square') {
@@ -1041,6 +1516,18 @@ layer.add(tr);
 
 stage.on('click', (e) => {
         e.evt.preventDefault();
+
+        var circle = new Konva.Circle({
+            x: stage.width() / 2,
+            y: stage.height() / 2,
+            radius: 70,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 4,
+        });
+
+        layer.add(circle);
+
         if (e.target === stage) {
             opt.style.display = 'none'
             opt_note.style.display = 'none';
@@ -1169,6 +1656,7 @@ var flag_error_func = 1000
 // آنالیز توابع رمزنگاری و قرار دادن در لیست های مربوطه
 function crypto_func_analys(func) {
     var result = INVALID_VALUE
+        // console.log("FFFFFFFFUNC : ", func)
     switch (func.name) {
         case 'Enc':
             if (func.content != '' && func.content.length > 1) {
@@ -1189,24 +1677,39 @@ function crypto_func_analys(func) {
                 })
 
 
-                let encrypt_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], cipherText: cipherText, funcString: func_string, AnbxFormat: `{|${plainText.toString()}|}${func.content[func.content.length - 1]}`, from: '', to: '' }
+                let encrypt_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], cipherText: cipherText, funcString: func_string, AnbxFormat: `{|${plainText.toString()}|}${func.content[func.content.length - 1]}`, from: sk.name, to: '' }
                 sk.messages.forEach(msg => {
-                    if (msg.message.params.includes(func_string)) {
-                        encrypt_obj.from = msg.from
-                        encrypt_obj.to = msg.to
-                    } else {
-                        msg.message.define.forEach(def => {
+                    msg.message.params.filter(fil => {
+                        if (fil.includes(func_string)) {
+                            encrypt_obj.to = msg.to
+                        }
+                    })
+                    msg.message.define.forEach(def => {
                             if (def.includes(func_string)) {
-                                encrypt_obj.from = msg.from
+                                // encrypt_obj.from = msg.from
                                 encrypt_obj.to = msg.to
                             }
                         })
-                    }
+                        // if (msg.message.params.includes(func_string)) {
+                        //     // encrypt_obj.from = msg.from
+                        //     encrypt_obj.to = msg.to
+                        // } else {
+
+                    // }
                 })
-                encrypt_list.push(encrypt_obj)
-                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+
+                var mac_value_symKey
+                macro_list.filter(mc => mc.name === func.content[func.content.length - 1] ? mac_value_symKey = mc.value : mac_value_symKey = func.content[func.content.length - 1])
+                let key_string = func.content[func.content.length - 1]
+                    // console.log("IS FUNC :", is_function(mac_value_symKey))
+                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1])) && !array_partner[array_partner_index].nonces.var_array.includes(func.content[func.content.length - 1]) && !array_partner[array_partner_index].nonces.new_array.includes(func.content[func.content.length - 1]) && !is_function(mac_value_symKey)) {
                     array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
                 }
+                if (array_partner[array_partner_index].symKey.includes(key_string)) {
+                    encrypt_obj.AnbxFormat = `{|${plainText.toString()}|}${key_string}(${encrypt_obj.from},${encrypt_obj.to})`
+                        // encrypt_obj.symKey = `${key_string}(${encrypt_obj.from},${encrypt_obj.to})`
+                }
+                encrypt_list.push(encrypt_obj)
                 result = SUCCESSFULL
 
             } else {
@@ -1215,7 +1718,8 @@ function crypto_func_analys(func) {
 
             return result
         case 'Dec':
-            if (func.content != '' && func.content.length == 2 && key_list.length > 0) {
+
+            if (func.content != '' && func.content.length == 2) {
                 let sk = array_partner[array_partner_index]
                 let func_string = `${func.name}(${func.content.toString()})`
                 let cipherText = func.content[0]
@@ -1229,9 +1733,11 @@ function crypto_func_analys(func) {
                     },
                     funcString: func_string
                 }
-                encrypt_list.filter((enc, index) => {
-                    if (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText) {
-                        decrypt_obj.plainText = enc.plainText
+                console.log("DEC FUNC : ", decrypt_obj)
+                var compat_list = encrypt_list.filter(enc => enc.cipherText.name === cipherText || enc.cipherText.value === cipherText)
+                if (compat_list.length > 0) {
+                    if (compat_list[0].symKey === func.content[1] && compat_list[0].to === sk.name) {
+                        decrypt_obj.plainText = compat_list[0].plainText
                         let macro_flag = false
                         macro_list.forEach(mc => {
                             if (mc.value === func_string) {
@@ -1247,10 +1753,35 @@ function crypto_func_analys(func) {
                     } else {
                         result = INVALID_COMPATIBILITY
                     }
-                })
+
+                } else {
+                    result = INVALID_COMPATIBILITY
+                }
+                // encrypt_list.filter((enc, index) => {
+                //     console.log("Conditions :", (enc.cipherText.name === cipherText || enc.cipherText.value === cipherText) && enc.symKey === func.content[1] && enc.to === sk.name)
+                //     if ((enc.cipherText.name === cipherText || enc.cipherText.value === cipherText) && enc.symKey === func.content[1] && enc.to === sk.name) {
+                //         decrypt_obj.plainText = enc.plainText
+                //         let macro_flag = false
+                //         macro_list.forEach(mc => {
+                //             if (mc.value === func_string) {
+                //                 decrypt_obj.name.name = mc.name
+                //                 macro_flag = true
+                //             }
+                //         })
+                //         decrypt_list.push(decrypt_obj)
+                //         if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                //             array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
+                //         }
+                //         result = SUCCESSFULL
+                //     } else {
+                //         result = INVALID_COMPATIBILITY
+                //     }
+                // })
             } else {
+
                 result = INVALID_VALUE_DEC
             }
+            console.log("DEC LIST :::> ", decrypt_list)
             return result
         case 'Hash':
             console.log(func)
@@ -1270,10 +1801,30 @@ function crypto_func_analys(func) {
                         mac.name = mc.name
                     }
                 })
-                let mac_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], mac: mac, funcString: func_string }
+                let mac_obj = { plainText: plainText, symKey: func.content[func.content.length - 1], mac: mac, funcString: func_string, AnbxFormat: `hmac((${plainText.toString()}),${func.content[func.content.length - 1]})`, from: '', to: '' }
+                sk.messages.forEach(msg => {
+                    if (msg.message.params.includes(func_string)) {
+                        mac_obj.from = msg.from
+                        mac_obj.to = msg.to
+                    } else {
+                        msg.message.define.forEach(def => {
+                            if (def.includes(func_string)) {
+                                mac_obj.from = msg.from
+                                mac_obj.to = msg.to
+                            }
+                        })
+                    }
+                })
                 mac_list.push(mac_obj)
-                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1]))) {
+                var mac_value_symKey
+                let key_string = func.content[func.content.length - 1]
+                macro_list.filter(mc => mc.name === func.content[func.content.length - 1] ? mac_value_symKey = mc.value : mac_value_symKey = func.content[func.content.length - 1])
+                if (!(array_partner[array_partner_index].symKey.includes(func.content[func.content.length - 1])) && !array_partner[array_partner_index].nonces.var_array.includes(func.content[func.content.length - 1]) && !array_partner[array_partner_index].nonces.new_array.includes(func.content[func.content.length - 1]) && !is_function(mac_value_symKey)) {
                     array_partner[array_partner_index].symKey.push(func.content[func.content.length - 1])
+                }
+                if (array_partner[array_partner_index].symKey.includes(key_string)) {
+                    mac_obj.AnbxFormat = `hmac((${plainText.toString()}),${key_string}(${mac_obj.from},${mac_obj.to}}))`
+                        // mac_obj.symKey = `${key_string}(${mac_obj.from},${mac_obj.to})`
                 }
                 result = SUCCESSFULL
             } else {
@@ -1661,6 +2212,7 @@ function func_content(func) {
     obj_function.content = splite_content(cont)
     obj_function.funcString = func
     obj_function.AnbxFormat = func
+    obj_function.key = ''
 
     return obj_function
 }
@@ -1815,9 +2367,12 @@ function splite_content_bracket_pyp(content) {
                 Anbx_string: ''
             }
 
-            obj.Anbx_string = `{|${obj.content.replace('[', '{|').replace(']', '|}')}|}${obj.key.replace('[', '{|').replace(']', '|}')}`
+            obj.content = obj.content.replace('[', '{|').replace(']', '|}')
+            obj.key = obj.key.replace('[', '{|').replace(']', '|}')
 
-            obj.func_string = `Enc(${obj.content.replace('[', '{|').replace(']', '|}')},${obj.key.replace('[', '{|').replace(']', '|}')})`
+            obj.Anbx_string = `{|${obj.content}|}${obj.key}`
+            obj.func_string = `Enc(${obj.content},${obj.key})`
+
             split_array.push(obj)
             if (tmp.includes('[')) {
                 splite_content_bracket(tmp)
@@ -2093,9 +2648,11 @@ function parser_msg_to_partner(array_list) {
                     }
                 }
                 if (n.name === m.from) {
-                    if (is_macro(p)) {
+                    if (is_macro(p) == null) {
                         if (!n.nonces.new_array.includes(p) && p.trim() != '' && !n.symKey.includes(p) && n.AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
-                            n.nonces.var_array.push(p)
+                            n.nonces.new_array.push(p)
+
+
                         }
                     } else {
                         macro_list.filter(macro => {
@@ -2116,6 +2673,7 @@ function parser_msg_to_partner(array_list) {
 //#region pareser_msg_to_partner_new
 // تابع جدید پارسر پیام
 function parser_msg_to_partner_new(array_list) {
+    // macro_list = []
     array_partner = []
     array_list.forEach((s) => {
         var index = is_contain(array_partner, s.from)
@@ -2123,6 +2681,7 @@ function parser_msg_to_partner_new(array_list) {
             from: s.from,
             to: s.to,
             message: s.message,
+            fresh: []
         }
         if (index === array_partner.length) {
             var new_partner = {
@@ -2153,12 +2712,14 @@ function parser_msg_to_partner_new(array_list) {
                     }
                 })
                 // new_partner.name = s.sender
-            new_partner.messages.push(new_message)
+                // new_partner.messages.push(new_message)
             array_partner.push(new_partner)
-        } else {
-
-            array_partner[index].messages.push(new_message)
         }
+
+        // else {
+
+        array_partner[index].messages.push(new_message)
+            // }
         var index_1 = is_contain(array_partner, s.to)
         if (index_1 === array_partner.length) {
 
@@ -2187,7 +2748,10 @@ function parser_msg_to_partner_new(array_list) {
             key_list.forEach((k) => {
                 if (k.partner == s.to) {
 
-                    new_partner.symKey.push.apply(new_partner.symKey, k.sym)
+                    k.sym.forEach((s) => {
+                            new_partner.symKey.includes(s) ? null : new_partner.symKey.push(s)
+                        })
+                        // new_partner.symKey.push.apply(new_partner.symKey, k.sym)
                         // new_partner.AsymKey.push.apply(new_partner.AsymKey, k.Asym)
                 }
             })
@@ -2213,6 +2777,9 @@ function parser_msg_to_partner_new(array_list) {
                 } else if (!is_function(def)) {
                     if (!array_partner[index].nonce.new_array.includes(def)) {
                         array_partner[index].nonce.new_array.push(def)
+
+                        //// ------- 01/03/03 -------///
+                        array_partner[index].messages[array_partner[index].messages.length - 1].fresh.push(def)
                     }
 
                 }
@@ -2227,7 +2794,19 @@ function parser_msg_to_partner_new(array_list) {
                 err.id = index
                 result_error_array.push(err)
             })
-            macro_list.push.apply(macro_list, array_partner[index].macro.new_array)
+            array_partner[index].macro.new_array.forEach(macro => {
+                    var len_map = macro_list.filter(m => m.value == macro.value && m.name == macro.name ? m : null)
+                    console.log("LEN ====> ", len_map, "MACRO ====> ", macro)
+                    if (len_map.length == 0) {
+                        macro_list.push(macro)
+                    }
+                    // if (m.value != macro.value && m.name != macro.name) {
+                    //     macro_list.push(macro)
+                    // }
+                    // })
+
+                })
+                // macro_list.push.apply(macro_list, array_partner[index].macro.new_array)
             var nonce = nonce_array
 
 
@@ -2235,6 +2814,8 @@ function parser_msg_to_partner_new(array_list) {
                 if (!array_partner[index].nonces.var_array.includes(ns) && !array_partner[index].nonces.new_array.includes(ns) && ns.trim() != '' && !array_partner[index].symKey.includes(ns) && !is_macro(ns) && array_partner[index].AsymKey.filter(k => k.sk == ns || k.pk == ns).length == 0 && !array_partner.map(a => a.name).includes(ns)) {
                     if (array_partner[index].name === s.from) {
                         array_partner[index].nonces.new_array.push(ns)
+                            //// ------- 01/03/03 -------///
+                        array_partner[index].messages[array_partner[index].messages.length - 1].fresh.push(ns)
 
                     }
                 }
@@ -2256,14 +2837,20 @@ function parser_msg_to_partner_new(array_list) {
                     }
                 }
                 if (array_partner[index].name === s.from) {
-                    if (is_macro(p)) {
-                        if (!array_partner[index].nonces.new_array.includes(p) && p.trim() != '' && !array_partner[index].symKey.includes(p) && array_partner[index].AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
+                    if (is_macro(p) == null) {
+                        if (!array_partner[index].nonces.new_array.includes(p) && !array_partner[index].nonces.var_array.includes(p) && p.trim() != '' && !array_partner[index].symKey.includes(p) && array_partner[index].AsymKey.filter(k => k.sk == p || k.pk == p).length == 0) {
                             array_partner[index].nonces.var_array.push(p)
+                            if (!is_function(p)) {
+                                array_partner[index].messages[array_partner[index].messages.length - 1].fresh.push(p)
+                            }
                         }
                     } else {
                         macro_list.filter(macro => {
                             if (macro.value === p && !array_partner[index].nonces.var_array.includes(macro.name) && !array_partner[index].nonces.new_array.includes(macro.name) && array_partner[index].AsymKey.filter(k => k.sk == macro.name || k.pk == macro.name).length == 0) {
                                 array_partner[index].nonces.var_array.push(macro.name)
+                                if (!is_function(p)) {
+                                    array_partner[index].messages[array_partner[index].messages.length - 1].fresh.push(macro.name)
+                                }
                             }
                         })
                     }
@@ -2271,6 +2858,88 @@ function parser_msg_to_partner_new(array_list) {
             })
         }
     })
+
+    console.log("1 ============= Key List =============== 1 ", key_list)
+
+    array_partner.forEach(partner => {
+        // console.log("FOREACH ====> ")
+        if (key_list.length > 0) {
+            var key_partner = key_list.map(key => key.partner)
+            console.log("KEY PARTNER ====> ", key_partner)
+            if (key_partner.includes(partner.name)) {
+                var idx = key_partner.findIndex(find => find == partner.name)
+                console.log("IF 1 ====> ", idx)
+                partner.symKey.forEach(akey => {
+                    if (!key_list[idx].sym.includes(akey)) {
+                        console.log("IF 2 ====> ", akey)
+                        key_list[idx].sym.push(akey)
+                    }
+                })
+            } else {
+                console.log("ELSE 1 ====> ", key_list)
+                key_list.push({
+                    partner: partner.name,
+                    sym: partner.symKey,
+                    Asym: partner.AsymKey
+                })
+            }
+        } else {
+            console.log("ELSE 2 ====> ", key_list)
+            key_list.push({
+                partner: partner.name,
+                sym: partner.symKey,
+                Asym: partner.AsymKey
+            })
+        }
+    })
+    console.log("2 ============= Key List =============== 2 ", key_list)
+
+    var sym_key_list_all = []
+    key_from_to_list = []
+    array_partner.forEach(partner => {
+        partner.symKey.forEach(key => {
+            if (!sym_key_list_all.includes(key)) {
+                sym_key_list_all.push(key)
+            }
+        })
+    })
+
+    sym_key_list_all.forEach(key => {
+        var obj_key_from_to = { key: key, AnbxFormat: '', partners: [], ScytherFormat: '' }
+        array_partner.forEach(partner => {
+            if (partner.symKey.includes(key)) {
+                obj_key_from_to.partners.push(partner.name)
+            }
+        })
+        key_from_to_list.push(obj_key_from_to)
+    })
+    console.log("2 ============= Key List FROM TO =============== 2 ", key_from_to_list)
+
+    // array_partner.forEach(partner => {
+    //     partner.symKey.forEach(key => {
+    //         var enc_filter_list = encrypt_list.filter(enc => enc.symKey === key)
+    //         console.log("ENC FILTER LIST ====> ", enc_filter_list, "KEY ====> ", key)
+    //         if (enc_filter_list.length > 0) {
+    //             var enc_filter = enc_filter_list[0]
+    //             if (key_from_to_list.length > 0) {
+    //                 if (key_from_to_list.filter(k => k.key === key && k.from === enc_filter.from && k.to === enc_filter.to).length == 0) {
+    //                     key_from_to_list.push({ key: key, from: enc_filter.from, to: enc_filter.to })
+    //                 }
+    //             } else {
+    //                 key_from_to_list.push({ key: key, from: enc_filter.from, to: enc_filter.to })
+    //             }
+    //         }
+
+    //     })
+    // })
+
+    // console.log("2 ============= Key List FROM TO =============== 2 ", key_from_to_list)
+    // key_list.push({
+    //     partner: a.name,
+    //     sym: a.symKey,
+    //     Asym: a.AsymKey
+    // })
+    // })
 
     // arrow_list.forEach((a, indx) => {
     //     var idx
@@ -3047,7 +3716,13 @@ function functionFormatToAnbxFormat() {
         function_array.forEach(fn => {
             switch (fn.name) {
                 case "Enc":
-                    encrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.AnbxFormat : null)
+                    encrypt_list.filter(a => {
+                        if (a.funcString === fn.funcString) {
+                            fn.AnbxFormat = a.AnbxFormat
+                            fn.key = a.symKey
+                        }
+
+                    })
                     break
                 case "AEnc":
                     Aencryp_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.AnbxFormat : null)
@@ -3076,75 +3751,809 @@ function functionFormatToAnbxFormat() {
                 }
             })
         })
+
+        function_array.forEach(fn => {
+            if (fn.name === "Dec" || fn.name === "ADec") {
+                let anbx_list = []
+                fn.AnbxFormat.forEach(anbx => {
+                    let Anbx_filter = function_array.filter(a => a.funcString === anbx)
+                    console.log(" Anbx_filter ----------> ", fn.AnbxFormat)
+                    if (Anbx_filter.length > 0) {
+                        anbx_list.push(Anbx_filter[0].AnbxFormat)
+                    } else {
+                        anbx_list.push(anbx)
+                    }
+                })
+
+                fn.AnbxFormat = `(${anbx_list.toString()})`
+
+            }
+        })
     }
 
+    console.log("FUNCTION ARRAY ========> ", function_array)
 }
+
 
 function fideRepeade(array) {
     var result = [];
     array.filter(firstEl => array.filter(secodEl => secodEl == firstEl).length > 1 && !result.includes(firstEl) ? result.push(firstEl) : null)
     return result
 }
+// $('.nav-item').find('a').click(function() {
+//     if ($(this).hasClass('active')) {
+//         console.log("active ", $(this).attr('href'))
+
+//     }
+//     //         console.log("%%%%%% ", $(this).tabs())
+//     //         if ($(this).hasClass('active')) {
+//     //             console.log("lcm,dlmcd", $(this).attr('href'))
+//     //         }
+// })
+
+function get_active_tabs() {
+    var active_tabs = []
+    $('.nav-item').find('a').each(function() {
+        if ($(this).hasClass('active')) {
+            active_tabs.push($(this).attr('href'))
+        }
+    })
+    console.log("active_tabs ", active_tabs)
+    return active_tabs
+}
+
 
 
 function registerRunButtonEvent() {
 
-    $('#runApp').click(() => {
+
+
+    //     $('#runApp').click(() => {
 
 
 
+    //                 result_error_array = []
+    //                 encrypt_list = []
+    //                 function_array = []
+    //                     // macro_list = []
+    //                     // key_list = []
+    //                 console.log("********* ", macro_list)
+
+    //                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+    //                 parser_msg_to_partner_new(arrow_list)
+
+    //                 console.log("ARRAY PARTNER => ", array_partner)
+
+    //                 counter_tab++
+    //                 if ($('.nav-item').find('a').hasClass('active')) {
+    //                     $('.nav-item').find('a').removeClass('active')
+    //                     $('.tab-pane').removeClass('active')
+    //                     $('.nav-item').find('a').removeClass('active_tab')
+    //                 }
+    //                 $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active c_tab active_tab" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
+    //         fas fa-times"></i></span>` + '</li>')
+    //                 $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}">
+    //         <div class="card custom_vh ">
+    //             <div class="row">
+    //                 <div class="col">
+    //                     <div class="card-header text-white bg-dark custom_header_code">
+    //                         Protocol
+    //                     </div>
+    //                     <div id="html-${counter_tab}"></div>
+    //                 </div>
+    //                 <div class="col">
+    //                     <div class="card-header text-white bg-dark">
+    //                         Output
+    //                     </div>
+    //                     <div class="output" id="output-${counter_tab}"></div>
+    //                 </div>
+    //             </div>
+    //         </div>`)
+    //                 var Agent = array_partner.map(a => a.name)
+    //                 var public_key = array_partner.map(a => a.AsymKey.map(Ak => Ak.pk))
+
+
+    //                 // symetric key Type
+    //                 var pre_symkey = []
+    //                     // array_partner.filter(a => a.symKey.length > 0 ? pre_symkey = pre_symkey.concat(a.symKey) : null)
+    //                 array_partner.filter(a => a.symKey.length > 0 ? pre_symkey.push.apply(pre_symkey, a.symKey) : null)
+    //                 console.log("PRYSYMKEY => ", pre_symkey)
+
+    //                 var getTypeSym = []
+    //                 getTypeSym = encrypt_list.map(tp => !pre_symkey.includes(tp.symKey) && !is_function(tp.symKey) ? tp.symKey : null).concat(mac_list.map(mac => !pre_symkey.includes(mac.symKey) && !is_function(mac.symKey) ? mac.symKey : null)).filter(a => a != null)
+
+    //                 console.log("getTypeSym ", getTypeSym)
+    //                 console.log("encrypt_list ", encrypt_list)
+
+    //                 var Nonces = array_partner.map(a => a.nonces.new_array.length > 0 ? a.nonces.new_array : null).toString().split(',').filter(a => a != '' && !getTypeSym.includes(a) && !Agent.includes(a))
+    //                 var repeatedNunce = fideRepeade(Nonces)
+    //                 if (repeatedNunce.length > 0) {
+    //                     repeatedNunce.forEach(a => {
+    //                         result_error_array.push({
+    //                             function: a,
+    //                             result: DUBLICATE_VALUE
+    //                         })
+    //                     })
+    //                 }
+    //                 console.log("Nonces ---------------- ", Nonces)
+
+    //                 var tmp_Nonce = []
+    //                 var capitalize_nonces = []
+    //                 Nonces.filter(n => !tmp_Nonce.includes(n) ? tmp_Nonce.push(n) && capitalize_nonces.push(capitalizeFirstLetter(n)) : null)
+    //                 Nonces = tmp_Nonce
+    //                 var user_define_function = []
+    //                 function_array.forEach(fn => {
+    //                     if (!default_function_name.includes(fn.name)) {
+    //                         var obj = {
+    //                             name: fn.name,
+    //                             inType: [],
+    //                             outType: ''
+    //                         }
+    //                         fn.content.forEach(content => {
+    //                             if (getTypeSym.includes(content) || pre_symkey.includes(content)) {
+    //                                 obj.inType.push("Symmetric_key")
+    //                             } else if (Agent.includes(content)) {
+    //                                 obj.inType.push("Agent")
+    //                             } else if (Nonces.includes(content)) {
+    //                                 obj.inType.push("Number")
+    //                             } else if (public_key.includes(content)) {
+    //                                 obj.inType.push("PublicKey")
+    //                             } else {
+    //                                 obj.inType.push("Number")
+    //                             }
+
+
+    //                         })
+    //                         var fn_string = `${fn.name}(${fn.content.toString()})`
+    //                         var fn_tmp = function_array.filter(mc => mc.funcString === fn_string ? mc.name : null).filter(mc => mc != null)
+    //                         var mc_tmp = macro_list.filter(mc => mc.value === fn_string ? mc.name : null).filter(mc => mc != null)
+
+    //                         getTypeSym.includes(fn_string) || getTypeSym.includes(mc_tmp.length > 0 ? mc_tmp[0].name : null) ? obj.outType = "Symmetric_key" : obj.outType = "Number"
+    //                         if ((user_define_function.findIndex(a => a.name === fn.name) === -1) && obj.name != "inv")
+    //                             user_define_function.push(obj)
+    //                     }
+    //                 })
+
+    //                 console.log("####### ", macro_list)
+
+    //                 var shk_list = []
+    //                 var share_list = []
+    //                 key_from_to_list.forEach((key, idx) => {
+    //                     key.AnbxFormat = `${key.key}(${key.partners.toString()})`
+    //                     key.ScytherFormat = `k(${key.partners.toString()})`
+    //                     share_list.push(`${key.partners.toString()} share ${key.AnbxFormat};`)
+    //                     shk_list.push(
+    //                         `Function [${Array(key.partners.length).fill('Agent').toString()} ->* Symmetric_key] ${key.key};`)
+    //                 })
+
+    //                 var Functions = function_array.map(a => !default_function_name.includes(a.name) ? a.name : null).filter(a => a != null)
+    //                 var Knowledge = []
+    //                 array_partner.forEach(a => {
+    //                     var obj_know = {
+    //                         name: a.name,
+    //                         value: Agent.concat(Functions)
+    //                     }
+    //                     if (a.symKey.length > 0) {
+    //                         key_from_to_list.filter(k => a.symKey.includes(k.key) ? obj_know.value.push(k.AnbxFormat) : null)
+    //                             // obj_know.value.push.apply(obj_know.value, a.symKey)
+    //                     }
+    //                     if (a.AsymKey.length > 0) {
+    //                         obj_know.value.push(a.AsymKey[0].pk, `inv(${a.AsymKey[0].pk})`)
+    //                     }
+    //                     Knowledge.push(obj_know)
+    //                 })
+    //                 var defineFuncString = user_define_function.map(a => `Function [${a.inType.toString()} -> ${a.outType}] ${a.name}`).join(`;\n\t\t`)
+    //                     // var defineKnowledgeString = Knowledge.filter(a => `${a.name}: ${a.value.toString()}`).join(`;\n\t\t`)
+
+    //                 var defineKnowledgeString = ''
+    //                 Knowledge.filter(a => {
+    //                     defineKnowledgeString += `${a.name}: ${a.value.filter(v => v.trim() != '').toString()};\n\t\t`
+    //                 })
+
+    //                 // defineKnowledgeString += `${share_list.join(`\n\t\t`)}`
+    //                 var Actions = []
+    //                 arrow_list.forEach((ar, index) => {
+    //                     ar.message.params.forEach((pr, idx) => {
+    //                         if (Nonces.includes(pr)) {
+    //                             var tmp_pr = capitalizeFirstLetter(pr)
+    //                                 // var tmp_pr_idx = Nonces.indexOf(pr)
+    //                                 // Nonces[tmp_pr_idx] = tmp_pr
+    //                             ar.message.params[idx] = tmp_pr
+    //                         }
+    //                     })
+    //                     Actions.push({
+    //                         from: ar.from,
+    //                         to: ar.to,
+    //                         message: ar.message
+    //                     })
+    //                 })
+
+
+
+    //                 // // var tmp_function_array = function_array
+    //                 // function_array.forEach((fn, index) => {
+    //                 //     // let out_func_content = func_content(fn.value)
+    //                 //     if (fn.content.length > 0) {
+    //                 //         fn.content.forEach((cnt, idx) => {
+    //                 //             if (Nonces.includes(cnt)) {
+    //                 //                 var tmp_cnt = capitalizeFirstLetter(cnt)
+    //                 //                 // var tmp_cnt_idx = Nonces.indexOf(cnt)
+    //                 //                 // Nonces[tmp_cnt_idx] = tmp_cnt
+    //                 //                 fn.content[idx] = tmp_cnt
+    //                 //             }
+    //                 //         })
+    //                 //         function_array[index].content = fn.content
+    //                 //         function_array[index].funcString = `${fn.name}(${fn.content.toString()})`
+
+    //                 //         switch (fn.name) {
+    //                 //             case "Enc":
+    //                 //                 function_array[index].AnbxFormat = `{|${fn.content.slice(0, fn.content.length - 1).toString()}|}${fn.key}`
+    //                 //                 break
+    //                 //             case "AEnc":
+    //                 //                 Aencryp_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = `{${fn.content.slice(0, fn.content.length - 1).toString()}}${a.keypair.publicKey}` : null)
+    //                 //                 break
+    //                 //             case "Sign":
+    //                 //                 sign_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = `{${fn.content.slice(0, fn.content.length - 1).toString()}}inv(${a.keypair.pk})` : null)
+    //                 //                 break
+    //                 //             case "Dec":
+    //                 //                 decrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.plainText : null)
+    //                 //                 break;
+    //                 //             case "ADec":
+    //                 //                 ADecrypt_list.filter(a => a.funcString === fn.funcString ? fn.AnbxFormat = a.plainText : null)
+    //                 //                 break;
+    //                 //         }
+
+    //                 //     }
+    //                 // })
+
+    //                 // function_array.reverse().forEach(fn => {
+    //                 //     fn.content.forEach((content, idx) => {
+    //                 //         if (is_function(content)) {
+    //                 //             let tmp = function_array.find(a => a.funcString === content)
+    //                 //             if (tmp != null) {
+    //                 //                 fn.content[idx] = tmp.AnbxFormat
+    //                 //                 fn.AnbxFormat = fn.AnbxFormat.replace(content, tmp.AnbxFormat)
+    //                 //             }
+    //                 //         }
+    //                 //     })
+    //                 // })
+
+    //                 // function_array.forEach(fn => {
+    //                 //     if (fn.name === "Dec" || fn.name === "ADec") {
+    //                 //         let anbx_list = []
+    //                 //         fn.AnbxFormat.forEach(anbx => {
+    //                 //             let Anbx_filter = function_array.filter(a => a.funcString === anbx)
+    //                 //             console.log(" Anbx_filter ----------> ", fn.AnbxFormat)
+    //                 //             if (Anbx_filter.length > 0) {
+    //                 //                 anbx_list.push(Anbx_filter[0].AnbxFormat)
+    //                 //             } else {
+    //                 //                 anbx_list.push(anbx)
+    //                 //             }
+    //                 //         })
+
+    //                 //         fn.AnbxFormat = `(${anbx_list.toString()})`
+
+    //                 //     }
+    //                 // })
+
+    //                 // // functionFormatToAnbxFormat()
+    //                 // console.log("Function ----------> ", function_array)
+
+
+
+
+
+    //                 var defineActionString = Actions.map(a => `${a.from} -> ${a.to} : ${a.message.params.map(f => {
+    //             let tmp = macro_list.find(m => m.value === f)
+    //             if (tmp != null) {
+    //                 return tmp.name
+    //             } else {
+    //                 return f
+    //             }
+    //         }).toString()}`).join(`\n\t\t`)
+
+
+
+
+    //                 functionFormatToAnbxFormat()
+    //                 console.log("SIGN LIST > ", sign_list)
+    //                     // بروزرسانی ماکرو لیست و تبدیل به فرمت جدید
+    //                 macro_list.forEach(a => {
+    //                     let tmp = function_array.find(f => f.funcString === a.value)
+    //                     if (tmp != null)
+    //                         a.AnbxFormat = tmp.AnbxFormat
+    //                 })
+    //                 var definitions = macro_list.map(a => `${a.name} : ${a.AnbxFormat}`).join(`;\n\t\t`) + ';\n\t\t'
+
+
+    //                 // // ----- 01/03/05 ----- //
+    //                 // let tmp_macro_list = macro_list
+    //                 // macro_list.forEach((mc, index) => {
+    //                 //     // console.log("Macro ----------> ", mc)
+    //                 //     if (mc.AnbxFormat.search("|") > -1) {
+    //                 //         splite_content_bracket_pyp(mc.AnbxFormat)
+
+    //                 //     }
+    //                 //     else {
+    //                 //         splite_content_bracket(mc.AnbxFormat)
+    //                 //     }
+    //                 //     // let mach_func = function_array.filter(fn => fn.funcString === mc.value)
+    //                 //     // if(mach_func.length > 0){
+    //                 //     //     macro_list[index].AnbxFormat = mach_func[0].AnbxFormat
+    //                 //     // }
+
+    //                 // })
+    //                 // split_array.reverse().forEach((fn, index1) => {
+    //                 //     split_array.forEach((f, index2) => {
+    //                 //         if (index1 != index2) {
+    //                 //             if (fn.content.search(f.AnbxFormat) > -1) {
+    //                 //                 split_array[index1].func_string = fn.func_string.replace(f.AnbxFormat, f.func_string)
+    //                 //                 console.log("Fn ----------> ", fn.func_string)
+    //                 //             }
+    //                 //         }
+    //                 //     })
+    //                 // })
+    //                 console.log(" SPLIT ARRAY --------> ", split_array)
+
+
+    //                 console.log("MACRO LIST > ", macro_list)
+
+    //                 // var str = "A -> B: {|A,({SA,exp(g,XxKEa),Na,Nb}inv(sk(A))),SA|}h(Na,Nb,SA,exp(exp(g,XxKEa),YxKEb))"
+    //                 // // var st = "{{dsofokdf}}"
+    //                 // // console.log(st.replaceAll("{", "["))
+
+    //                 // // splite_content_bracket_pyp(str)
+    //                 // // split_array.forEach(s => {
+    //                 // //     str = str.replace(s.Anbx_string, s.func_string)
+    //                 // // })
+    //                 // splite_content_bracket_pyp(str)
+    //                 // split_array.forEach(s => {
+    //                 //     str = str.replace(s.Anbx_string, s.func_string)
+    //                 // })
+
+    //                 // splite_content_bracket(str)
+    //                 // split_array.forEach(s => {
+    //                 //     str = str.replace(s.Anbx_string, s.func_string)
+    //                 // })
+
+    //                 // // console.log("===============================>  ", split_array)
+    //                 // console.log(function_array)
+    //                 // // console.log("===============================>  ", )
+
+
+    //                 var GoalsFunc = []
+    //                 array_partner.forEach(a => {
+    //                     array_partner.forEach(b => {
+    //                         if (a.name != b.name) {
+    //                             a.nonces.new_array.forEach(n => {
+    //                                 GoalsFunc.push(`${a.name} authenticates ${b.name} on ${capitalizeFirstLetter(n)}`)
+    //                             })
+    //                         }
+    //                     })
+    //                 })
+
+    //                 encrypt_list.forEach(a => {
+    //                     let tmp_key = key_from_to_list.filter(b => a.symKey == b.key)
+    //                     let key = a.symKey
+    //                     if (tmp_key.length > 0) {
+    //                         key = tmp_key[0].AnbxFormat
+    //                     }
+    //                     GoalsFunc.push(`${key} secret between ${a.from},${a.to}`)
+    //                     a.plainText.forEach(p => {
+    //                         if (Nonces.includes(p)) {
+    //                             p = capitalizeFirstLetter(p)
+    //                         }
+    //                         GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
+    //                     })
+    //                 })
+    //                 Aencryp_list.forEach(a => {
+    //                     a.plainText.forEach(p => {
+    //                         if (Nonces.includes(p)) {
+    //                             p = capitalizeFirstLetter(p)
+    //                         }
+    //                         GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
+    //                     })
+    //                 })
+
+    //                 // function_array = tmp_function_array
+    //                 // macro_list = tmp_macro_list
+
+
+    //                 // ---------------------------- scyther --------------------------//
+    //                 var Roles = []
+    //                 array_partner.forEach(a => {
+    //                     let msg_array = []
+    //                     let stapt_msg
+    //                     var obj_roles = {
+    //                         name: a.name,
+    //                         message: [],
+    //                         fresh: [],
+    //                         var: []
+    //                     }
+    //                     a.messages.forEach((msg, idx) => {
+    //                         if (a.name == msg.from) {
+    //                             stapt_msg = 'send_'
+    //                             obj_roles.fresh.push.apply(obj_roles.fresh, msg.fresh)
+    //                         } else if (a.name == msg.to) {
+    //                             stapt_msg = 'recv_'
+    //                             obj_roles.var.push.apply(obj_roles.var, msg.fresh)
+    //                         }
+
+    //                         msg_array.push(`${stapt_msg}${idx}(${msg.from},${msg.to},${msg.message.params.map(f => {
+    //                     let tmp = macro_list.find(m => m.value === f)
+    //                     if (tmp != null) {
+    //                         return tmp.name
+    //                     } else {
+    //                         return f
+    //                     }
+    //                 })})`)
+    //                     })
+    //                     obj_roles.message = msg_array
+
+    //                     Roles.push(obj_roles)
+    //                 })
+
+
+
+    //                 console.log("ROLES > ", Roles)
+
+
+    //                 var macros = macro_list.map(a => `macro ${a.name} = ${a.AnbxFormat}`).filter(a => a != '' || a != null).join(`;\n`)
+    //                 var define_func = `hashfunction ${user_define_function.map(d => d.name).filter(a => a != '' || a != null).join(',')};\n`
+    //                 var protpcol_scyther_output = '\n'
+
+    //                 if (macro_list.length > 0) {
+    //                     protpcol_scyther_output += `${macros};\n\n`
+    //                 }
+    //                 if (user_define_function.length > 0) {
+    //                     protpcol_scyther_output += `${define_func};\n\n`
+    //                 }
+    //                 protpcol_scyther_output += `protocol ${protocol_name}(${Agent.join(',')})\n{`
+
+    //                 // `${macros}\n\n${define_func}\n\nprotocol ${protocol_name}(${Agent.join(',')})\n{\n`
+
+    //                 Roles.forEach(a => {
+    //                     var role = `\n\trole ${a.name}\n\t{\n\t\t`
+    //                     if (a.fresh.length > 0) {
+    //                         let tmp_fresh = a.fresh.filter(f => f != null || f != '')
+    //                         if (tmp_fresh.length > 0) {
+    //                             role += `fresh ${a.fresh.join(',')}: Nonce;\n\t\t`
+    //                         }
+    //                     }
+    //                     if (a.var.length > 0) {
+    //                         let tmp_var = a.var.filter(f => f != null || f != '')
+    //                         if (tmp_var.length > 0) {
+    //                             role += `var ${a.var.join(',')}: Nonce;\n\t\t`
+    //                         }
+    //                     }
+    //                     if (a.message.length > 0) {
+    //                         let tmp_msg = a.message.filter(f => f != null || f != '')
+    //                         if (tmp_msg.length > 0) {
+    //                             role += `${a.message.join(';\n\t\t')};\n\t`
+    //                         }
+    //                     }
+    //                     role += `}\n`
+    //                     protpcol_scyther_output += role
+    //                 })
+    //                 protpcol_scyther_output += `\n}`
+
+    //                 protpcol_scyther_output = protpcol_scyther_output.replaceAll("|", "")
+    //                 key_from_to_list.forEach(key => {
+    //                     // console.log("key > ", protpcol_scyther_output.search('key'))
+    //                     protpcol_scyther_output = protpcol_scyther_output.replace(key.AnbxFormat, key.ScytherFormat)
+
+    //                 })
+
+    //                 // `role ${a.name}\n\t{${a.fresh.join(',')}: Nonce;\n\t${a.var.join(',')}: Nonce;\n\t${a.message.join('\n\t;')}}\n\t`
+
+
+
+    //                 console.log("OUTPUT SCY  ------> ", protpcol_scyther_output)
+
+    //                 var scyther_protocol = `
+    // protocol ${protocol_name}(${Agent.join(',')})
+    // {
+    //     role I
+    //     {
+    //         fresh ni: Nonce;
+    //         var nr,nr2: Nonce;
+    //         var kir: SessionKey;
+
+    //         send_1(I,R, I,{ni}k(I,R) );
+    //         recv_2(R,I, {succ(ni),nr}k(I,R) );
+    //         send_3(I,R, {succ(nr)}k(I,R) );
+    //         recv_4(R,I, {kir,nr2}k(I,R) );
+    //         claim_I1(I,Secret,kir);
+    //         claim_I2(I,Nisynch);
+    //         claim_I3(I,Niagree);
+    //         claim_I4(I,Empty,(Fresh,kir));
+    //     }    
+
+    //     role R
+    //     {
+    //         var ni: Nonce;
+    //         fresh nr,nr2: Nonce;
+    //         fresh kir: SessionKey;
+
+    //         recv_1(I,R, I,{ni}k(I,R) );
+    //         send_2(R,I, {succ(ni),nr}k(I,R) );
+    //         recv_3(I,R, {succ(nr)}k(I,R) );
+    //         send_4(R,I, {kir,nr2}k(I,R) );
+    //         claim_R1(R,Secret,kir);
+    //         claim_R2(R,Nisynch);
+    //         claim_R3(R,Niagree);
+    //         claim_R4(R,Empty,(Fresh,kir));
+    //     }
+    // }
+
+    // `
+
+    //                 var protocol = `
+    // Protocol: ${project_name}
+
+    // Types:
+    // \t\tAgent ${Agent};
+    // \t\tNumber ${capitalize_nonces};${getTypeSym.length > 0 ? '\n\t\tSymmetric_key ' : ''}${getTypeSym}${getTypeSym.length > 0 ? ';' : ''}${shk_list.length > 0 ? `\n\t\t${shk_list.join(`\n\t\t`)}` : ''}
+    // \t\tFunction [Untyped,SymmetricKey -> Number] hmac;
+    // \t\tFunction [Agent ->* PublicKey] pk;
+    // \t\t${defineFuncString}
+
+    // Definitions:
+    // \t\t${definitions}
+
+    // Knowledge:
+    // \t\t${defineKnowledgeString}
+
+    // Actions:
+    // \t\t${defineActionString}
+
+    // Goals:
+    // \t\t${GoalsFunc.join(`\n\t\t`)}
+    //         `
+    //         // -------------------------End Anbx output-------------------------------
+
+    //         var Pv_string = ''
+    //         // btn_build.addEventListener('click', () => {
+    //         //     console.log("8888888")
+    //         //     createFile(project_name, 'sample-' + project_name, protocol)
+    //         //     onClick(`${project_name}\\sample-${project_name}.Anbx`)
+    //         //     proverif(`sample-${project_name}.pv`)
+    //         //     fetch(`${project_name}\\sample-${project_name}.pv`)
+    //         //         .then(response => response.text())
+    //         //         .then(data => {
+    //         //             // Do something with your data
+    //         //             Pv_string = data
+    //         //             console.log(data);
+    //         //         });
+
+    //         // })
+
+
+
+
+    //         // ------------------------- Run code in AnBx analyzor -----------------//
+    //         btn_anb.addEventListener('click', () => {
+    //             // save_code_to_file('AnBx', protocol)
+    //             createFile(project_name, 'sample-' + project_name, protocol)
+    //             onClick(`${project_name}\\sample-${project_name}.Anbx`)
+    //             // Anbx_string = read_file(`sample.Anbx`)
+
+    //         })
+
+    //         //--------------------------- Run code in PV analyzor ----------------------//
+    //         btn_pv.addEventListener('click', () => {
+    //             BulidProverifFile(protocol)
+
+    //             // proverif(`sample-${project_name}.pv`)
+
+    //             // fetch(`${project_name}\\sample-${project_name}.pv`)
+    //             //     .then(response => response.text())
+    //             //     .then(data => {
+    //             //         // Do something with your data
+    //             //         console.log(data);
+    //             //     });
+
+    //         })
+    //         // -------------------------------------------------------------------------//
+
+
+
+    //         // -----------------------Replace Nonces with Capitalized Nonces----------
+
+    //         Nonces.forEach(nonce => {
+    //             // let regex = /(,A,)|(,A\))|(\(A,)|(\(A\))/g
+
+    //             let reg1 = `,${nonce},`
+    //             let reg2 = `,${nonce})`
+    //             let reg3 = `(${nonce},`
+    //             let reg4 = `(${nonce})`
+
+    //             let reg5 = `,${nonce}|`
+    //             let reg6 = `|${nonce},`
+    //             let reg7 = `|${nonce}|`
+
+    //             let reg8 = `,${nonce}}`
+    //             let reg9 = `{${nonce},`
+    //             let reg10 = `{${nonce}}`
+
+    //             protocol = protocol.replace(reg1, `,${capitalizeFirstLetter(nonce)},`)
+    //             protocol = protocol.replace(reg2, `,${capitalizeFirstLetter(nonce)})`)
+    //             protocol = protocol.replace(reg3, `(${capitalizeFirstLetter(nonce)},`)
+    //             protocol = protocol.replace(reg4, `(${capitalizeFirstLetter(nonce)})`)
+
+    //             protocol = protocol.replace(reg5, `,${capitalizeFirstLetter(nonce)}|`)
+    //             protocol = protocol.replace(reg6, `|${capitalizeFirstLetter(nonce)},`)
+    //             protocol = protocol.replace(reg7, `|${capitalizeFirstLetter(nonce)}|`)
+
+    //             protocol = protocol.replace(reg8, `,${capitalizeFirstLetter(nonce)}}`)
+    //             protocol = protocol.replace(reg9, `{${capitalizeFirstLetter(nonce)},`)
+    //             protocol = protocol.replace(reg10, `{${capitalizeFirstLetter(nonce)}}`)
+
+
+    //         })
+
+    //         // A authenticates B on NxNB
+    //         // B authenticates A on NxNB
+    //         // NxNB secret between A,B
+    //         // B *->* A: NxNB
+    //         var Agent_style = []
+    //         Agent.forEach(a => {
+    //             Agent_style.push(`${a}: style2`)
+    //         })
+    //         var Agent_style_string = Agent_style.join(`,\n`)
+    //         console.log("AGGGGGG ", Agent_style_string)
+    //         var Output = CodeMirror(document.querySelector("#output-" + counter_tab), {
+    //             // width: "50%",
+    //             lineNumbers: true,
+    //             lineWrapping: true,
+    //             tabSize: 2,
+    //             // value: JSON.stringify(result_error_array, null, ' '),
+    //             value: JSON.stringify(Pv_string, null, ' '),
+    //             mode: "javascript",
+    //             theme: "material-darker",
+    //             keyword: {
+    //                 "Protocol:": "style4",
+    //                 "Types:": "style4",
+    //                 "Definitions:": "style4",
+    //                 "Knowledge:": "style4",
+    //                 "Actions:": "style4",
+    //                 "Goals:": "style4",
+    //                 "Agent": "style2",
+    //                 "Number": "style2",
+    //                 "Symmetric_key": "style2",
+    //                 "Function": "style2",
+    //                 "word3": "style3",
+    //                 "example\.com": "style4",
+    //                 "abc\\d+": "style2",
+
+    //             }
+    //         });
+
+    //         var myCodeMirror = CodeMirror(document.querySelector('#html-' + counter_tab), {
+    //             // width: "20%",
+    //             lineNumbers: true,
+    //             setSize: "50%,50%",
+    //             // lineWrapping: true,
+    //             tabSize: 2,
+    //             value: protocol,
+    //             mode: "javascript",
+    //             theme: "material-darker",
+    //             keyword: {
+    //                 "Protocol:": "style4",
+    //                 "Types:": "style4",
+    //                 "Knowledge:": "style4",
+    //                 "Definitions:": "style4",
+    //                 "Actions:": "style4",
+    //                 "Goals:": "style4",
+    //                 "Agent": "style2",
+    //                 "Number": "style2",
+    //                 "Symmetric_key": "style2",
+    //                 "Function": "style2",
+    //                 "word3": "style3",
+    //                 "share": "style2",
+    //                 "example\.com": "style4",
+    //                 "abc\\d+": "style2",
+    //                 Agent_style_string
+    //             }
+    //         });
+
+
+    //         // scyther
+
+    //         // var myCodeMirror = CodeMirror(document.querySelector('#html-' + counter_tab), {
+    //         //     // width: "20%",
+    //         //     lineNumbers: true,
+    //         //     setSize: "50%,50%",
+    //         //     // lineWrapping: true,
+    //         //     tabSize: 2,
+    //         //     value: protpcol_scyther_output,
+    //         //     mode: "javascript",
+    //         //     theme: "material-darker",
+    //         //     keyword: {
+    //         //         "Protocol:": "style4",
+    //         //         "Types:": "style4",
+    //         //         "Knowledge:": "style4",
+    //         //         "Definitions:": "style4",
+    //         //         "Actions:": "style4",
+    //         //         "Goals:": "style4",
+    //         //         "Agent": "style2",
+    //         //         "Number": "style2",
+    //         //         "Symmetric_key": "style2",
+    //         //         "Function": "style2",
+    //         //         "word3": "style3",
+    //         //         "share": "style2",
+    //         //         "example\.com": "style4",
+    //         //         "abc\\d+": "style2",
+    //         //         Agent_style_string
+    //         //     }
+    //         // });
+
+    //         console.log(myCodeMirror)
+
+    //         registerCloseEvent()
+
+    //         // const BASE_URL = 'http://localhost:8000/api/runExe'
+
+    //         // axios.post(BASE_URL, {
+    //         //     file_name: protocol_name,
+    //         //     file_content: protocol
+    //         // })
+    //         //     .then(function (response) {
+    //         //         console.log(response);
+    //         //     })
+    //         //     .catch(function (error) {
+    //         //         console.log(error);
+    //         //     });
+
+
+    //         // fetch(BASE_URL, {
+    //         //     method: "POST",
+    //         //     headers: { 'Content-Type': 'application/json' },
+    //         //     body: JSON.stringify({
+    //         //         "file_name": "protocol",
+    //         //         "file_content": protocol
+    //         //     })
+    //         // }).then(res => {
+    //         //     console.log("Request complete! response:", res);
+    //         // });
+
+    //         // Execute()
+    //         console.log("===============================>  ARRAY PARTNER 2>  ", array_partner)
+
+    //     })
+    var protocol
+
+    btn_build.addEventListener('click', () => {
                 result_error_array = []
                 encrypt_list = []
                 function_array = []
                     // macro_list = []
-                key_list = []
+                    // key_list = []
                 console.log("********* ", macro_list)
 
                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
                 parser_msg_to_partner_new(arrow_list)
 
-                counter_tab++
-                if ($('.nav-item').find('a').hasClass('active')) {
-                    $('.nav-item').find('a').removeClass('active')
-                    $('.tab-pane').removeClass('active')
-                    $('.nav-item').find('a').removeClass('active_tab')
-                }
-                $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active c_tab active_tab" href="#Untiteld-${counter_tab}" data-bs-toggle="tab">` + `Untiteld-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
-        fas fa-times"></i></span>` + '</li>')
-                $('.tab-content').append(`<div class="tab-pane fade show active" id="Untiteld-${counter_tab}">
-        <div class="card custom_vh ">
-            <div class="row">
-                <div class="col">
-                    <div class="card-header text-white bg-dark custom_header_code">
-                        Protocol
-                    </div>
-                    <div id="html-${counter_tab}"></div>
-                </div>
-                <div class="col">
-                    <div class="card-header text-white bg-dark">
-                        Output
-                    </div>
-                    <div class="output" id="output-${counter_tab}"></div>
-                </div>
-            </div>
-        </div>`)
+                console.log("ARRAY PARTNER => ", array_partner)
+
+
                 var Agent = array_partner.map(a => a.name)
                 var public_key = array_partner.map(a => a.AsymKey.map(Ak => Ak.pk))
 
 
                 // symetric key Type
-                // var pre_symkey = []
-                // array_partner.filter(a => a.symKey.length > 0 ? pre_symkey = pre_symkey.concat(a.symKey) : null)
-                var pre_symkey = array_partner.filter(a => a.symKey.length > 0 ? a.symKey : null)
-
+                var pre_symkey = []
+                    // array_partner.filter(a => a.symKey.length > 0 ? pre_symkey = pre_symkey.concat(a.symKey) : null)
+                array_partner.filter(a => a.symKey.length > 0 ? pre_symkey.push.apply(pre_symkey, a.symKey) : null)
+                console.log("PRYSYMKEY => ", pre_symkey)
 
                 var getTypeSym = []
-                getTypeSym = encrypt_list.map(tp => !pre_symkey.includes(tp.symKey) ? tp.symKey : null).concat(mac_list.filter(mac => !pre_symkey.includes(mac.symKey) ? mac.symKey : null))
+                getTypeSym = encrypt_list.map(tp => !pre_symkey.includes(tp.symKey) && !is_function(tp.symKey) ? tp.symKey : null).concat(mac_list.map(mac => !pre_symkey.includes(mac.symKey) && !is_function(mac.symKey) ? mac.symKey : null)).filter(a => a != null)
 
                 console.log("getTypeSym ", getTypeSym)
                 console.log("encrypt_list ", encrypt_list)
 
-                var Nonces = array_partner.map(a => a.nonces.new_array.length > 0 ? a.nonces.new_array : null).toString().split(',').filter(a => a != null && !getTypeSym.includes(a) && !Agent.includes(a))
+                var Nonces = array_partner.map(a => a.nonces.new_array.length > 0 ? a.nonces.new_array : null).toString().split(',').filter(a => a != '' && !getTypeSym.includes(a) && !Agent.includes(a))
                 var repeatedNunce = fideRepeade(Nonces)
                 if (repeatedNunce.length > 0) {
                     repeatedNunce.forEach(a => {
@@ -3154,9 +4563,11 @@ function registerRunButtonEvent() {
                         })
                     })
                 }
+                console.log("Nonces ---------------- ", Nonces)
 
                 var tmp_Nonce = []
-                Nonces.filter(n => !tmp_Nonce.includes(n) ? tmp_Nonce.push(n) : null)
+                var capitalize_nonces = []
+                Nonces.filter(n => !tmp_Nonce.includes(n) ? tmp_Nonce.push(n) && capitalize_nonces.push(capitalizeFirstLetter(n)) : null)
                 Nonces = tmp_Nonce
                 var user_define_function = []
                 function_array.forEach(fn => {
@@ -3167,7 +4578,7 @@ function registerRunButtonEvent() {
                             outType: ''
                         }
                         fn.content.forEach(content => {
-                            if (getTypeSym.includes(content)) {
+                            if (getTypeSym.includes(content) || pre_symkey.includes(content)) {
                                 obj.inType.push("Symmetric_key")
                             } else if (Agent.includes(content)) {
                                 obj.inType.push("Agent")
@@ -3193,18 +4604,31 @@ function registerRunButtonEvent() {
 
                 console.log("####### ", macro_list)
 
+                var shk_list = []
+                var share_list = []
+                key_from_to_list.forEach((key, idx) => {
+                    key.AnbxFormat = `${key.key}(${key.partners.toString()})`
+                    key.ScytherFormat = `k(${key.partners.toString()})`
+                    share_list.push(`${key.partners.toString()} share ${key.AnbxFormat};`)
+                    shk_list.push(
+                        `Function [${Array(key.partners.length).fill('Agent').toString()} ->* Symmetric_key] ${key.key};`)
+                })
+
                 var Functions = function_array.map(a => !default_function_name.includes(a.name) ? a.name : null).filter(a => a != null)
                 var Knowledge = []
                 array_partner.forEach(a => {
                     var obj_know = {
                         name: a.name,
-                        value: Agent.concat(a.symKey, Functions)
+                        value: Agent.concat(Functions)
+                    }
+                    if (a.symKey.length > 0) {
+                        key_from_to_list.filter(k => a.symKey.includes(k.key) ? obj_know.value.push(k.AnbxFormat) : null)
+                            // obj_know.value.push.apply(obj_know.value, a.symKey)
                     }
                     if (a.AsymKey.length > 0) {
                         obj_know.value.push(a.AsymKey[0].pk, `inv(${a.AsymKey[0].pk})`)
-                        console.log("AR => ", a)
-                        Knowledge.push(obj_know)
                     }
+                    Knowledge.push(obj_know)
                 })
                 var defineFuncString = user_define_function.map(a => `Function [${a.inType.toString()} -> ${a.outType}] ${a.name}`).join(`;\n\t\t`)
                     // var defineKnowledgeString = Knowledge.filter(a => `${a.name}: ${a.value.toString()}`).join(`;\n\t\t`)
@@ -3214,14 +4638,25 @@ function registerRunButtonEvent() {
                     defineKnowledgeString += `${a.name}: ${a.value.filter(v => v.trim() != '').toString()};\n\t\t`
                 })
 
+                // defineKnowledgeString += `${share_list.join(`\n\t\t`)}`
                 var Actions = []
                 arrow_list.forEach((ar, index) => {
+                    ar.message.params.forEach((pr, idx) => {
+                        if (Nonces.includes(pr)) {
+                            var tmp_pr = capitalizeFirstLetter(pr)
+                                // var tmp_pr_idx = Nonces.indexOf(pr)
+                                // Nonces[tmp_pr_idx] = tmp_pr
+                            ar.message.params[idx] = tmp_pr
+                        }
+                    })
                     Actions.push({
                         from: ar.from,
                         to: ar.to,
                         message: ar.message
                     })
                 })
+
+
 
                 var defineActionString = Actions.map(a => `${a.from} -> ${a.to} : ${a.message.params.map(f => {
             let tmp = macro_list.find(m => m.value === f)
@@ -3233,6 +4668,8 @@ function registerRunButtonEvent() {
         }).toString()}`).join(`\n\t\t`)
 
 
+
+
                 functionFormatToAnbxFormat()
                 console.log("SIGN LIST > ", sign_list)
                     // بروزرسانی ماکرو لیست و تبدیل به فرمت جدید
@@ -3241,180 +4678,300 @@ function registerRunButtonEvent() {
                     if (tmp != null)
                         a.AnbxFormat = tmp.AnbxFormat
                 })
-                var definitions = macro_list.map(a => `${a.name} : ${a.AnbxFormat}`).join(`\n\t\t`)
-
-                console.log("MACRO LIST > ", macro_list)
-
-                var str = "A -> B: {|A,({SA,exp(g,XxKEa),Na,Nb}inv(sk(A))),SA|}h(Na,Nb,SA,exp(exp(g,XxKEa),YxKEb))"
-                    // var st = "{{dsofokdf}}"
-                    // console.log(st.replaceAll("{", "["))
-
-                // splite_content_bracket_pyp(str)
-                // split_array.forEach(s => {
-                //     str = str.replace(s.Anbx_string, s.func_string)
-                // })
-                splite_content_bracket_pyp(str)
-                split_array.forEach(s => {
-                    str = str.replace(s.Anbx_string, s.func_string)
-                })
-
-                splite_content_bracket(str)
-                split_array.forEach(s => {
-                    str = str.replace(s.Anbx_string, s.func_string)
-                })
-
-                // console.log("===============================>  ", split_array)
-                console.log(function_array)
-                    // console.log("===============================>  ", )
-
+                var definitions = macro_list.map(a => `${a.name} : ${a.AnbxFormat}`).join(`;\n\t\t`) + ';\n\t\t'
 
                 var GoalsFunc = []
                 array_partner.forEach(a => {
                     array_partner.forEach(b => {
                         if (a.name != b.name) {
                             a.nonces.new_array.forEach(n => {
-                                GoalsFunc.push(`${a.name} authenticates ${b.name} on ${n}`)
+                                GoalsFunc.push(`${a.name} authenticates ${b.name} on ${capitalizeFirstLetter(n)}`)
                             })
                         }
                     })
                 })
 
                 encrypt_list.forEach(a => {
-                    GoalsFunc.push(`${a.symKey} secret between ${a.from},${a.to}`)
+                    let tmp_key = key_from_to_list.filter(b => a.symKey == b.key)
+                    let key = a.symKey
+                    if (tmp_key.length > 0) {
+                        key = tmp_key[0].AnbxFormat
+                    }
+                    GoalsFunc.push(`${key} secret between ${a.from},${a.to}`)
                     a.plainText.forEach(p => {
+                        if (Nonces.includes(p)) {
+                            p = capitalizeFirstLetter(p)
+                        }
                         GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
                     })
                 })
                 Aencryp_list.forEach(a => {
                     a.plainText.forEach(p => {
+                        if (Nonces.includes(p)) {
+                            p = capitalizeFirstLetter(p)
+                        }
                         GoalsFunc.push(`${p} secret between ${a.from},${a.to}`)
                     })
                 })
 
-                console.log("ARRAY PARTNER => ", array_partner)
-                var protocol = `
-Protocol: ${protocol_name}
+                // function_array = tmp_function_array
+                // macro_list = tmp_macro_list
 
-Types:
-\t\tAgent ${Agent};
-\t\tNumber ${Nonces};
-\t\t${getTypeSym.length > 0 ? 'Symmetric_key ' : ''}${getTypeSym}${getTypeSym.length > 0 ? ';' : ''}
-\t\tFunction [Agent,Agent ->* Symmetric_key] shk;
-\t\tFunction [Agent ->* PublicKey] pk;
-\t\tFunction hash;
-\t\t${defineFuncString}
 
-Definitions:
-\t\t${definitions}
+                // ---------------------------- scyther --------------------------//
+                var Roles = []
+                array_partner.forEach(a => {
+                    let msg_array = []
+                    let stapt_msg
+                    var obj_roles = {
+                        name: a.name,
+                        message: [],
+                        fresh: [],
+                        var: []
+                    }
+                    a.messages.forEach((msg, idx) => {
+                        if (a.name == msg.from) {
+                            stapt_msg = 'send_'
+                            obj_roles.fresh.push.apply(obj_roles.fresh, msg.fresh)
+                        } else if (a.name == msg.to) {
+                            stapt_msg = 'recv_'
+                            obj_roles.var.push.apply(obj_roles.var, msg.fresh)
+                        }
 
-Knowledge:
-\t\t${defineKnowledgeString}
+                        msg_array.push(`${stapt_msg}${idx}(${msg.from},${msg.to},${msg.message.params.map(f => {
+                    let tmp = macro_list.find(m => m.value === f)
+                    if (tmp != null) {
+                        return tmp.name
+                    } else {
+                        return f
+                    }
+                })})`)
+                    })
+                    obj_roles.message = msg_array
 
-Actions:
-\t\t${defineActionString}
+                    Roles.push(obj_roles)
+                })
 
-Goals:
-\t\t${GoalsFunc.join(`\n\t\t`)}
-        `
+
+
+                console.log("ROLES > ", Roles)
+
+
+                var macros = macro_list.map(a => `macro ${a.name} = ${a.AnbxFormat}`).filter(a => a != '' || a != null).join(`;\n`)
+                var define_func = `hashfunction ${user_define_function.map(d => d.name).filter(a => a != '' || a != null).join(',')};\n`
+                var protpcol_scyther_output = '\n'
+
+                if (macro_list.length > 0) {
+                    protpcol_scyther_output += `${macros};\n\n`
+                }
+                if (user_define_function.length > 0) {
+                    protpcol_scyther_output += `${define_func};\n\n`
+                }
+                protpcol_scyther_output += `protocol ${protocol_name}(${Agent.join(',')})\n{`
+
+                // `${macros}\n\n${define_func}\n\nprotocol ${protocol_name}(${Agent.join(',')})\n{\n`
+
+                Roles.forEach(a => {
+                    var role = `\n\trole ${a.name}\n\t{\n\t\t`
+                    if (a.fresh.length > 0) {
+                        let tmp_fresh = a.fresh.filter(f => f != null || f != '')
+                        if (tmp_fresh.length > 0) {
+                            role += `fresh ${a.fresh.join(',')}: Nonce;\n\t\t`
+                        }
+                    }
+                    if (a.var.length > 0) {
+                        let tmp_var = a.var.filter(f => f != null || f != '')
+                        if (tmp_var.length > 0) {
+                            role += `var ${a.var.join(',')}: Nonce;\n\t\t`
+                        }
+                    }
+                    if (a.message.length > 0) {
+                        let tmp_msg = a.message.filter(f => f != null || f != '')
+                        if (tmp_msg.length > 0) {
+                            role += `${a.message.join(';\n\t\t')};\n\t`
+                        }
+                    }
+                    role += `}\n`
+                    protpcol_scyther_output += role
+                })
+                protpcol_scyther_output += `\n}`
+
+                protpcol_scyther_output = protpcol_scyther_output.replaceAll("|", "")
+                key_from_to_list.forEach(key => {
+                    // console.log("key > ", protpcol_scyther_output.search('key'))
+                    protpcol_scyther_output = protpcol_scyther_output.replace(key.AnbxFormat, key.ScytherFormat)
+
+                })
+
+                // `role ${a.name}\n\t{${a.fresh.join(',')}: Nonce;\n\t${a.var.join(',')}: Nonce;\n\t${a.message.join('\n\t;')}}\n\t`
+
+
+
+                console.log("OUTPUT SCY  ------> ", protpcol_scyther_output)
+
+                var scyther_protocol = `
+    protocol ${protocol_name}(${Agent.join(',')})
+    {
+    role I
+    {
+    fresh ni: Nonce;
+    var nr,nr2: Nonce;
+    var kir: SessionKey;
+    
+    send_1(I,R, I,{ni}k(I,R) );
+    recv_2(R,I, {succ(ni),nr}k(I,R) );
+    send_3(I,R, {succ(nr)}k(I,R) );
+    recv_4(R,I, {kir,nr2}k(I,R) );
+    claim_I1(I,Secret,kir);
+    claim_I2(I,Nisynch);
+    claim_I3(I,Niagree);
+    claim_I4(I,Empty,(Fresh,kir));
+    }    
+    
+    role R
+    {
+    var ni: Nonce;
+    fresh nr,nr2: Nonce;
+    fresh kir: SessionKey;
+    
+    recv_1(I,R, I,{ni}k(I,R) );
+    send_2(R,I, {succ(ni),nr}k(I,R) );
+    recv_3(I,R, {succ(nr)}k(I,R) );
+    send_4(R,I, {kir,nr2}k(I,R) );
+    claim_R1(R,Secret,kir);
+    claim_R2(R,Nisynch);
+    claim_R3(R,Niagree);
+    claim_R4(R,Empty,(Fresh,kir));
+    }
+    }
+    
+    `
+
+                protocol = `
+    Protocol: ${project_name}
+    
+    Types:
+    \t\tAgent ${Agent};
+    \t\tNumber ${capitalize_nonces};${getTypeSym.length > 0 ? '\n\t\tSymmetric_key ' : ''}${getTypeSym}${getTypeSym.length > 0 ? ';' : ''}${shk_list.length > 0 ? `\n\t\t${shk_list.join(`\n\t\t`)}` : ''}
+    \t\tFunction [Untyped,SymmetricKey -> Number] hmac;
+    \t\tFunction [Agent ->* PublicKey] pk;
+    \t\t${defineFuncString}
+    
+    Definitions:
+    \t\t${definitions}
+    
+    Knowledge:
+    \t\t${defineKnowledgeString}
+    
+    Actions:
+    \t\t${defineActionString}
+    
+    Goals:
+    \t\t${GoalsFunc.join(`\n\t\t`)}
+    `
+        // -------------------------End Anbx output-------------------------------
+
+        var Pv_string
+        var src = JSON.stringify(save_source_to_clipboard())
+        createFileJSON(project_name, `${project_name}`, src)
+
+        // -----------------------Replace Nonces with Capitalized Nonces----------
+
+        Nonces.forEach(nonce => {
+            // let regex = /(,A,)|(,A\))|(\(A,)|(\(A\))/g
+
+            let reg1 = `,${nonce},`
+            let reg2 = `,${nonce})`
+            let reg3 = `(${nonce},`
+            let reg4 = `(${nonce})`
+
+            let reg5 = `,${nonce}|`
+            let reg6 = `|${nonce},`
+            let reg7 = `|${nonce}|`
+
+            let reg8 = `,${nonce}}`
+            let reg9 = `{${nonce},`
+            let reg10 = `{${nonce}}`
+
+            protocol = protocol.replace(reg1, `,${capitalizeFirstLetter(nonce)},`)
+            protocol = protocol.replace(reg2, `,${capitalizeFirstLetter(nonce)})`)
+            protocol = protocol.replace(reg3, `(${capitalizeFirstLetter(nonce)},`)
+            protocol = protocol.replace(reg4, `(${capitalizeFirstLetter(nonce)})`)
+
+            protocol = protocol.replace(reg5, `,${capitalizeFirstLetter(nonce)}|`)
+            protocol = protocol.replace(reg6, `|${capitalizeFirstLetter(nonce)},`)
+            protocol = protocol.replace(reg7, `|${capitalizeFirstLetter(nonce)}|`)
+
+            protocol = protocol.replace(reg8, `,${capitalizeFirstLetter(nonce)}}`)
+            protocol = protocol.replace(reg9, `{${capitalizeFirstLetter(nonce)},`)
+            protocol = protocol.replace(reg10, `{${capitalizeFirstLetter(nonce)}}`)
+
+
+        })
 
         // A authenticates B on NxNB
         // B authenticates A on NxNB
         // NxNB secret between A,B
         // B *->* A: NxNB
-        var Output = CodeMirror(document.querySelector("#output-" + counter_tab), {
-            // width: "50%",
-            lineNumbers: true,
-            lineWrapping: true,
-            tabSize: 2,
-            value: JSON.stringify(result_error_array, null, ' '),
-            mode: "javascript",
-            theme: "material-darker",
-            keyword: {
-                "Protocol:": "style4",
-                "Types:": "style4",
-                "Definitions:": "style4",
-                "Knowledge:": "style4",
-                "Actions:": "style4",
-                "Goals:": "style4",
-                "Agent": "style2",
-                "Number": "style2",
-                "Symmetric_key": "style2",
-                "Function": "style2",
-                "word3": "style3",
-                "example\.com": "style4",
-                "abc\\d+": "style2",
-            }
-        });
-        var myCodeMirror = CodeMirror(document.querySelector('#html-' + counter_tab), {
-            // width: "20%",
-            lineNumbers: true,
-            lineWrapping: true,
-            tabSize: 2,
-            value: protocol,
-            mode: "javascript",
-            theme: "material-darker",
-            keyword: {
-                "Protocol:": "style4",
-                "Types:": "style4",
-                "Knowledge:": "style4",
-                "Definitions:": "style4",
-                "Actions:": "style4",
-                "Goals:": "style4",
-                "Agent": "style2",
-                "Number": "style2",
-                "Symmetric_key": "style2",
-                "Function": "style2",
-                "word3": "style3",
-                "example\.com": "style4",
-                "abc\\d+": "style2",
-            }
-        });
+        var Agent_style = []
+        Agent.forEach(a => {
+            Agent_style.push(`${a}: style2`)
+        })
+        var Agent_style_string = Agent_style.join(`,\n`)
+        console.log("AGGGGGG ", Agent_style_string)
+        // createFileJSON(project_name,`project-${project_name}.json`,protocol)
+        createAnbxFile(protocol)
 
-        console.log(macro_list)
+
+
 
         registerCloseEvent()
+    })
 
-        const BASE_URL = 'http://localhost:8000/api/runExe'
+    btn_pv.addEventListener('click', () => {
 
-        axios.post(BASE_URL, {
-                file_name: protocol_name,
-                file_content: protocol
-            })
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+        $.each($('.nav-tabs > li > a'), function (index, value) {
+            // get active tag
+            if ($(value).hasClass('active') && $(value).attr('href') === '#pv_viewer') {
 
+                proverif(`${project_name}.pv`, project_name)
+                // setTimeout(() => {
+                //     TreeView()
+                // }, 3000);
+                // TreeView()
 
-        // fetch(BASE_URL, {
-        //     method: "POST",
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         "file_name": "protocol",
-        //         "file_content": protocol
-        //     })
-        // }).then(res => {
-        //     console.log("Request complete! response:", res);
-        // });
+            }
 
-        // Execute()
-        console.log("===============================>  key_list ", key_list)
+        })
 
     })
 
+    btn_spdl.addEventListener('click', () => {
+        console.log("SPDL ==> ", `${project_name}\\output_${spdl_file_name}\\${spdl_file_name}.spdl`)
+        fetch(`${project_name}\\output_${spdl_file_name}\\${spdl_file_name}.spdl`)
+        .then(response => response.text())
+        .then(data => {
+            // console.log("spdl ===> ", data)
+            runScyther(spdl_file_name,project_name)
+            setTimeout(() => {
+                TreeView()
+            }, 2000);
+        }).catch(err => {
+            console.log(err)
+        });
+        
+    })
 
 }
 
-setInterval(function() {
-    $('#myTab').children('li').each(function() {
+setInterval(function () {
+    $('#myTab').children('li').each(function () {
         $(this).children().hasClass('active') ? $(this).children("a").addClass('active_tab') : $(this).children().removeClass('active_tab')
     })
 }, 100)
 
 function registerCloseEvent() {
-    $('.custom-close-icon-2').click(function() {
+    $('.custom-close-icon-2').click(function () {
         $(this).parent().remove()
         $('.tab-content').children($(this).parent().children('a').attr('href')).remove()
         $('#myTab a:first').addClass('active')
@@ -3422,11 +4979,12 @@ function registerCloseEvent() {
     })
 }
 
-$(function() {
+$(function () {
     registerRunButtonEvent()
     registerCloseEvent()
 
 })
+
 
 
 function AnbxToJson(str) {
@@ -3477,15 +5035,15 @@ function AnbxToJson(str) {
         split_array = []
         splite_content_bracket_pyp(e)
         split_array.forEach(s => {
-                e = e.replace(s.Anbx_string, s.func_string)
-            })
-            // console.log(split_array)
+            e = e.replace(s.Anbx_string, s.func_string)
+        })
+        // console.log(split_array)
         split_array = []
         splite_content_bracket(e)
         split_array.forEach(s => {
-                e = e.replace(s.Anbx_string, s.func_string)
-            })
-            // console.log(split_array)
+            e = e.replace(s.Anbx_string, s.func_string)
+        })
+        // console.log(split_array)
         let tmp = e.split(':')
         let tmp2 = tmp[0].split('->')
         let tmp3 = splite_content(tmp[1].trim())
@@ -3533,15 +5091,15 @@ function AnbxToJson(str) {
         split_array = []
         splite_content_bracket_pyp(d)
         split_array.forEach(s => {
-                d = d.replace(s.Anbx_string, s.func_string)
-            })
-            // console.log("SPLIT 1 : ", split_array)
+            d = d.replace(s.Anbx_string, s.func_string)
+        })
+        // console.log("SPLIT 1 : ", split_array)
         split_array = []
         splite_content_bracket(d)
         split_array.forEach(s => {
-                d = d.replace(s.Anbx_string, s.func_string)
-            })
-            // console.log("SPLIT 2 : ", split_array)
+            d = d.replace(s.Anbx_string, s.func_string)
+        })
+        // console.log("SPLIT 2 : ", split_array)
         let tmp = d.split(':')
 
 
@@ -3568,40 +5126,1538 @@ function AnbxToJson(str) {
 
 //#endregion
 
-//#region Build
+
+function createAnbxFile(protocol) {
+    createFile(project_name, project_name, protocol)
+    console.log("*** create Anbx File ***")
+    fetch(`${project_name}\\${project_name}.AnBx`)
+        .then(response => response.text())
+        .then(data => {
+            console.log("Anbx ===> ", data)
+            BuildAnbxFile(protocol)
+        }).catch(err => {
+            console.log(err)
+        });
+}
+
+function BuildAnbxFile(protocol) {
+
+    onClick(`${project_name}\\${project_name}.Anbx`)
+    console.log("*** create pv file ***")
+    setTimeout(() => {
+        fetch(`${project_name}\\${project_name}.pv`)
+            .then(data => {
+                var edit_pv = ReplaceCharInFile(project_name)
+                console.log("*** Replace pv file ***")
+                // if(edit_pv == true)
+
+            }).catch(err => {
+                console.log(err)
+            });
+    }, 2000)
+    setTimeout(() => {
+        BulidProverifFile(protocol)
+    }, 2000);
+
+}
+
+function BulidProverifFile(protocol) {
+
+    proverif(`${project_name}.pv`, project_name)
+    console.log("*** Build pv file ***")
+
+    setTimeout(() => {
+        FechContentFilePV(protocol)
+    }, 2000);
+}
+
+function FechContentFilePV(protocol) {
+    console.log("*** show pv file ***")
+    fetch(`${project_name}\\${project_name}.pv`)
+        .then(response => response.text())
+        .then(data => {
+            Pv_string = data
+            // $(".loader").css("display", "block");
+
+            setTimeout(() => {
+    //             counter_tab++
+    //             if ($('.nav-item').find('a').hasClass('active')) {
+    //                 $('.nav-item').find('a').removeClass('active')
+    //                 $('.tab-pane').removeClass('active')
+    //                 $('.nav-item').find('a').removeClass('active_tab')
+    //             }
+    //             $('#myTab').append('<li class="nav-item">' + `<a class="nav-link c_tab active_tab" href="#Out-${counter_tab}" data-bs-toggle="tab">` + `Protocol-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
+    // fas fa-times"></i></span>` + '</li>'
+
+    //             )
+    //             $('#myTab').append('<li class="nav-item">' + `<a class="nav-link active c_tab active_tab" href="#pv-${counter_tab}" data-bs-toggle="tab">` + `pv-${counter_tab}</a>` + `<span class="custom-close-icon-2"><i class="c-icon 
+    // fas fa-times"></i></span>` + '</li>')
 
 
-// fetch("/post/data/here", {
-//     method: "POST",
-//     headers: {'Content-Type': 'application/json'}, 
-//     body: JSON.stringify(data)
-//   }).then(res => {
-//     console.log("Request complete! response:", res);
-//   });
+    //             $('.tab-content').append(`<div class="tab-pane fade show" id="Out-${counter_tab}">
+    // <div class="card custom_vh ">
+    // <div class="row">
+    //     <div class="col">
+    //         <div class="card-header text-white bg-dark custom_header_code">
+    //             Protocol
+    //         </div>
+    //         <div id="html-${counter_tab}"></div>
+    //     </div>
+    //     <div class="col">
+    //         <div class="card-header text-white bg-dark">
+    //             PV
+    //         </div>
+    //         <div class="output" id="output-${counter_tab}"></div>
+    //     </div>
+    // </div>
+    // </div>`)
 
-// $('#BuildApp').on('click', () => {
-//     const BASE_URL = 'http://localhost:8000/api/runExe'
-//     fetch(BASE_URL, {
-//         method: "POST",
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({
-//             "file_name": "protocol",
-//             "file_content": protocol
-//         })
-//     }).then(res => {
-//         console.log("Request complete! response:", res);
+    //             $('.tab-content').append(`<div class="tab-pane fade show active" id="pv-${counter_tab}">
+    // <div class="card custom_vh">
+    // <iframe id="showhtmlpv" src="${project_name}\\outPV\\index.html" width="1000" height="1000"  frameborder="0">
+    // </div>`)
+
+
+
+                var Output = CodeMirror(document.querySelector("#output_pv"), {
+                    // width: "50%",
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    tabSize: 2,
+                    // value: JSON.stringify(result_error_array, null, ' '),
+                    value: data,
+                    mode: "javascript",
+                    theme: "material-darker",
+                    keyword: {
+                        "Protocol:": "style4",
+                        "Types:": "style4",
+                        "Definitions:": "style4",
+                        "Knowledge:": "style4",
+                        "Actions:": "style4",
+                        "Goals:": "style4",
+                        "Agent": "style2",
+                        "Number": "style2",
+                        "Symmetric_key": "style2",
+                        "Function": "style2",
+                        "word3": "style3",
+                        "example\.com": "style4",
+                        "abc\\d+": "style2",
+
+                    }
+                });
+
+                var myCodeMirror = CodeMirror(document.querySelector('#output_AnBx'), {
+                    // width: "20%",
+                    lineNumbers: true,
+                    setSize: "50%,50%",
+                    // lineWrapping: true,
+                    tabSize: 2,
+                    value: protocol,
+                    mode: "javascript",
+                    theme: "material-darker",
+                    keyword: {
+                        "Protocol:": "style4",
+                        "Types:": "style4",
+                        "Knowledge:": "style4",
+                        "Definitions:": "style4",
+                        "Actions:": "style4",
+                        "Goals:": "style4",
+                        "Agent": "style2",
+                        "Number": "style2",
+                        "Symmetric_key": "style2",
+                        "Function": "style2",
+                        "word3": "style3",
+                        "share": "style2",
+                        "example\.com": "style4",
+                        "abc\\d+": "style2",
+                    }
+                });
+
+                var proverifcss = `
+        /* spacing between list items */
+    
+    li {
+    margin-bottom: 20px;
+    }
+    
+    /* occurrence class */
+    
+    .occ
+    {
+      color:green;
+    }
+    
+    /* keywords */
+    
+    .keyword
+    {
+      color:blue;
+    }
+    
+    /* connectives */
+    
+    .conn
+    {
+      font-weight:bold;
+    }
+    
+    /* explanations of clauses */
+    
+    .explain
+    {
+      color:fuchsia;
+    }
+    
+    /* Function symbols */
+    
+    .fun
+    {
+    }
+    
+    /* Predicates */
+    
+    .pred
+    {
+    }
+    
+    /* Variables */
+    
+    .var
+    {
+      font-style:italic;
+    }
+    
+    /* Names */
+    
+    .name
+    {
+    }
+    
+    /* Types */
+    
+    .type
+    {
+    }
+    
+    /* Processes */
+    
+    .process
+    {
+        color:green
+    }
+    
+    /* Results */
+    
+    .query
+    { font-weight: bold;
+      font-size: 120% }
+    
+    .result
+    { font-weight: bold }
+    
+    .trueresult
+    { color: green }
+    
+    .unknownresult
+    { color: darkorange }
+    
+    .falseresult
+    { color: red }
+    
+        `
+
+                createFileCss(project_name, 'cssproverif', proverifcss)
+
+            }, 2000);
+
+            // $(".loader").css("display", "none");
+            console.log(data);
+
+            setTimeout(() => {
+                TreeView()
+            }, 3000);
+        });
+}
+
+var outPv_file_list = []
+
+
+function readFile(file_name, extension) {
+    var path = window.location.pathname;
+    var project_name = path.split('/');
+    var name = project_name[project_name.length - 1];
+    path = path.replace('/' + name, '')
+    var result
+        fetch(`${path}/${file_name}/${file_name}.${extension}`)
+        .then(response => response.text())
+        .then(data => {
+            result =  data
+        }).catch(err => {
+            result = err
+        });
+
+
+        // var page = path.split("/").pop();
+
+        console.log("read file ==> ", result);
+        return result
+}
+
+function TreeView() {
+
+
+    var listFile = getListFiles(project_name);
+    console.log("listFile ==> ", listFile);
+    if ($(`#${project_name}`).attr('id')) {
+        $(`#${project_name}`).remove();
+    }
+        listFile.forEach((element, idx) => {
+                if(element.name === project_name){
+                    $('.tree-view').append(`
+                    <details class="tree-nav__item is-expandable my_font" id="${element.name}">
+                    <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>${element.name}</summary>
+
+                    `)
+                }
+                element.files.forEach(f => {
+                    if (f.split('.').length == 1) {
+                        $(`#${element.name}`).append(`
+                        <details class="tree-nav__item is-expandable my_font" id="${f}">
+                        <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>${f}</summary>
+
+                        `)
+                    }else{
+                        $(`#${element.name}`).append(`
+                        <div class="tree-nav__item" id="${f}">
+                        <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${f}</a>
+                        </div>
+                        `)
+
+                        var extension = f.split('.').pop();
+                        var without_extension = f.split('.').slice(0, -1).join('.');
+                        console.log("without_extension ==> ", without_extension);
+                        
+                // if(extension === 'pv'){
+
+                // fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.pv`)
+                // .then(response => response.text())
+                // .then(data => {
+                //     var Output = CodeMirror(document.querySelector("#output_pv"), {
+                //         // width: "50%",
+                //         lineNumbers: true,
+                //         lineWrapping: true,
+                //         tabSize: 2,
+                //         // value: JSON.stringify(result_error_array, null, ' '),
+                //         value: data,
+                //         mode: "javascript",
+                //         theme: "material-darker",
+                //         keyword: {
+                //             "Protocol:": "style4",
+                //             "Types:": "style4",
+                //             "Definitions:": "style4",
+                //             "Knowledge:": "style4",
+                //             "Actions:": "style4",
+                //             "Goals:": "style4",
+                //             "Agent": "style2",
+                //             "Number": "style2",
+                //             "Symmetric_key": "style2",
+                //             "Function": "style2",
+                //             "word3": "style3",
+                //             "example\.com": "style4",
+                //             "abc\\d+": "style2",
+
+                //         }
+                //     });
+                // }).catch(err => {
+                //     return err
+                // });
+                // }
+
+                // if (extension === 'AnBx') {
+                //     fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.AnBx`)
+                //     .then(response => response.text())
+                //     .then(data => {
+                //         var myCodeMirror = CodeMirror(document.querySelector('#output_AnBx'), {
+                //             // width: "20%",
+                //             lineNumbers: true,
+                //             setSize: "50%,50%",
+                //             lineWrapping: true,
+                //             tabSize: 2,
+                //             value: data,
+                //             mode: "javascript",
+                //             theme: "material-darker",
+                //             keyword: {
+                //                 "Protocol:": "style4",
+                //                 "Types:": "style4",
+                //                 "Knowledge:": "style4",
+                //                 "Definitions:": "style4",
+                //                 "Actions:": "style4",
+                //                 "Goals:": "style4",
+                //                 "Agent": "style2",
+                //                 "Number": "style2",
+                //                 "Symmetric_key": "style2",
+                //                 "Function": "style2",
+                //                 "word3": "style3",
+                //                 "share": "style2",
+                //                 "example\.com": "style4",
+                //                 "abc\\d+": "style2",
+                //             }
+                //         });
+
+                //         console.log("==============--------> ", data)
+                //     }).catch(err => {
+                //         return err
+                //     });
+                // }
+
+                // if (extension === 'json') {
+                //     fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.json`)
+                //     .then(response => response.text())
+                //     .then(data => {
+                //         data = JSON.parse(data)
+                //         var JsonViewer = CodeMirror(document.querySelector('#json_viewer'), {
+                //             // width: "20%",
+                //             lineNumbers: true,
+                //             setSize: "50%,50%",
+                //             lineWrapping: true,
+                //             tabSize: 2,
+                //             value: JSON.stringify(data, null,' '),
+                //             mode: "javascript",
+                //             theme: "material-darker",
+                //             keyword: {
+                //                 "Protocol:": "style4",
+                //                 "Types:": "style4",
+                //                 "Knowledge:": "style4",
+                //                 "Definitions:": "style4",
+                //                 "Actions:": "style4",
+                //                 "Goals:": "style4",
+                //                 "Agent": "style2",
+                //                 "Number": "style2",
+                //                 "Symmetric_key": "style2",
+                //                 "Function": "style2",
+                //                 "word3": "style3",
+                //                 "share": "style2",
+                //                 "example\.com": "style4",
+                //                 "abc\\d+": "style2",
+                //             }
+                //         });
+                
+
+                //         console.log("==============--------> ", data)
+                //     }).catch(err => {
+                //         return err
+                //     });
+                // }
+                // if (extension === 'spdl') {
+                //     fetch(`${project_name}\\output_${spdl_file_name}\\${spdl_file_name}.spdl`)
+                //     .then(response => response.text())
+                //     .then(data => {
+                //         data = JSON.parse(data)
+                //     var OutputSpdl = CodeMirror(document.querySelector("#output_scyther"), {
+                //         lineNumbers: true,
+                //         lineWrapping: true,
+                //         tabSize: 2,
+                //         value: data,
+                //         mode: "javascript",
+                //         theme: "material-darker",
+                //         keyword: {
+                //             "Protocol:": "style4",
+                //             "Types:": "style4",
+                //             "Definitions:": "style4",
+                //             "Knowledge:": "style4",
+                //             "Actions:": "style4",
+                //             "Goals:": "style4",
+                //             "Agent": "style2",
+                //             "Number": "style2",
+                //             "Symmetric_key": "style2",
+                //             "Function": "style2",
+                //             "word3": "style3",
+                //             "example\.com": "style4",
+                //             "abc\\d+": "style2",
+
+                //         }
+                //     });
+                // }).catch(err => {
+                //     return err
+                // });
+                // }
+                // $.each($('.nav-tabs > li > a'), function (index, value) {
+                //     if ($(this).attr('href') === `#${extension}_viewer`) {
+                //         console.log("value ====> ", $(this).attr('href'));
+                //         // remove active class from all tabs
+                //         $('.nav-tabs > li > a').removeClass('active');
+                //         $('.tab-pane').removeClass('active');
+                //         $(this).addClass('active');
+                //         $(`#${extension}_viewer`).addClass('active');
+                //     }
+                // })
+
+                    }
+                })
+
+
+        });
+
+        // if(element.isFile == true){
+            $(`#${project_name}`).find('a').click(function () {
+                console.log("element.name ====> ",  $(this).text());
+                // splite name without extension
+                var fileName_without_extension = $(this).text().split('.')[0];
+                var fileNameOrg = $(this).text().split('.').slice(-1)[0]
+                //get last element array
+
+
+                var fileExtensionForChange = $(this).text().split('.')[0];
+                var fileName = $(this).text();
+                fileName = fileName.split('.')[1];  
+
+                console.log("==========================> ", fileNameOrg)
+
+                if(fileName === 'pv'){
+
+                fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.pv`)
+                .then(response => response.text())
+                .then(data => {
+                    var Output = CodeMirror(document.querySelector("#output_pv"), {
+                        // width: "50%",
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        tabSize: 2,
+                        // value: JSON.stringify(result_error_array, null, ' '),
+                        value: data,
+                        mode: "javascript",
+                        theme: "material-darker",
+                        keyword: {
+                            "Protocol:": "style4",
+                            "Types:": "style4",
+                            "Definitions:": "style4",
+                            "Knowledge:": "style4",
+                            "Actions:": "style4",
+                            "Goals:": "style4",
+                            "Agent": "style2",
+                            "Number": "style2",
+                            "Symmetric_key": "style2",
+                            "Function": "style2",
+                            "word3": "style3",
+                            "example\.com": "style4",
+                            "abc\\d+": "style2",
+
+                        }
+                    });
+                }).catch(err => {
+                    return err
+                });
+                }
+
+                if (fileName === 'AnBx') {
+                    fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.AnBx`)
+                    .then(response => response.text())
+                    .then(data => {
+                        var myCodeMirror = CodeMirror(document.querySelector('#output_AnBx'), {
+                            // width: "20%",
+                            lineNumbers: true,
+                            setSize: "50%,50%",
+                            lineWrapping: true,
+                            tabSize: 2,
+                            value: data,
+                            mode: "javascript",
+                            theme: "material-darker",
+                            keyword: {
+                                "Protocol:": "style4",
+                                "Types:": "style4",
+                                "Knowledge:": "style4",
+                                "Definitions:": "style4",
+                                "Actions:": "style4",
+                                "Goals:": "style4",
+                                "Agent": "style2",
+                                "Number": "style2",
+                                "Symmetric_key": "style2",
+                                "Function": "style2",
+                                "word3": "style3",
+                                "share": "style2",
+                                "example\.com": "style4",
+                                "abc\\d+": "style2",
+                            }
+                        });
+
+                        console.log("==============--------> ", data)
+                    }).catch(err => {
+                        return err
+                    });
+                }
+
+                if (fileName === 'json') {
+                    fetch(`${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.json`)
+                    .then(response => response.text())
+                    .then(data => {
+                        data = JSON.parse(data)
+                        var JsonViewer = CodeMirror(document.querySelector('#json_viewer'), {
+                            // width: "20%",
+                            lineNumbers: true,
+                            setSize: "50%,50%",
+                            lineWrapping: true,
+                            tabSize: 2,
+                            value: JSON.stringify(data, null,' '),
+                            mode: "javascript",
+                            theme: "material-darker",
+                            keyword: {
+                                "Protocol:": "style4",
+                                "Types:": "style4",
+                                "Knowledge:": "style4",
+                                "Definitions:": "style4",
+                                "Actions:": "style4",
+                                "Goals:": "style4",
+                                "Agent": "style2",
+                                "Number": "style2",
+                                "Symmetric_key": "style2",
+                                "Function": "style2",
+                                "word3": "style3",
+                                "share": "style2",
+                                "example\.com": "style4",
+                                "abc\\d+": "style2",
+                            }
+                        });
+                
+
+                        console.log("==============--------> ", data)
+                    }).catch(err => {
+                        return err
+                    });
+                }
+                if (fileName === 'spdl') {
+                    fetch(`${project_name}\\output_${spdl_file_name}\\${spdl_file_name}.spdl`)
+                    .then(response => response.text())
+                    .then(data => {
+                        data = JSON.parse(data)
+                    var OutputSpdl = CodeMirror(document.querySelector("#output_scyther"), {
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        tabSize: 2,
+                        value: data,
+                        mode: "javascript",
+                        theme: "material-darker",
+                        keyword: {
+                            "Protocol:": "style4",
+                            "Types:": "style4",
+                            "Definitions:": "style4",
+                            "Knowledge:": "style4",
+                            "Actions:": "style4",
+                            "Goals:": "style4",
+                            "Agent": "style2",
+                            "Number": "style2",
+                            "Symmetric_key": "style2",
+                            "Function": "style2",
+                            "word3": "style3",
+                            "example\.com": "style4",
+                            "abc\\d+": "style2",
+
+                        }
+                    });
+                }).catch(err => {
+                    return err
+                });
+                }
+                if(fileNameOrg === 'pdf'){
+                    // document.getElementById('showfiles').remove()
+                    
+                    fileName = 'file'
+                    // remove all tag from output_file
+                    $('#output_file').empty()
+                    $('#output_file').append(`
+                    <iframe id="showfiles" src="${project_name}\\output_${spdl_file_name}\\output\\${spdl_file_name}.pdf" width="1212" height="1000"  frameborder="0"></iframe>
+                    `)
+                    }
+                if(fileNameOrg === 'dot'){
+                    fileName = 'file'
+                    $('#output_file').empty()
+                    fetch(`${project_name}\\output_${spdl_file_name}\\output\\${$(this).text()}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        var DotFile = CodeMirror(document.querySelector("#output_file"), {
+                            lineNumbers: true,
+                            lineWrapping: true,
+                            tabSize: 2,
+                            value: data,
+                            mode: "javascript",
+                            theme: "material-darker",
+                            keyword: {
+                                "Protocol:": "style4",
+                                "Types:": "style4",
+                                "Definitions:": "style4",
+                                "Knowledge:": "style4",
+                                "Actions:": "style4",
+                                "Goals:": "style4",
+                                "Agent": "style2",
+                                "Number": "style2",
+                                "Symmetric_key": "style2",
+                                "Function": "style2",
+                                "word3": "style3",
+                                "example\.com": "style4",
+                                "abc\\d+": "style2",
+                            }
+                        });
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                }
+                $.each($('.nav-tabs > li > a'), function (index, value) {
+                    if ($(this).attr('href') === `#${fileName}_viewer`) {
+                        console.log("value ====> ", $(this).attr('href'));
+                        // remove active class from all tabs
+                        $('.nav-tabs > li > a').removeClass('active');
+                        $('.tab-pane').removeClass('active');
+                        $(this).addClass('active');
+                        $(`#${fileName}_viewer`).addClass('active');
+                    }
+                })
+            })
+        // }
+
+    // }
+
+    // var OutputList
+//     var OutPVList = []
+//     var fileList = getListFiles(`${project_name}`);
+//     fetch(`${project_name}\\output_${spdl_file_name}\\output\\index.html`)
+//     .then(response => response.text())
+//     .then(data => {
+//         //  OutputList = getListFiles(`${project_name}\\output_${spdl_file_name}\\output`);
+//          OutPVList = getListFiles(`${project_name}\\outPV`);
+//     }).catch(err => {
+//         console.log(err)
+//     });
+//     // 
+
+//     var getfileElements = $(`#general-${project_name}`).attr('id')
+//     console.log("getfileElements ====> ", fileList);
+//     if(getfileElements === undefined || getfileElements === null){
+//     fileList.forEach((element, idx )=> {
+//         if (element !== 'outPV') {
+
+//             $(`#detail-${project_name}`).append(`
+//         <div class="tree-nav__item" id="general-${project_name}">
+//         <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+//         </div>
+//         `)
+           
+//         }
+
+
+
 //     });
 
 
-//     // try {
-//     //     fetch(BASE_URL).then(res => res.json()).then(data => console.log(data[0]))
-//     // } catch (error) {
-//     //     console.error(errors);
-//     // }
-// })
+//     $(`#detail-${project_name}`).find('a').click(function () {
+//         var fileNameOrg = $(this).text().split('.')[1]
+//         var fileName = $(this).text();
+//         fileName = fileName.split('.')[1];
+
+//         if(fileName === 'pv'){
+
+//         fetch(`${project_name}\\${project_name}.pv`)
+//         .then(response => response.text())
+//         .then(data => {
+//             var Output = CodeMirror(document.querySelector("#output_pv"), {
+//                 // width: "50%",
+//                 lineNumbers: true,
+//                 lineWrapping: true,
+//                 tabSize: 2,
+//                 // value: JSON.stringify(result_error_array, null, ' '),
+//                 value: data,
+//                 mode: "javascript",
+//                 theme: "material-darker",
+//                 keyword: {
+//                     "Protocol:": "style4",
+//                     "Types:": "style4",
+//                     "Definitions:": "style4",
+//                     "Knowledge:": "style4",
+//                     "Actions:": "style4",
+//                     "Goals:": "style4",
+//                     "Agent": "style2",
+//                     "Number": "style2",
+//                     "Symmetric_key": "style2",
+//                     "Function": "style2",
+//                     "word3": "style3",
+//                     "example\.com": "style4",
+//                     "abc\\d+": "style2",
+
+//                 }
+//             });
+//         }).catch(err => {
+//             return err
+//         });
+//         }
+
+//         if (fileName === 'AnBx') {
+//             fetch(`${project_name}\\${project_name}.AnBx`)
+//             .then(response => response.text())
+//             .then(data => {
+//                 var myCodeMirror = CodeMirror(document.querySelector('#output_AnBx'), {
+//                     // width: "20%",
+//                     lineNumbers: true,
+//                     setSize: "50%,50%",
+//                     lineWrapping: true,
+//                     tabSize: 2,
+//                     value: data,
+//                     mode: "javascript",
+//                     theme: "material-darker",
+//                     keyword: {
+//                         "Protocol:": "style4",
+//                         "Types:": "style4",
+//                         "Knowledge:": "style4",
+//                         "Definitions:": "style4",
+//                         "Actions:": "style4",
+//                         "Goals:": "style4",
+//                         "Agent": "style2",
+//                         "Number": "style2",
+//                         "Symmetric_key": "style2",
+//                         "Function": "style2",
+//                         "word3": "style3",
+//                         "share": "style2",
+//                         "example\.com": "style4",
+//                         "abc\\d+": "style2",
+//                     }
+//                 });
+
+//                 console.log("==============--------> ", data)
+//             }).catch(err => {
+//                 return err
+//             });
+//         }
+
+//         if (fileName === 'json') {
+//             fetch(`${project_name}\\${project_name}.json`)
+//             .then(response => response.text())
+//             .then(data => {
+//                 data = JSON.parse(data)
+//                 var JsonViewer = CodeMirror(document.querySelector('#json_viewer'), {
+//                     // width: "20%",
+//                     lineNumbers: true,
+//                     setSize: "50%,50%",
+//                     lineWrapping: true,
+//                     tabSize: 2,
+//                     value: JSON.stringify(data, null,' '),
+//                     mode: "javascript",
+//                     theme: "material-darker",
+//                     keyword: {
+//                         "Protocol:": "style4",
+//                         "Types:": "style4",
+//                         "Knowledge:": "style4",
+//                         "Definitions:": "style4",
+//                         "Actions:": "style4",
+//                         "Goals:": "style4",
+//                         "Agent": "style2",
+//                         "Number": "style2",
+//                         "Symmetric_key": "style2",
+//                         "Function": "style2",
+//                         "word3": "style3",
+//                         "share": "style2",
+//                         "example\.com": "style4",
+//                         "abc\\d+": "style2",
+//                     }
+//                 });
+        
+
+//                 console.log("==============--------> ", data)
+//             }).catch(err => {
+//                 return err
+//             });
+//         }
+//         if (fileName === 'spdl') {
+//             fetch(`${project_name}\\${fileNameOrg}.spdl`)
+//             .then(response => response.text())
+//             .then(data => {
+//                 data = JSON.parse(data)
+//             var OutputSpdl = CodeMirror(document.querySelector("#output_scyther"), {
+//                 lineNumbers: true,
+//                 lineWrapping: true,
+//                 tabSize: 2,
+//                 value: data,
+//                 mode: "javascript",
+//                 theme: "material-darker",
+//                 keyword: {
+//                     "Protocol:": "style4",
+//                     "Types:": "style4",
+//                     "Definitions:": "style4",
+//                     "Knowledge:": "style4",
+//                     "Actions:": "style4",
+//                     "Goals:": "style4",
+//                     "Agent": "style2",
+//                     "Number": "style2",
+//                     "Symmetric_key": "style2",
+//                     "Function": "style2",
+//                     "word3": "style3",
+//                     "example\.com": "style4",
+//                     "abc\\d+": "style2",
+
+//                 }
+//             });
+//         }).catch(err => {
+//             return err
+//         });
+//         }
+//         $.each($('.nav-tabs > li > a'), function (index, value) {
+//             if ($(this).attr('href') === `#${fileName}_viewer`) {
+//                 console.log("value ====> ", $(this).attr('href'));
+//                 // remove active class from all tabs
+//                 $('.nav-tabs > li > a').removeClass('active');
+//                 $('.tab-pane').removeClass('active');
+//                 $(this).addClass('active');
+//                 $(`#${fileName}_viewer`).addClass('active');
+//             }
+//         })
+//     })
+
+// }
+
+
+// if (OutPVList.length > 0) {
+    
+//     var getfileElementsOutPv = $(`#outPVDir${project_name}`).attr('id')
+//     if(getfileElementsOutPv === undefined || getfileElementsOutPv === null){
+//     $(`#detail-${project_name}`).append(`
+//     <details class="tree-nav__item is-expandable" id="outPVDir${project_name}">
+//     <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>outPV</summary>
+//     <div class="tree-nav__item" id="outpv-${project_name}">
+//     </div>
+//     </details>
+//     `)
+
+
+//         OutPVList.forEach(element => {
+//         $(`#outpv-${project_name}`).append(`
+//         <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+//         `)
+//     });
+
+//     $(`#outpv-${project_name}`).find('a').click(function () {
+//         var orgName = $(this).text()
+//         var fileName = $(this).text();
+//         var fileNameOrg = $(this).text().split('.')[1];
+//         fileName = fileName.split('.')[1];
+
+//         if(fileNameOrg === 'html'){
+//             var checkExists = document.getElementById('showhtmlpv')
+//             if(checkExists != null){
+//                 document.getElementById('showhtmlpv').remove()
+//                 $('#output_html').append(`
+//                 <iframe id="showhtmlpv" src="${project_name}\\outPV\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                 `)
+//             }else{
+//                 $('#output_html').append(`
+//                 <iframe id="showhtmlpv" src="${project_name}\\outPV\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                 `)
+//             }
+//         }
+
+//         $.each($('.nav-tabs > li > a'), function (index, value) {
+//             var types = ['pdf', 'jpeg', 'dot']
+//             if(types.includes(fileName)){
+//                 fileName = 'file'
+//             }
+
+//             // if(fileNameOrg === 'pdf' || fileNameOrg === 'dot'){
+
+//                 var checkExists = document.getElementById('showfiles')
+//                 if(checkExists != null){
+//                     document.getElementById('showfiles').remove()
+//                     if(fileNameOrg === 'pdf'){
+//                     $('#output_file').append(`
+//                     <iframe id="showfiles" src="${project_name}\\outPV\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                     `)
+//                     }
+//                     if(fileNameOrg === 'dot'){
+//                         fetch(`${project_name}\\outPV\\${orgName}`)
+//                         .then(response => response.text())
+//                         .then(data => {
+//                             console.log("dot file ===> ", data)
+
+
+//                             var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                 // width: "50%",
+//                                 lineNumbers: true,
+//                                 lineWrapping: true,
+//                                 tabSize: 2,
+//                                 // value: JSON.stringify(result_error_array, null, ' '),
+//                                 value: data,
+//                                 mode: "javascript",
+//                                 theme: "material-darker",
+//                                 keyword: {
+//                                     "Protocol:": "style4",
+//                                     "Types:": "style4",
+//                                     "Definitions:": "style4",
+//                                     "Knowledge:": "style4",
+//                                     "Actions:": "style4",
+//                                     "Goals:": "style4",
+//                                     "Agent": "style2",
+//                                     "Number": "style2",
+//                                     "Symmetric_key": "style2",
+//                                     "Function": "style2",
+//                                     "word3": "style3",
+//                                     "example\.com": "style4",
+//                                     "abc\\d+": "style2",
+            
+//                                 }
+//                             });
+
+
+//                         }).catch(err => {
+//                             console.log(err)
+//                         });
+//                     }
+//                 }else{
+//                     if(fileNameOrg === 'pdf'){
+//                         // remove all tag from output_file
+//                         $('#output_file').empty()
+//                         $('#output_file').append(`
+//                         <iframe id="showfiles" src="${project_name}\\outPV\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                         `)
+//                         }
+//                         if(fileNameOrg === 'dot'){
+//                             $('#output_file').empty()
+//                             fetch(`${project_name}\\outPV\\${orgName}`)
+//                             .then(response => response.text())
+//                             .then(data => {
+//                                 var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                     lineNumbers: true,
+//                                     lineWrapping: true,
+//                                     tabSize: 2,
+//                                     value: data,
+//                                     mode: "javascript",
+//                                     theme: "material-darker",
+//                                     keyword: {
+//                                         "Protocol:": "style4",
+//                                         "Types:": "style4",
+//                                         "Definitions:": "style4",
+//                                         "Knowledge:": "style4",
+//                                         "Actions:": "style4",
+//                                         "Goals:": "style4",
+//                                         "Agent": "style2",
+//                                         "Number": "style2",
+//                                         "Symmetric_key": "style2",
+//                                         "Function": "style2",
+//                                         "word3": "style3",
+//                                         "example\.com": "style4",
+//                                         "abc\\d+": "style2",
+//                                     }
+//                                 });
+//                             }).catch(err => {
+//                                 console.log(err)
+//                             });
+//                         }
+//                 }
+//             // }
+
+//             if ($(this).attr('href') === `#${fileName}_viewer`) {
+//                 console.log("value ====> ", $(this).attr('href'));
+//                 // remove active class from all tabs
+//                 $('.nav-tabs > li > a').removeClass('active');
+//                 $('.tab-pane').removeClass('active');
+//                 $(this).addClass('active');
+//                 $(`#${fileName}_viewer`).addClass('active');
+//             }
+//         })
+//     })
+
+
+// }
+
+// }
+
+// if (OutputList.length > 0) {
+//     var getfileElementsOutPv = $(`#outSpdlDir${project_name}`).attr('id')
+//     if(getfileElementsOutPv === undefined || getfileElementsOutPv === null){
+//     $(`#detail-${project_name}`).append(`
+//     <details class="tree-nav__item is-expandable" id="outSpdlDir${project_name}">
+//     <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>output</summary>
+//     <div class="tree-nav__item" id="outspdl-${project_name}">
+//     </div>
+//     </details>
+//     `)
+
+//     OutputList.forEach(element => {
+//         $(`#outspdl-${project_name}`).append(`
+//         <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+//         `)
+//     });
+
+//     $(`#outpv-${project_name}`).find('a').click(function () {
+//         var orgName = $(this).text()
+//         var fileName = $(this).text();
+//         var fileNameOrg = $(this).text().split('.')[1];
+//         fileName = fileName.split('.')[1];
+
+//         $.each($('.nav-tabs > li > a'), function (index, value) {
+//             var types = ['pdf', 'jpeg', 'dot']
+//             if(types.includes(fileName)){
+//                 fileName = 'file'
+//             }
+
+//             // if(fileNameOrg === 'pdf' || fileNameOrg === 'dot'){
+
+//                 var checkExists = document.getElementById('showfiles')
+//                 if(checkExists != null){
+//                     document.getElementById('showfiles').remove()
+//                     if(fileNameOrg === 'pdf'){
+//                     $('#output_file').append(`
+//                     <iframe id="showfiles" src="${project_name}\\output\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                     `)
+//                     }
+//                     if(fileNameOrg === 'dot'){
+//                         fetch(`${project_name}\\output\\${orgName}`)
+//                         .then(response => response.text())
+//                         .then(data => {
+//                             console.log("dot file ===> ", data)
+
+
+//                             var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                 // width: "50%",
+//                                 lineNumbers: true,
+//                                 lineWrapping: true,
+//                                 tabSize: 2,
+//                                 // value: JSON.stringify(result_error_array, null, ' '),
+//                                 value: data,
+//                                 mode: "javascript",
+//                                 theme: "material-darker",
+//                                 keyword: {
+//                                     "Protocol:": "style4",
+//                                     "Types:": "style4",
+//                                     "Definitions:": "style4",
+//                                     "Knowledge:": "style4",
+//                                     "Actions:": "style4",
+//                                     "Goals:": "style4",
+//                                     "Agent": "style2",
+//                                     "Number": "style2",
+//                                     "Symmetric_key": "style2",
+//                                     "Function": "style2",
+//                                     "word3": "style3",
+//                                     "example\.com": "style4",
+//                                     "abc\\d+": "style2",
+            
+//                                 }
+//                             });
+
+
+//                         }).catch(err => {
+//                             console.log(err)
+//                         });
+//                     }
+//                 }else{
+//                     if(fileNameOrg === 'pdf'){
+//                         // remove all tag from output_file
+//                         $('#output_file').empty()
+//                         $('#output_file').append(`
+//                         <iframe id="showfiles" src="${project_name}\\output\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                         `)
+//                         }
+//                         if(fileNameOrg === 'dot'){
+//                             $('#output_file').empty()
+//                             fetch(`${project_name}\\output\\${orgName}`)
+//                             .then(response => response.text())
+//                             .then(data => {
+//                                 var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                     lineNumbers: true,
+//                                     lineWrapping: true,
+//                                     tabSize: 2,
+//                                     value: data,
+//                                     mode: "javascript",
+//                                     theme: "material-darker",
+//                                     keyword: {
+//                                         "Protocol:": "style4",
+//                                         "Types:": "style4",
+//                                         "Definitions:": "style4",
+//                                         "Knowledge:": "style4",
+//                                         "Actions:": "style4",
+//                                         "Goals:": "style4",
+//                                         "Agent": "style2",
+//                                         "Number": "style2",
+//                                         "Symmetric_key": "style2",
+//                                         "Function": "style2",
+//                                         "word3": "style3",
+//                                         "example\.com": "style4",
+//                                         "abc\\d+": "style2",
+//                                     }
+//                                 });
+//                             }).catch(err => {
+//                                 console.log(err)
+//                             });
+//                         }
+//                 }
+//             // }
+
+//             if ($(this).attr('href') === `#${fileName}_viewer`) {
+//                 console.log("value ====> ", $(this).attr('href'));
+//                 // remove active class from all tabs
+//                 $('.nav-tabs > li > a').removeClass('active');
+//                 $('.tab-pane').removeClass('active');
+//                 $(this).addClass('active');
+//                 $(`#${fileName}_viewer`).addClass('active');
+//             }
+//         })
+//     })
+// }
+
+// }
+
+}
+
+
+// function TreeViewFile() {
+
+//     // general folder
+
+//     // all content general folder
+//     // if file -> create file in treeview
+//     // if dir -> create dir in treeview
+//         // if dir -> create dir in treeview
+//         // if file -> create file in treeview
+
+    
+
+//     var OutputList = []
+//     var fileList = getListFiles(`${project_name}\\output_${spdl_file_name}`);
+//     console.log("fileList ===>*********** ", fileList)
+//     if(fileList.includes('output')){
+//         console.log("output ===>*********** ", fileList)
+//         OutputList = getListFiles(`${project_name}\\output_${spdl_file_name}\\output`);
+//     }
+//     var getfileElements = $(`#listFile-${project_name}`).attr('id')
+//     // console.log("getfileElements ====> ", getfileElements);
+//     if(getfileElements === undefined || getfileElements === null){
+//     fileList.forEach((element, idx )=> {
+//         if (element !== 'output') {
+
+//             $(`#detail-${project_name}`).append(`
+//         <div class="tree-nav__item" id="listFile-${project_name}">
+//         <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+//         </div>
+//         `)
+           
+//         }else{
+//             $(`#detail-${project_name}`).append(`
+//             <details class="tree-nav__item is-expandable" id="outSpdlDir${project_name}">
+//             <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>${element}</summary>
+//             <div class="tree-nav__item" id="outspdl-${project_name}">
+//             </div>
+//             </details>
+//             `)
+//         }
+
+
+
+
+
+//     });
+
+
+//     $(`#detail-${project_name}`).find('a').click(function () {
+//         var fileNameOrg = $(this).text().split('.')[0]
+//         var fileName = $(this).text();
+//         fileName = fileName.split('.')[1];
+//         console.log("fileName ====================> ", fileName);
+
+
+
+
+//         if (fileName === 'spdl') {
+//             fetch(`${project_name}\\${fileNameOrg}.spdl`)
+//             .then(response => response.text())
+//             .then(data => {
+//                 data = JSON.parse(data)
+//             var OutputSpdl = CodeMirror(document.querySelector("#output_scyther"), {
+//                 lineNumbers: true,
+//                 lineWrapping: true,
+//                 tabSize: 2,
+//                 value: data,
+//                 mode: "javascript",
+//                 theme: "material-darker",
+//                 keyword: {
+//                     "Protocol:": "style4",
+//                     "Types:": "style4",
+//                     "Definitions:": "style4",
+//                     "Knowledge:": "style4",
+//                     "Actions:": "style4",
+//                     "Goals:": "style4",
+//                     "Agent": "style2",
+//                     "Number": "style2",
+//                     "Symmetric_key": "style2",
+//                     "Function": "style2",
+//                     "word3": "style3",
+//                     "example\.com": "style4",
+//                     "abc\\d+": "style2",
+
+//                 }
+//             });
+//         }).catch(err => {
+//             return err
+//         });
+//         }
+
+//         $.each($('.nav-tabs > li > a'), function (index, value) {
+//             if ($(this).attr('href') === `#${fileName}_viewer`) {
+//                 console.log("value ====> ", $(this).attr('href'));
+//                 // remove active class from all tabs
+//                 $('.nav-tabs > li > a').removeClass('active');
+//                 $('.tab-pane').removeClass('active');
+//                 $(this).addClass('active');
+//                 $(`#${fileName}_viewer`).addClass('active');
+//             }
+//         })
+//     })
+
+// }
+
+//     if (OutputList.length > 0) {
+//         var getfileElementsOutPv = $(`#outSpdlDir${project_name}`).attr('id')
+//         if(getfileElementsOutPv === undefined || getfileElementsOutPv === null){
+//         $(`#outSpdlDir${project_name}`).append(`
+//         <details class="tree-nav__item is-expandable" id="outSpdlDir${project_name}">
+//         <summary class="tree-nav__item-title"><i class="icon ion-android-folder"></i>output</summary>
+//         <div class="tree-nav__item" id="out-${project_name}">
+//         </div>
+//         </details>
+//         `)
+
+//         OutputList.forEach(element => {
+//             $(`#out-${project_name}`).append(`
+//             <a class="tree-nav__item-title"><i class="icon ion-android-document"></i>${element}</a>
+//             `)
+//         });
+
+//         $(`#out-${project_name}`).find('a').click(function () {
+//             var orgName = $(this).text()
+//             var fileName = $(this).text();
+//             var fileName_split = $(this).text().split('.');
+//             var fileNameOrg = fileName_split[fileName_split.length -1]
+//             var splite_name = fileName.split('.');
+//             fileName = splite_name[splite_name.length - 1];
+
+//             $.each($('.nav-tabs > li > a'), function (index, value) {
+//                 var types = ['pdf', 'jpeg', 'dot']
+//                 if(types.includes(fileName)){
+//                     console.log("fileName ====> ", fileName);
+//                     fileName = 'file'
+//                 }
+
+
+//                 if (fileName === 'json') {
+//                     fetch(`${project_name}\\output\\${orgName}`)
+//                     .then(response => response.text())
+//                     .then(data => {
+//                         data = JSON.parse(data)
+//                         var JsonViewer = CodeMirror(document.querySelector('#json_viewer'), {
+//                             // width: "20%",
+//                             lineNumbers: true,
+//                             setSize: "50%,50%",
+//                             lineWrapping: true,
+//                             tabSize: 2,
+//                             value: JSON.stringify(data, null,' '),
+//                             mode: "javascript",
+//                             theme: "material-darker",
+//                             keyword: {
+//                                 "Protocol:": "style4",
+//                                 "Types:": "style4",
+//                                 "Knowledge:": "style4",
+//                                 "Definitions:": "style4",
+//                                 "Actions:": "style4",
+//                                 "Goals:": "style4",
+//                                 "Agent": "style2",
+//                                 "Number": "style2",
+//                                 "Symmetric_key": "style2",
+//                                 "Function": "style2",
+//                                 "word3": "style3",
+//                                 "share": "style2",
+//                                 "example\.com": "style4",
+//                                 "abc\\d+": "style2",
+//                             }
+//                         });
+                
+        
+//                         console.log("==============--------> ", data)
+//                     }).catch(err => {
+//                         return err
+//                     });
+//                 }
+
+//                     var checkExists = document.getElementById('showfiles')
+//                     if(checkExists != null){
+//                         document.getElementById('showfiles').remove()
+//                         if(fileNameOrg === 'pdf'){
+//                         $('#output_file').append(`
+//                         <iframe id="showfiles" src="${project_name}\\output\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                         `)
+//                         }
+//                         if(fileNameOrg === 'dot'){
+//                             fetch(`${project_name}\\output\\${orgName}`)
+//                             .then(response => response.text())
+//                             .then(data => {
+//                                 console.log("dot file ===> ", data)
+
+
+//                                 var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                     // width: "50%",
+//                                     lineNumbers: true,
+//                                     lineWrapping: true,
+//                                     tabSize: 2,
+//                                     // value: JSON.stringify(result_error_array, null, ' '),
+//                                     value: data,
+//                                     mode: "javascript",
+//                                     theme: "material-darker",
+//                                     keyword: {
+//                                         "Protocol:": "style4",
+//                                         "Types:": "style4",
+//                                         "Definitions:": "style4",
+//                                         "Knowledge:": "style4",
+//                                         "Actions:": "style4",
+//                                         "Goals:": "style4",
+//                                         "Agent": "style2",
+//                                         "Number": "style2",
+//                                         "Symmetric_key": "style2",
+//                                         "Function": "style2",
+//                                         "word3": "style3",
+//                                         "example\.com": "style4",
+//                                         "abc\\d+": "style2",
+                
+//                                     }
+//                                 });
+
+
+//                             }).catch(err => {
+//                                 console.log(err)
+//                             });
+//                         }
+//                     }else{
+//                         if(fileNameOrg === 'pdf'){
+//                             // remove all tag from output_file
+//                             $('#output_file').empty()
+//                             $('#output_file').append(`
+//                             <iframe id="showfiles" src="${project_name}\\output\\${orgName}" width="1212" height="1000"  frameborder="0"></iframe>
+//                             `)
+//                             }
+//                             if(fileNameOrg === 'dot'){
+//                                 $('#output_file').empty()
+//                                 fetch(`${project_name}\\output\\${orgName}`)
+//                                 .then(response => response.text())
+//                                 .then(data => {
+//                                     var DotFile = CodeMirror(document.querySelector("#output_file"), {
+//                                         lineNumbers: true,
+//                                         lineWrapping: true,
+//                                         tabSize: 2,
+//                                         value: data,
+//                                         mode: "javascript",
+//                                         theme: "material-darker",
+//                                         keyword: {
+//                                             "Protocol:": "style4",
+//                                             "Types:": "style4",
+//                                             "Definitions:": "style4",
+//                                             "Knowledge:": "style4",
+//                                             "Actions:": "style4",
+//                                             "Goals:": "style4",
+//                                             "Agent": "style2",
+//                                             "Number": "style2",
+//                                             "Symmetric_key": "style2",
+//                                             "Function": "style2",
+//                                             "word3": "style3",
+//                                             "example\.com": "style4",
+//                                             "abc\\d+": "style2",
+//                                         }
+//                                     });
+//                                 }).catch(err => {
+//                                     console.log(err)
+//                                 });
+//                             }
+//                     }
+//                 // }
+
+//                 if ($(this).attr('href') === `#${fileName}_viewer`) {
+//                     console.log("value ====> ", $(this).attr('href'));
+//                     // remove active class from all tabs
+//                     $('.nav-tabs > li > a').removeClass('active');
+//                     $('.tab-pane').removeClass('active');
+//                     $(this).addClass('active');
+//                     $(`#${fileName}_viewer`).addClass('active');
+//                 }
+//             })
+//         })
+//     }
+
+//     }
+
+
+// // }
+
+
+// }
+
+
+
+
+//#region Build
 
 //#endregion
 
+$('#Grapviz').click((e) => {
+    console.log("click ")
+
+
+
+
+    // $('.main-content').each(function () {
+    //     console.log("this ====> ", $(this).find('li').find('a').attr('id'));
+    // })
+    runDot(`${project_name}\\output`, 'pdf');
+    // e.preventDefault();
+})
+
 //#region Grapviz
+
+// setInterval(() => {
+//     $.each($('.nav-tabs > li > a'), function (index, value) {
+//         //get active tab 
+//         if ($(this).attr('href') === `#pv_viewer` && $('.nav-tabs > li > a').hasClass('active') === true) {
+    
+//             $('#build-pv').removeClass('disabled')
+//             $('#build-pv').removeProp('aria-disabled')
+
+//             console.log("value ====> ", $(this).attr('href'));
+    
+//         }else{
+//             $('#build-pv').addClass('disabled')
+//             $('#build-pv').attr('aria-disabled', 'true')
+//         }
+    
+//         if ($(this).attr('href') === `#AnBx_viewer` && $('.nav-tabs > li > a').hasClass('active') === true) {
+//             $('#build-anbx').removeClass('disabled')
+//             $('#build-anbx').removeProp('aria-disabled')
+
+//             console.log("value ====> ", $(this).attr('href'));
+//         }else{
+//             $('#build-anbx').addClass('disabled')
+//             $('#build-anbx').attr('aria-disabled', 'true')
+//         }
+    
+//         if ($(this).attr('href') === `#spdl_viewer` && $('.nav-tabs > li > a').hasClass('active') === true) {
+//             $('#build-anbx').removeClass('disabled')
+//             $('#build-anbx').removeProp('aria-disabled')
+
+//             console.log("value ====> ", $(this).attr('href'));
+//         }else{
+//             $('#build-anbx').addClass('disabled')
+//             $('#build-anbx').attr('aria-disabled', 'true')
+//         }
+    
+//         if ($(this).attr('href') === `#json_viewer` && $('.nav-tabs > li > a').hasClass('active') === true) {
+//             $('#build-anbx').removeClass('disabled')
+//             $('#build-anbx').removeProp('aria-disabled')
+
+//             console.log("value ====> ", $(this).attr('href'));
+//         }else{
+//             $('#build-anbx').addClass('disabled')
+//             $('#build-anbx').attr('aria-disabled', 'true')
+//         }
+//     })
+// }, 1000);
+
+
 
 //#endregion

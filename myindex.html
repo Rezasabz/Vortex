@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="assets/css/codemirror.min.css">
     <link rel="stylesheet" href="assets/css/material-darker.css">
     <link rel="stylesheet" href="assets/css/darcula.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="assets/css/treeView.css">
+    <link rel="stylesheet" href="assets/css/mytab.css">
 
 </head>
 
@@ -27,79 +30,158 @@
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
+
             <nav class="navbar navbar-expand-lg main-navbar sticky">
                 <div class="form-inline me-auto">
-                    <ul class="navbar-nav mr-3">
-                        <li>
+                    <ul class="navbar-nav mr-3 manage-tool">
+                        <!-- <li>
                             <a href="#" data-bs-toggle="sidebar" class="nav-link nav-link-lg
 									collapse-btn"> <i data-feather="align-justify"></i></a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="#" class="nav-link nav-link-lg fullscreen-btn" data-bs-toggle="tooltip" data-placement="bottom" title="full page">
                                 <i data-feather="maximize"></i>
                             </a>
                         </li>
+                        <li data-bs-toggle="tooltip" data-placement="bottom" title="New Project">
+                            <a href="#" id="new_project" class="nav-link nav-link-lg" data-bs-toggle="modal" data-bs-target="#NewProjectModal">
+                                <i data-feather="plus-square"></i>
+                            </a>
+
+                        </li>
+                        <i>
+
+                            <label for="open_project" id="open_project_label" class="nav-link nav-link-lg custom-file-upload mt-7" data-bs-toggle="tooltip" data-placement="top" title="Open Project"><i data-feather="folder"></i></label>
+                        <input type="file" id="open_project" accept="application/json" hidden />
+
+                        <!-- <button class="btn-primary" id="open_project">Open Project</button> -->
+                        </i>
+                        <li>
+                            <label for="open-file" id="file-input-label" class="nav-link nav-link-lg custom-file-upload mt-7 disabled" data-bs-toggle="tooltip" data-placement="top" title="Open File"><i data-feather="file-plus"></i></label>
+                            <input type="file" id="open-file" aria-disabled="true" accept="application/json" hidden />
+                            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                            </div>
+                        </li>
                         <!-- <li>
-                            <a href="#" id="new_project" class="nav-link nav-link-lg" data-bs-toggle="tooltip" data-placement="bottom" title="New Tab">
+                            <a href="#" id="new_project" class="nav-link nav-link-lg" data-bs-toggle="modal" data-bs-target="#NewProjectModal" data-bs-toggle="tooltip" data-placement="bottom" title="New Project">
                                 <i data-feather="plus-square"></i>
                             </a>
 
                         </li> -->
                     </ul>
                 </div>
-                <ul class="navbar-nav navbar-right">
+                <!-- <ul class="navbar-nav manage-tool m-copy-paste"> -->
+                <!-- <li class="dropdown dropdown-list-toggle">
+                        <a class="nav-link notification-toggle nav-link-lg" href="#" id="copy">
+                            <i data-feather="copy" data-bs-toggle="tooltip" data-placement="top" title="Copy"></i> -->
+                <!-- <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Grapviz">donut_large</i> -->
+                <!-- </a>
+                    </li> -->
+                <!-- <li class="dropdown dropdown-list-toggle">
+                        <a class="nav-link notification-toggle nav-link-lg" href="#" id="cut">
+                            <i data-feather="scissors" data-bs-toggle="tooltip" data-placement="top" title="Cut"></i> -->
+                <!-- <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Grapviz">donut_large</i> -->
+                <!-- </a>
+                    </li> -->
+                <!-- </ul> -->
+                <ul class="navbar-nav navbar-right manage-tool">
 
-                    <li id="undo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
-                                data-bs-toggle="tooltip" data-placement="bottom" title="Undo">undo</i>
+                    <li id="undo" class="dropdown dropdown-list-toggle">
+                        <a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg">
+                            <i data-feather="corner-down-left" data-bs-toggle="tooltip" data-placement="bottom" title="Undo"></i>
+                            <!-- <i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="bottom" title="Undo">undo</i> -->
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
-                    <li id="redo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
-                                data-bs-toggle="tooltip" data-placement="bottom" title="Redo">redo</i>
+                    <li id="redo" class="dropdown dropdown-list-toggle"><a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i data-feather="corner-down-right" data-bs-toggle="tooltip" data-placement="top" title="Redo"></i>
+                        <!-- <i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="bottom" title="Redo">redo</i> -->
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
                     <div class="vr"></div>
-                    <li class="dropdown dropdown-list-toggle"><a href="#" id="export-pdf" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
-                                data-bs-toggle="tooltip" data-placement="top" title="Export File">file_download</i>
+                    <li class="dropdown dropdown-list-toggle"><a href="#" id="export-pdf" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i data-feather="download" data-bs-toggle="tooltip" data-placement="top" title="Export File"></i>
+                        <!-- <i class="material-icons"
+                                data-bs-toggle="tooltip" data-placement="top" title="Export File">file_download</i> -->
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
                     </li>
-                    <li class="dropdown dropdown-list-toggle">
-                        <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File">cloud_download</label>
-                        <input type="file" id="file-input" accept="application/json" hidden />
-                        <!-- <a href="#" id="file-input" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" data-bs-toggle="tooltip" data-placement="top" title="Open File"> -->
 
-                        </a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-                        </div>
-                    </li>
-                    <li class="dropdown dropdown-list-toggle"><a href="#" id="save" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
+                    <!-- <li>
+                        <a href="#" class="nav-link nav-link-lg" data-bs-toggle="tooltip" data-placement="bottom" title="save">
+                            <i data-feather="download-cloud"> -->
+                    <!-- <label for="file-input" id="file-input-label" class="material-icons custom-file-upload" data-bs-toggle="tooltip" data-placement="top" title="Open File">cloud_download</label> -->
+                    <!-- <input type="file" id="file-input" accept="application/json" hidden />
+                        </i> -->
+
+                    <!-- </a> -->
+                    <!-- <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                            </div>
+                    </li> -->
+                    <!-- <li class="dropdown dropdown-list-toggle"><a href="#" id="save" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"><i class="material-icons"
                                 data-bs-toggle="tooltip" data-placement="top" title="Save">save</i>
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                         </div>
+                    </li> -->
+                    <li>
+
+                        <div class="dropdown d-inline">
+                            <a href="#" class="nav-link nav-link-lg" id="dropdownMenuButton4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="tooltip" data-placement="bottom" title="save">
+                                <i data-feather="save"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item disabled" id="json" href="#" aria-disabled="true">save json</a>
+                                <a class="dropdown-item disabled" id="save-anb" href="#" aria-disabled="true">save AnB</a>
+                                <a class="dropdown-item disabled" id="save-pv" aria-disabled="true" href="#">save pv</a>
+                                <a class="dropdown-item disabled" id="save-spdl" href="#" aria-disabled="true">save Spdl</a>
+                            </div>
+                        </div>
+
                     </li>
-                    <li class="dropdown dropdown-list-toggle">
+                    <li>
+                        <div class="dropdown d-inline">
+                            <a href="#" class="nav-link nav-link-lg" id="runMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="tooltip" data-placement="bottom" title="Run Menu">
+                                <i data-feather="play"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item disabled" id="json" href="#" aria-disabled="true">Build Json</a>
+                                <a class="dropdown-item disabled" id="anb" href="#" aria-disabled="true">Build AnB</a>
+                                <a class="dropdown-item disabled" id="build-pv" href="#" aria-disabled="true">Build proverif</a>
+                                <a class="dropdown-item disabled" id="spdl" href="#" aria-disabled="true">Build Spdl</a>
+                                <a class="dropdown-item disabled" id="build-all" href="#" aria-disabled="true">Build All</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-down pullDown">
+                        </div>
+                    </li>
+                    <!-- <li class="dropdown dropdown-list-toggle">
                         <a class="nav-link notification-toggle nav-link-lg" href="#" id="runApp">
-                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Run">play_circle_outline</i>
+                            <i data-feather="play" data-bs-toggle="tooltip" data-placement="top" title="Run"></i>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="dropdown dropdown-list-toggle">
                         <a class="nav-link notification-toggle nav-link-lg" href="#" id="BuildApp">
-                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Build">donut_large</i>
+                            <i data-feather="target" data-bs-toggle="tooltip" data-placement="top" title="Build"></i>
+                            <!-- <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Build">donut_large</i> -->
                         </a>
                     </li>
                     <li class="dropdown dropdown-list-toggle">
                         <a class="nav-link notification-toggle nav-link-lg" href="#" id="Grapviz">
-                            <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Grapviz">donut_large</i>
+                            <i data-feather="git-branch" data-bs-toggle="tooltip" data-placement="top" title="Grapviz"></i>
+                            <!-- <i class="material-icons" data-bs-toggle="tooltip" data-placement="top" title="Grapviz">donut_large</i> -->
                         </a>
                     </li>
                 </ul>
+
             </nav>
+
+
+
 
 
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -142,7 +224,7 @@
 
 
             <div id="parent-shape" class="main-sidebar sidebar-style-2">
-                <aside id="sidebar-wrapper">
+                <!-- <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
 
                         <a href="#"> <img alt="image" src="assets/img/logo.png" class="header-logo" />
@@ -151,80 +233,205 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="dropdown">
-                            <a id="new_project" href="#" class="nav-link"><i data-feather="plus-square"></i><span>New Project</span></a>
+                            <a id="new_project" href="#" class="nav-link"><i data-feather="plus-square"></i><span>New
+                                    Project</span></a>
                         </li>
-                        <!-- <li class="menu-header">Projects</li>
-                        <ul class="sidebar-menu" id="p_tabs" role="tablist">
-                            <li class="dropdown">
-                                <a href="#" class="nav-link has-dropdown"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-minus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg><span>project-1</span></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link has-dropdown" id="home-tab" data-bs-toggle="tab" data-bs-target="#project-2" type="button" role="tab" aria-controls="project-2" aria-selected="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-minus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg><span>project-2</span></a>
-                            </li>
-                        </ul> -->
-
-
-
                         <li class="menu-header">ToolBox</li>
-                        <li class="dropdown">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
-                  fas fa-wrench"></i><span>Tools</span></a>
-                            <ul class="dropdown-menu">
-                                <div class="card card-info">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div id="square" draggable="true" class="col-4"><button class="btn btn-icon"><i
-                                                        class="far fa-square c_font_size"></i></button></div>
-                                            <div id="circle" draggable="true" class="col-4"><button class="btn btn-icon"><i
-                                                        class="far fa-circle c_font_size"></i></button></div>
-                                            <div id="arrow" class="col-4"><button class="btn btn-icon"><i
-                                                        class="fas fa-long-arrow-alt-right c_font_size"></i></button>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div id="text" class="col-4"><button class="btn btn-icon"><i
-                                                        class="fas fa-font c_font_size"></i></button></div>
-                                            <div id="pen" class="col-4"><button class="btn btn-icon"><i
-                                                        class="fas fa-pen c_font_size"></i></button></div>
-                                            <div id="eraser" class="col-4"><button class="btn btn-icon"><i
-                                                        class="fas fa-eraser c_font_size"></i></button></div>
-                                        </div>
+                        <div class="card card-info ml-6 mr-6">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div id="square" draggable="true" class="col-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rectangle" width="48" height="48" viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                                        </svg>
                                     </div>
-                                </div>
-                            </ul>
-                        </li>
-                        <!-- <li class="dropdown">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i class="
-                    fas fa-project-diagram"></i><span>Functions</span></a>
-                            <ul class="dropdown-menu">
-                                <div class="card card-info">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div id="hash" draggable="true" class="col-4"><button class="btn btn-outline-dark">Hash</button></div>
-                                            <div id="mac" draggable="true" class="col-4"><button class="btn btn-outline-dark">Mac</button></div>
-                                            <div id="enc" draggable="true" class="col-4"><button class="btn btn-outline-dark">Enc</button></div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div id="verify" draggable="true" class="col-4"><button class="btn btn-outline-dark">Verify</button>
-                                            </div>
-                                            <div id="dec" draggable="true" class="col-4"><button class="btn btn-outline-dark">Dce</button></div>
-                                            <div id="sign" draggable="true" class="col-4"><button class="btn btn-outline-dark">Sign</button></div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div id="rand" draggable="true" class="col-4"><button class="btn btn-outline-dark">Rand</button></div>
-                                            <div id="f" draggable="true" class="col-4"><button class="btn btn-outline-dark">F</button></div>
-                                            <div id="seperator" draggable="true" class="col-4"><button class="btn btn-outline-dark">Sep</button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ul>
-                        </li> -->
-                    </ul>
-                </aside>
 
+                                    <div id="circle" draggable="true" class="col-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle" width="48" height="48" viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <circle cx="12" cy="12" r="9" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row text-center">
+                                    <div id="pen" class="col-6"><button class="btn btn-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-pencil" width="48" height="48"
+                                                viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                                                <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="eraser" class="col-6"><button class="btn btn-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-eraser" width="48" height="48"
+                                                viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9" />
+                                                <line x1="18" y1="12.3" x2="11.7" y2="6" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row text-center">
+                                    <div id="arrow" class="col-6"><button class="btn btn-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-arrow-right-circle" width="48"
+                                                height="48" viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M18 15l3 -3l-3 -3" />
+                                                <circle cx="5" cy="12" r="2" />
+                                                <path d="M7 12h14" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="text" class="col-6"><button class="btn btn-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-letter-t" width="48" height="48"
+                                                viewBox="0 0 24 24" stroke-width="0.5" stroke="#000000" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <line x1="6" y1="4" x2="18" y2="4" />
+                                                <line x1="12" y1="4" x2="12" y2="20" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </aside> -->
+
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+
+                        <a href="#"> <img alt="image" src="assets/img/logo.png" class="header-logo" />
+                            <span class="logo-name">Vortex</span></span>
+                        </a>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="card m-card">
+                        <div class="card-header">
+                            <h4 class="cd-header">Projects</h4>
+                        </div>
+                        <nav class="tree-view p-2">
+                            <!-- <details class="tree-nav__item is-expandable">
+                                <summary class="tree-nav__item-title">The Realm of the Elderlings</summary>
+                                <details class="tree-nav__item is-expandable">
+                                    <summary class="tree-nav__item-title">The Six Duchies</summary>
+                                    <details class="tree-nav__item is-expandable">
+                                        <summary class="tree-nav__item-title">The Farseer Trilogy</summary>
+                                        <div class="tree-nav__item">
+                                            <p>test</p>
+                                        </div>
+                                    </details>
+                                </details>
+                            </details>
+                            <details class="tree-nav__item is-expandable">
+                                <summary class="tree-nav__item-title">The Soldier Son trilogy</summary>
+                                <div class="tree-nav__item">
+                                    <a class="tree-nav__item-title"><i class="icon ion-edit"></i> SHAMAN'S CROSSING</a>
+                                    <a class="tree-nav__item-title"><i class="icon ion-paperclip"></i> FOREST MAGE</a>
+                                </div>
+                            </details> -->
+                        </nav>
+                        <!-- <ul class="sidebar-menu">
+
+                        </ul> -->
+                        <!-- <div class="card-body p-tools">
+                        <div id="dropdown_project" class="justify-content-around"> -->
+                        <!-- <ul class="dropdown d-inline" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                            </ul> -->
+                        <!-- <div class="dropdown d-inline">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+                                </li>
+                            </div> -->
+                        <!-- </div>
+                    </div> -->
+                    </div>
+                </aside>
+                <br>
+                <div class="card m-card">
+                    <div class="card-header ">
+                        <h4 class="cd-header">ToolBox</h4>
+                    </div>
+                    <div class="card-body p-tools">
+                        <div class="d-flex justify-content-around">
+                            <div class="p-2 bg-tools">
+                                <div id="square" draggable="true" class="col-6">
+                                    <button class="btn btn-icon">
+                                    <i class="material-icons">crop_din</i>
+                                </button>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <div id="circle" draggable="true" class="col-6">
+                                    <button class="btn btn-icon">
+                                    <i class="material-icons">panorama_fish_eye</i>
+                                </button>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <div id="pen" class="col-6"><button class="btn btn-icon">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-around">
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                <i class="material-icons">arrow_forward</i>
+                            </button>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                <i class="material-icons">title</i>
+                            </button>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                <i class="material-icons">change_history</i>
+                            </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-around">
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                    <i class="fas fa-eraser"></i>
+                            </button>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                    <i class="far fa-star"></i>
+                                <!-- <i class="material-icons">title</i> -->
+                            </button>
+                            </div>
+                            <div class="p-2 bg-tools">
+                                <button class="btn btn-icon">
+                                    <i class="fas fa-vector-square"></i>
+                                <!-- <i class="material-icons">change_history</i> -->
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <!-- Main Content -->
@@ -232,26 +439,91 @@
             <div class="main-content">
 
 
+
+
+
+
+
+
+                <!-- <tab-group close-button-text="true"></tab-group> -->
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active c_tab" data-bs-toggle="tab" href="#main">Main</a>
+                        <a class="nav-link active" data-bs-toggle="tab" id="main-tab" href="#main" role="tab">
+                            <!-- <a class="nav-link active" data-toggle="tab" href="#home" role="tab"> -->
+                            <i class="fas fa-home objects_umbrella-13"></i> Main
+                        </a>
                     </li>
-                </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="anb-tab" href="#AnBx_viewer" role="tab">
+                            <i class="fas fa-file-code shopping_cart-simple"></i> AnBx
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="pv-tab" href="#pv_viewer" role="tab">
+                            <i class="fas fa-file-code shopping_cart-simple"></i> pv
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="json-tab" href="#json_viewer" role="tab">
+                            <i class="fas fa-file-code shopping_cart-simple"></i> json
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="html-tab" href="#html_viewer" role="tab">
+                            <i class="fas fa-file-code shopping_cart-simple"></i> Html
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="scyther-tab" href="#spdl_viewer" role="tab">
+                            <i class="fas fa-file shopping_cart-simple"></i> Scyther
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="file-tab" href="#file_viewer" role="tab">
+                            <i class="fas fa-file shopping_cart-simple"></i> File
+                        </a>
+                    </li>
 
-                <div class="tab-content">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link active c_tab" data-bs-toggle="tab" href="#main">Main</a>
+                    </li> -->
+                </ul>
+                <!-- <button id="test">test</button> -->
+
+                <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="main">
-                        <section class="section custom_padding">
+                        <section class="section custom_padding mgt-tab-content">
                             <div class="section-body">
-                                <div id="stageparent" class="card ">
+                                <div id="stageparent" class="card stageparent">
                                     <div>
                                         <!-- <div id="graphviz_svg_div"></div> -->
-                                        <div id="container1">
+                                        <div class="container-style" id="container-main">
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
+                    </div>
+                    <div class="tab-pane" id="AnBx_viewer" role="tabpanel">
+                        <div id="output_AnBx"></div>
+                    </div>
+                    <div class="tab-pane" id="pv_viewer" role="tabpanel">
+                        <div id="output_pv"></div>
+                    </div>
+                    <div class="tab-pane" id="json_viewer" role="tabpanel">
+                        <div id="output_json"></div>
+                    </div>
+                    <div class="tab-pane" id="html_viewer" role="tabpanel">
+                        <div class="card" id="output_html">
+                            <!-- <div ></div> -->
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="file_viewer" role="tabpanel">
+                        <div id="output_file"></div>
+                    </div>
+                    <div class="tab-pane" id="spdl_viewer" role="tabpanel">
+                        <div id="output_scyther"></div>
                     </div>
                     <!-- <div class="tab-pane fade show active" id="project-2">
                         <section class="section custom_padding">
@@ -266,152 +538,179 @@
                             </div>
                         </section>
                     </div> -->
-                </div>
+                    <!-- </div> -->
 
 
-                <!-- add content here -->
+                    <!-- add content here -->
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLbl">Send Form</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="needs-validation" novalidate>
-                                    <div class="form-group">
-                                        <label for="reciver">Reciver</label>
-                                        <input type="text" name="reciver" id="reciver" required clasa="form-control">
-                                        <!-- <input type="text" name="reciver" placeholder="reciver" required class="form-control"> -->
-                                        <div id=invalid-rec class="invalid-feedback custom_text_validation text-end">
-                                            پارتنر نامعتبر است !
+                    <!-- New Project -->
+                    <div class="modal fade" id="NewProjectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">New Project</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="project-name" class="col-form-label">Project Name</label>
+                                            <input type="text" name="project-name" class="form-control" id="project-name">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="define">Define</label>
-                                        <input type="text" name="define" clasa="form-control">
-                                        <!-- <div id="invalid-empty-def" class="invalid-feedback">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="create-project" class="btn btn-primary">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLbl">Send Form</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="needs-validation" novalidate>
+                                        <div class="form-group">
+                                            <label for="reciver">Reciver</label>
+                                            <input type="text" name="reciver" id="reciver" required clasa="form-control">
+                                            <!-- <input type="text" name="reciver" placeholder="reciver" required class="form-control"> -->
+                                            <div id=invalid-rec class="invalid-feedback custom_text_validation text-end">
+                                                پارتنر نامعتبر است !
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="define">Define</label>
+                                            <input type="text" name="define" clasa="form-control">
+                                            <!-- <div id="invalid-empty-def" class="invalid-feedback">
                                         Invalid value !
                                     </div> -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="parametrs">Parametrs</label>
-                                        <input type="text" name="params" clasa="form-control">
-                                        <!-- <input type="text" name="params" placeholder="parametrs" class="form-control"> -->
-                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="parametrs">Parametrs</label>
+                                            <input type="text" name="params" clasa="form-control">
+                                            <!-- <input type="text" name="params" placeholder="parametrs" class="form-control"> -->
+                                            <!-- <div id="invalid-empty-params" class="invalid-feedback">
                                         Invalid value !
                                     </div> -->
-                                    </div>
-                                    <div class="col-12 text-end">
-                                        <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" id="submit_btn" class="btn btn-primary box_sh" type="submit">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
+                                        </div>
+                                        <div class="col-12 text-end">
+                                            <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" id="submit_btn" class="btn btn-primary box_sh" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Modal Note -->
-                <div class="modal fade" id="note_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="header_note">Edit Note</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="parametrs">Define</label>
-                                        <input type="text" name="define_note" placeholder="define" class="form-control">
-                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                    <!-- Modal Note -->
+                    <div class="modal fade" id="note_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="header_note">Edit Note</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="parametrs">Define</label>
+                                            <input type="text" name="define_note" placeholder="define" class="form-control">
+                                            <!-- <div id="invalid-empty-params" class="invalid-feedback">
                                                     Invalid value !
                                                 </div> -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="parametrs">Parametrs</label>
-                                        <input type="text" name="parametrs_note" placeholder="parametrs" class="form-control">
-                                        <!-- <div id="invalid-empty-params" class="invalid-feedback">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="parametrs">Parametrs</label>
+                                            <input type="text" name="parametrs_note" placeholder="parametrs" class="form-control">
+                                            <!-- <div id="invalid-empty-params" class="invalid-feedback">
                                                     Invalid value !
                                                 </div> -->
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" id="submit_btn_note" class="btn btn-primary box_sh">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="initial" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Partner Properties</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="init-form" class="needs-validation" novalidate>
-                                    <div class="form-group">
-                                        <label for="reciver">Name</label>
-                                        <input type="text" name="name" required class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sym">Symetric Keys</label>
-                                        <!-- <input type="text" name="sym" class="form-control"> -->
-                                        <input type="text" name="sym" clasa="form-control">
-                                        <!-- <input type="text" name="sym" placeholder="define" class="form-control"> -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Asym">Asymetric Keys</label>
-                                        <input type="text" name="Asym" clasa="form-control">
-                                        <!-- <input type="text" name="Asym" class="form-control" required> -->
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
-                                <button type="button" id="btn_init" class="btn btn-primary box_sh">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="submit_btn_note" class="btn btn-primary box_sh">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <div class="modal fade" id="initial" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="initalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Partner Properties</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="init-form" class="needs-validation" novalidate>
+                                        <div class="form-group">
+                                            <label for="reciver">Name</label>
+                                            <input type="text" name="name" required class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sym">Symetric Keys</label>
+                                            <!-- <input type="text" name="sym" class="form-control"> -->
+                                            <input type="text" name="sym" clasa="form-control">
+                                            <!-- <input type="text" name="sym" placeholder="define" class="form-control"> -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Asym">Asymetric Keys</label>
+                                            <input type="text" name="Asym" clasa="form-control">
+                                            <!-- <input type="text" name="Asym" class="form-control" required> -->
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger box_sh" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="btn_init" class="btn btn-primary box_sh">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-                <div class="samp" id="options" style="display: none;">
-                    <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check " name="btnradio" id="btnradio1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#initial">
-                        <label class="btn btn-outline-secondary none_border-1 border-0" for="btnradio1" data-toggle="tooltip" data-placement="top" title="Keys"><i class="fas fa-key"></i></label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="edit_btn" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <label class="btn btn-outline-primary none_border-1 border-0" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i class="far fa-edit"></i></label>
+                    <div class="samp" id="options" style="display: none;">
+                        <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check " name="btnradio" id="btnradio1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#initial">
+                            <label class="btn btn-outline-secondary none_border-1 border-0" for="btnradio1" data-toggle="tooltip" data-placement="top" title="Keys"><i class="fas fa-key"></i></label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btn_delete_partner" autocomplete="off">
-                        <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i
+                            <input type="radio" class="btn-check" name="btnradio" id="edit_btn" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <label class="btn btn-outline-primary none_border-1 border-0" for="edit_btn" data-toggle="tooltip" data-placement="top" title="Send Message"><i
+                                class="far fa-edit"></i></label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btn_delete_partner" autocomplete="off">
+                            <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_partner" data-toggle="tooltip" data-placement="top" title="Delete"><i
                                 class="far fa-trash-alt"></i></label>
+                        </div>
+                    </div>
+
+                    <!-- Option Note -->
+                    <div class="samp" id="options_note" style="display: none;">
+                        <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btn_note1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <label class="btn btn-outline-primary none_border-1 border-0" for="btn_note1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btn_delete_note" autocomplete="off">
+                            <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_note" data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                class="far fa-trash-alt"></i></label>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Option Note -->
-                <div class="samp" id="options_note" style="display: none;">
-                    <div class="btn-group-vertical" role="group " aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="btnradio" id="btn_note1" autocomplete="off" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <label class="btn btn-outline-primary none_border-1 border-0" for="btn_note1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></label>
-
-                        <input type="radio" class="btn-check" name="btnradio" id="btn_delete_note" autocomplete="off">
-                        <label class="btn btn-outline-danger none_border-1 border-0" for="btn_delete_note" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></label>
-                    </div>
-                </div>
-            </div>
-            <!-- 
+                <!-- 
             <footer class="main-footer">
                 <div class="footer-right" style="direction: rtl;">
                     &copy; <span>تمامی حقوق این نرم افزار محفوظ می باشد.</span>
@@ -419,39 +718,45 @@
                 <div class="footer-right">
                 </div>
             </footer> -->
+            </div>
         </div>
-    </div>
-    <!-- General JS Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery-ui.js"></script>
-    <script src="assets/js/app.min.js"></script>
-    <!-- JS Libraies -->
-    <script src="assets/js/konva.min.js"></script>
-    <!-- <script src="assets/js/sb-admin-2.js"></script> -->
-    <script src="assets/js/funcs.js"></script>
-    <script src="assets/js/FileSaver.js"></script>
-    <script src="assets/js/html2canvas.min.js"></script>
-    <script src="assets/js/jspdf.debug.js"></script>
-    <!-- <script src="assets/js/tag/tagify.min.js"></script> -->
-    <script src="assets/js/tag/jQuery.tagify.min.js"></script>
-    <script src="assets/js/Shape_props.js"></script>
-    <script src="assets/js/sweetalert2.js"></script>
-    <script src="assets/js/VortexCryptoFunc.js"></script>
-    <!-- Page Specific JS File -->
-    <!-- Template JS File -->
-    <!-- Page Specific JS File -->
-    <script src="assets/js/scripts.js"></script>
-    <!-- Custom JS File -->
-    <script type="text/javascript" src="assets/js/codemirror.min.js"></script>
-    <script type="text/javascript" src="assets/js/javascript.min.js"></script>
-    <script src="assets/js/keyword.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-    <script src="assets/js/viz.js"></script>
-    <!-- <script src="assets/js/axios.min.js"></script> -->
-    <script src="assets/js/Vortex-001015.js"></script>
-    <script>
-        var graphviz_data_textarea = `
+        <!-- General JS Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery-ui.js"></script>
+        <script src="assets/js/app.min.js"></script>
+        <script src="./renderer.js"></script>
+        <!-- JS Libraies -->
+        <script src="assets/js/konva.min.js"></script>
+        <!-- <script src="assets/js/sb-admin-2.js"></script> -->
+        <!-- <script src="assets/js/funcs.js"></script> -->
+        <script src="assets/js/FileSaver.js"></script>
+        <script src="assets/js/html2canvas.min.js"></script>
+        <script src="assets/js/jspdf.debug.js"></script>
+        <!-- <script src="assets/js/tag/tagify.min.js"></script> -->
+        <script src="assets/js/tag/jQuery.tagify.min.js"></script>
+        <script src="assets/js/Shape_props.js"></script>
+        <script src="assets/js/sweetalert2.js"></script>
+        <script src="assets/js/VortexCryptoFunc.js"></script>
+        <!-- Page Specific JS File -->
+        <!-- Template JS File -->
+        <!-- Page Specific JS File -->
+        <script src="assets/js/scripts.js"></script>
+        <!-- Custom JS File -->
+        <script type="text/javascript" src="assets/js/codemirror.min.js"></script>
+        <!-- <script src="assets/js/matchesonscrollbar.js"></script> -->
+        <script type="text/javascript" src="assets/js/javascript.min.js"></script>
+        <script src="assets/js/keyword.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="assets/js/Vortex-001015.js"></script>
+        <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+        <script src="assets/js/viz.js"></script>
+        <script src="node_modules/electron-tabs/dist/electron-tabs.js"></script>
+        <!-- <script src="assets/js/axios.min.js"></script> -->
+
+
+        <script>
+            var graphviz_data_textarea = `
         digraph {
 graph [ordering = out]
 edge [arrowhead = none, penwidth = 1.6, fontsize = 30]
@@ -681,21 +986,26 @@ P0_3_0__24 [color = red, shape = plaintext, label = <<TABLE BORDER="0" CELLBORDE
 P0_3_0__24 -> P0_3_0__25 [label = <>, weight = 100]
 }
         `
+            const tabGroup = document.querySelector("tab-group");
+            tabGroup.setDefaultTab({
+                title: "New Page",
+                src: "path/to/new-page.html",
+                active: true
+            });
 
-
-        $('#Grapviz').on('click', () => {
-            var svg_div = jQuery('#graphviz_svg_div');
-            // function UpdateGraphviz() {
-            svg_div.html("");
-            // var data = graphviz_data_textarea.val();
-            // Generate the Visualization of the Graph into "svg".
-            var svg = Viz(graphviz_data_textarea, "png");
-            svg_div.html("<hr>" + svg);
-            //   }
-            console.log('grapviz')
-        })
-    </script>
-    <script src="assets/js/svg-pan-zoom.min.js"></script>
+            // $('#Grapviz').on('click', () => {
+            //     var svg_div = jQuery('#graphviz_svg_div');
+            //     // function UpdateGraphviz() {
+            //     svg_div.html("");
+            //     // var data = graphviz_data_textarea.val();
+            //     // Generate the Visualization of the Graph into "svg".
+            //     var svg = Viz(graphviz_data_textarea, "png");
+            //     svg_div.html("<hr>" + svg);
+            //     //   }
+            //     console.log('grapviz')
+            // })
+        </script>
+        <script src="assets/js/svg-pan-zoom.min.js"></script>
 </body>
 
 </html>

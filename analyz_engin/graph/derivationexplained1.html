@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: derivation for query 1</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Explained derivation</H1>
+Abbreviations:
+<ul>
+
+<li><span class="var">Message_1591</span> <span class="conn">=</span> <span class="name">Message</span>[XB = <span class="name">B</span>[],!1 = <span class="var">@sid_1586</span>]
+</ul>
+
+<ol>
+
+<li><a name=step1>The attacker initially knows <span class="name">A</span>[].<br>
+<span class="pred">attacker_bitstring</span>(<span class="name">A</span>[]).<br>
+
+<li><a name=step2>The attacker initially knows <span class="name">B</span>[].<br>
+<span class="pred">attacker_bitstring</span>(<span class="name">B</span>[]).<br>
+
+<li><a name=step3>The message <span class="name">B</span>[] that the attacker may have by <a href="#step2">2</a> may be received at input <a href="process_0.html#occ24" target="process" class="occ">{24}</a>.<br>
+So the message <span class="fun">encS</span>(<span class="var">Message_1591</span>,<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[])) may be sent to the attacker at output <a href="process_0.html#occ26" target="process" class="occ">{26}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="var">Message_1591</span>,<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[]))).<br>
+
+<li><a name=step4>The message <span class="name">A</span>[] that the attacker may have by <a href="#step1">1</a> may be received at input <a href="process_0.html#occ12" target="process" class="occ">{12}</a>.<br>
+The message <span class="fun">encS</span>(<span class="var">Message_1591</span>,<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[])) that the attacker may have by <a href="#step3">3</a> may be received at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>.<br>
+So the message <span class="var">Message_1591</span> may be sent to the attacker at output <a href="process_0.html#occ17" target="process" class="occ">{17}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="var">Message_1591</span>).<br>
+
+<li><a name=step5>The message <span class="name">A</span>[] that the attacker may have by <a href="#step1">1</a> may be received at input <a href="process_0.html#occ12" target="process" class="occ">{12}</a>.<br>
+The message <span class="fun">encS</span>(<span class="var">Message_1591</span>,<span class="fun">key</span>(<span class="name">A</span>[],<span class="name">B</span>[])) that the attacker may have by <a href="#step3">3</a> may be received at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>.<br>
+So the message <span class="fun">encS</span>(<span class="name">MESSAGEAB</span>[],<span class="var">Message_1591</span>) may be sent to the attacker at output <a href="process_0.html#occ20" target="process" class="occ">{20}</a>.<br>
+<span class="pred">attacker_bitstring</span>(<span class="fun">encS</span>(<span class="name">MESSAGEAB</span>[],<span class="var">Message_1591</span>)).<br>
+
+<li><a name=step6>By <a href="#step5">5</a>, the attacker may know <span class="fun">encS</span>(<span class="name">MESSAGEAB</span>[],<span class="var">Message_1591</span>).<br>
+By <a href="#step4">4</a>, the attacker may know <span class="var">Message_1591</span>.<br>
+Using the function <span class="fun">decS</span> the attacker may obtain <span class="name">MESSAGEAB</span>[].<br>
+<span class="pred">attacker_bitstring</span>(<span class="name">MESSAGEAB</span>[]).<br>
+
+</ol>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: equations and destructors</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Equations</H1>
+<H2>Linear part</H2>
+Initial equations:
+<ul>
+
+<li><span class="fun">kas</span>(<span class="fun">kap</span>(<span class="fun">g</span>,<span class="var">x_48</span>),<span class="var">y_49</span>) <span class="conn">=</span> <span class="fun">kas</span>(<span class="fun">kap</span>(<span class="fun">g</span>,<span class="var">y_49</span>),<span class="var">x_48</span>)
+</ul>
+Completed equations:
+<ul>
+
+<li><span class="fun">kas</span>(<span class="fun">kap</span>(<span class="fun">g</span>,<span class="var">x_48</span>),<span class="var">y_49</span>) <span class="conn">=</span> <span class="fun">kas</span>(<span class="fun">kap</span>(<span class="fun">g</span>,<span class="var">y_49</span>),<span class="var">x_48</span>)
+</ul>
+<H2>Convergent part</H2>
+Initial equations:
+<ul>
+
+<li><span class="fun">xor</span>(<span class="fun">xor</span>(<span class="var">x_50</span>,<span class="var">y_51</span>),<span class="var">y_51</span>) <span class="conn">=</span> <span class="var">x_50</span>
+<li><span class="fun">xor</span>(<span class="var">x_52</span>,<span class="fun">zero</span>) <span class="conn">=</span> <span class="var">x_52</span>
+<li><span class="fun">xor</span>(<span class="fun">zero</span>,<span class="var">x_53</span>) <span class="conn">=</span> <span class="var">x_53</span>
+<li><span class="fun">xor</span>(<span class="var">x_54</span>,<span class="var">x_54</span>) <span class="conn">=</span> <span class="fun">zero</span>
+</ul>
+Completed equations:
+<ul>
+
+<li><span class="fun">xor</span>(<span class="var">x_54</span>,<span class="var">x_54</span>) <span class="conn">=</span> <span class="fun">zero</span>
+<li><span class="fun">xor</span>(<span class="fun">zero</span>,<span class="var">x_53</span>) <span class="conn">=</span> <span class="var">x_53</span>
+<li><span class="fun">xor</span>(<span class="var">x_52</span>,<span class="fun">zero</span>) <span class="conn">=</span> <span class="var">x_52</span>
+<li><span class="fun">xor</span>(<span class="fun">xor</span>(<span class="var">x_50</span>,<span class="var">y_51</span>),<span class="var">y_51</span>) <span class="conn">=</span> <span class="var">x_50</span>
+</ul>
+<H1>Completed destructors</H2>
+(<span class="fun">fail-bool</span> <span class="fun">||</span> <span class="var">@mayfail_91</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bool</span><br>
+(<span class="var">v_89</span> <span class="fun">||</span> <span class="var">@mayfail_90</span>) <span class="conn">=&gt;</span> <span class="var">@mayfail_90</span> if <span class="var">v_89</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+(<span class="fun">true</span> <span class="fun">||</span> <span class="var">@mayfail_88</span>) <span class="conn">=&gt;</span> <span class="fun">true</span><br>
+<br><span class="fun">verify_sk</span>(<span class="var">v_97</span>,<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">verify_sk</span>(<span class="fun">fail-bitstring</span>,<span class="var">@mayfail_96</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">verify_sk</span>(<span class="var">v_94</span>,<span class="var">v_95</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen9</span>,<span class="fun">@gen10</span>. <span class="fun"></span>(<span class="var">v_95</span>,<span class="var">v_94</span>) <span class="conn">&lt;&gt;</span> <span class="fun"></span>(<span class="fun">sk</span>(<span class="fun">@gen10</span>),<span class="fun">sign_sk</span>(<span class="fun">@gen9</span>,<span class="fun">@gen10</span>)))<br>
+<span class="fun">verify_sk</span>(<span class="fun">sign_sk</span>(<span class="var">m_92</span>,<span class="var">k_93</span>),<span class="fun">sk</span>(<span class="var">k_93</span>)) <span class="conn">=&gt;</span> <span class="var">m_92</span><br>
+<br><span class="fun">not</span>(<span class="fun">fail-bool</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bool</span><br>
+<span class="fun">not</span>(<span class="var">v_98</span>) <span class="conn">=&gt;</span> <span class="fun">true</span> if <span class="var">v_98</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+<span class="fun">not</span>(<span class="fun">true</span>) <span class="conn">=&gt;</span> <span class="fun">false</span><br>
+<br><span class="fun">getmess_sk</span>(<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">getmess_sk</span>(<span class="var">v_101</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen8</span>,<span class="fun">@gen7</span>. <span class="var">v_101</span> <span class="conn">&lt;&gt;</span> <span class="fun">sign_sk</span>(<span class="fun">@gen7</span>,<span class="fun">@gen8</span>))<br>
+<span class="fun">getmess_sk</span>(<span class="fun">sign_sk</span>(<span class="var">m_99</span>,<span class="var">k_100</span>)) <span class="conn">=&gt;</span> <span class="var">m_99</span><br>
+<br><span class="fun">dec_pk</span>(<span class="var">v_107</span>,<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec_pk</span>(<span class="fun">fail-bitstring</span>,<span class="var">@mayfail_106</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec_pk</span>(<span class="var">v_104</span>,<span class="var">v_105</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen3</span>. <span class="var">v_104</span> <span class="conn">&lt;&gt;</span> <span class="fun">enc_pk</span>(<span class="fun">@gen3</span>,<span class="fun">pk</span>(<span class="var">v_105</span>)))<br>
+<span class="fun">dec_pk</span>(<span class="fun">enc_pk</span>(<span class="var">x_102</span>,<span class="fun">pk</span>(<span class="var">y_103</span>)),<span class="var">y_103</span>) <span class="conn">=&gt;</span> <span class="var">x_102</span><br>
+<br><span class="fun">dec_hk</span>(<span class="var">v_113</span>,<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec_hk</span>(<span class="fun">fail-bitstring</span>,<span class="var">@mayfail_112</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec_hk</span>(<span class="var">v_110</span>,<span class="var">v_111</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen5</span>. <span class="var">v_110</span> <span class="conn">&lt;&gt;</span> <span class="fun">enc_hk</span>(<span class="fun">@gen5</span>,<span class="fun">hk</span>(<span class="var">v_111</span>)))<br>
+<span class="fun">dec_hk</span>(<span class="fun">enc_hk</span>(<span class="var">x_108</span>,<span class="fun">hk</span>(<span class="var">y_109</span>)),<span class="var">y_109</span>) <span class="conn">=&gt;</span> <span class="var">x_108</span><br>
+<br><span class="fun">decS</span>(<span class="var">v_119</span>,<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">decS</span>(<span class="fun">fail-bitstring</span>,<span class="var">@mayfail_118</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">decS</span>(<span class="var">v_116</span>,<span class="var">v_117</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen11</span>. <span class="var">v_116</span> <span class="conn">&lt;&gt;</span> <span class="fun">encS</span>(<span class="fun">@gen11</span>,<span class="var">v_117</span>))<br>
+<span class="fun">decS</span>(<span class="fun">encS</span>(<span class="var">x_114</span>,<span class="var">y_115</span>),<span class="var">y_115</span>) <span class="conn">=&gt;</span> <span class="var">x_114</span><br>
+<br><span class="fun">dec</span>(<span class="var">v_125</span>,<span class="fun">fail-bitstring</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec</span>(<span class="fun">fail-bitstring</span>,<span class="var">@mayfail_124</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span><br>
+<span class="fun">dec</span>(<span class="var">v_122</span>,<span class="var">v_123</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bitstring</span> if (forall <span class="fun">@gen1</span>,<span class="fun">@gen2</span>. <span class="fun"></span>(<span class="var">v_123</span>,<span class="var">v_122</span>) <span class="conn">&lt;&gt;</span> <span class="fun"></span>(<span class="fun">inv</span>(<span class="fun">@gen2</span>),<span class="fun">enc</span>(<span class="fun">@gen1</span>,<span class="fun">@gen2</span>)))<br>
+<span class="fun">dec</span>(<span class="fun">enc</span>(<span class="var">x_120</span>,<span class="var">y_121</span>),<span class="fun">inv</span>(<span class="var">y_121</span>)) <span class="conn">=&gt;</span> <span class="var">x_120</span><br>
+<br>(<span class="fun">fail-bool</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_129</span>) <span class="conn">=&gt;</span> <span class="fun">fail-bool</span><br>
+(<span class="var">v_127</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_128</span>) <span class="conn">=&gt;</span> <span class="fun">false</span> if <span class="var">v_127</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+(<span class="fun">true</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_126</span>) <span class="conn">=&gt;</span> <span class="var">@mayfail_126</span><br>
+<br></body>
+</html>

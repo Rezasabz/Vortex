@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: clauses for query 4</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Initial clauses</H1>
+
+<ul>
+
+<li><a name=clause0>Clause 0:</a> <span class="pred">attacker_bool</span>(<span class="fun">true</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">true</span>.)</span><br>
+
+<li><a name=clause1>Clause 1:</a> <span class="pred">attacker_sskey</span>(<span class="var">v_21602</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_spkey</span>(<span class="fun">spk</span>(<span class="var">v_21602</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">spk</span>.)</span><br>
+
+<li><a name=clause2>Clause 2:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21605</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_sskey</span>(<span class="var">v_21606</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="var">v_21605</span>,<span class="var">v_21606</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">sign</span>.)</span><br>
+
+<li><a name=clause3>Clause 3:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21609</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21610</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="var">v_21609</span>,<span class="var">v_21610</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">sencrypt</span>.)</span><br>
+
+<li><a name=clause4>Clause 4:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="var">x_21611</span>,<span class="var">y_21612</span>)) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_nonce</span>(<span class="var">y_21612</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">x_21611</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">sdecrypt</span>.)</span><br>
+
+<li><a name=clause5>Clause 5:</a> <span class="pred">attacker_skey</span>(<span class="var">v_21618</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="var">v_21618</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pk</span>.)</span><br>
+
+<li><a name=clause6>Clause 6:</a> <span class="pred">attacker_nonce</span>(<span class="var">v_21621</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">v_21621</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">nonce_to_bitstring</span>.)</span><br>
+
+<li><a name=clause7>Clause 7:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">v_21622</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21622</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-nonce_to_bitstring</span>.)</span><br>
+
+<li><a name=clause8>Clause 8:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="var">m_21624</span>,<span class="var">k_21625</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">m_21624</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">getmess</span>.)</span><br>
+
+<li><a name=clause9>Clause 9:</a> <span class="pred">attacker_bool</span>(<span class="fun">false</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">false</span>.)</span><br>
+
+<li><a name=clause10>Clause 10:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21629</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21630</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="var">v_21629</span>,<span class="var">v_21630</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">encrypt</span>.)</span><br>
+
+<li><a name=clause11>Clause 11:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="var">x_21631</span>,<span class="fun">pk</span>(<span class="var">y_21632</span>))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_skey</span>(<span class="var">y_21632</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">x_21631</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">decrypt</span>.)</span><br>
+
+<li><a name=clause12>Clause 12:</a> <span class="pred">attacker_nonce</span>(<span class="var">v_21649</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="var">v_21650</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21649</span>,<span class="var">v_21650</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">nonce-host-tuple</span>.)</span><br>
+
+<li><a name=clause13>Clause 13:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21651</span>,<span class="var">v_21652</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21651</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-nonce-host-tuple</span>.)</span><br>
+
+<li><a name=clause14>Clause 14:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21654</span>,<span class="var">v_21655</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21655</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-nonce-host-tuple</span>.)</span><br>
+
+<li><a name=clause15>Clause 15:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21659</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_skey</span>(<span class="var">v_21660</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21659</span>,<span class="var">v_21660</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">bitstring-skey-tuple</span>.)</span><br>
+
+<li><a name=clause16>Clause 16:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21661</span>,<span class="var">v_21662</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21661</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-bitstring-skey-tuple</span>.)</span><br>
+
+<li><a name=clause17>Clause 17:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21664</span>,<span class="var">v_21665</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_skey</span>(<span class="var">v_21665</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-bitstring-skey-tuple</span>.)</span><br>
+
+<li><a name=clause18>Clause 18:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21668</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21668</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">bitstring-tuple</span>.)</span><br>
+
+<li><a name=clause19>Clause 19:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21669</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21669</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-bitstring-tuple</span>.)</span><br>
+
+<li><a name=clause20>Clause 20:</a> <span class="pred">attacker_host</span>(<span class="var">v_21673</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="var">v_21674</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21673</span>,<span class="var">v_21674</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">host-host-tuple</span>.)</span><br>
+
+<li><a name=clause21>Clause 21:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21675</span>,<span class="var">v_21676</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21675</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-host-host-tuple</span>.)</span><br>
+
+<li><a name=clause22>Clause 22:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21678</span>,<span class="var">v_21679</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21679</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-host-host-tuple</span>.)</span><br>
+
+<li><a name=clause23>Clause 23:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21683</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21684</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21683</span>,<span class="var">v_21684</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">bitstring-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause24>Clause 24:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21685</span>,<span class="var">v_21686</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21685</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-bitstring-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause25>Clause 25:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21688</span>,<span class="var">v_21689</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21689</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-bitstring-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause26>Clause 26:</a> <span class="pred">attacker_host</span>(<span class="var">v_21693</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21694</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21693</span>,<span class="var">v_21694</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">host-pkey-tuple</span>.)</span><br>
+
+<li><a name=clause27>Clause 27:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21695</span>,<span class="var">v_21696</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21695</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-host-pkey-tuple</span>.)</span><br>
+
+<li><a name=clause28>Clause 28:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21698</span>,<span class="var">v_21699</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21699</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-host-pkey-tuple</span>.)</span><br>
+
+<li><a name=clause29>Clause 29:</a> <span class="pred">attacker_bitstring</span>(<span class="var">v_21703</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_spkey</span>(<span class="var">v_21704</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21703</span>,<span class="var">v_21704</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">bitstring-spkey-tuple</span>.)</span><br>
+
+<li><a name=clause30>Clause 30:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21705</span>,<span class="var">v_21706</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21705</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-bitstring-spkey-tuple</span>.)</span><br>
+
+<li><a name=clause31>Clause 31:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21708</span>,<span class="var">v_21709</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_spkey</span>(<span class="var">v_21709</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-bitstring-spkey-tuple</span>.)</span><br>
+
+<li><a name=clause32>Clause 32:</a> <span class="pred">attacker_pkey</span>(<span class="var">v_21713</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="var">v_21714</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21713</span>,<span class="var">v_21714</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">pkey-host-tuple</span>.)</span><br>
+
+<li><a name=clause33>Clause 33:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21715</span>,<span class="var">v_21716</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21715</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-pkey-host-tuple</span>.)</span><br>
+
+<li><a name=clause34>Clause 34:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21718</span>,<span class="var">v_21719</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21719</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-pkey-host-tuple</span>.)</span><br>
+
+<li><a name=clause35>Clause 35:</a> <span class="pred">attacker_nonce</span>(<span class="var">v_21723</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21724</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21723</span>,<span class="var">v_21724</span>))<br>
+<span class="explain">(The attacker applies function <span class="fun">nonce-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause36>Clause 36:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21725</span>,<span class="var">v_21726</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21725</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">1-proj-nonce-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause37>Clause 37:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">v_21728</span>,<span class="var">v_21729</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21729</span>)<br>
+<span class="explain">(The attacker applies function <span class="fun">2-proj-nonce-nonce-tuple</span>.)</span><br>
+
+<li><a name=clause38>Clause 38:</a> <span class="pred">mess_sskey</span>(<span class="var">v_21732</span>,<span class="var">v_21731</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21732</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_sskey</span>(<span class="var">v_21731</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause39>Clause 39:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21734</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_sskey</span>(<span class="var">v_21733</span>) <span class="conn">-&gt;</span> <span class="pred">mess_sskey</span>(<span class="var">v_21734</span>,<span class="var">v_21733</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause40>Clause 40:</a> <span class="pred">mess_spkey</span>(<span class="var">v_21736</span>,<span class="var">v_21735</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21736</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_spkey</span>(<span class="var">v_21735</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause41>Clause 41:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21738</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_spkey</span>(<span class="var">v_21737</span>) <span class="conn">-&gt;</span> <span class="pred">mess_spkey</span>(<span class="var">v_21738</span>,<span class="var">v_21737</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause42>Clause 42:</a> <span class="pred">mess_skey</span>(<span class="var">v_21740</span>,<span class="var">v_21739</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21740</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_skey</span>(<span class="var">v_21739</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause43>Clause 43:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21742</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_skey</span>(<span class="var">v_21741</span>) <span class="conn">-&gt;</span> <span class="pred">mess_skey</span>(<span class="var">v_21742</span>,<span class="var">v_21741</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause44>Clause 44:</a> <span class="pred">mess_pkey</span>(<span class="var">v_21744</span>,<span class="var">v_21743</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21744</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21743</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause45>Clause 45:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21746</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_pkey</span>(<span class="var">v_21745</span>) <span class="conn">-&gt;</span> <span class="pred">mess_pkey</span>(<span class="var">v_21746</span>,<span class="var">v_21745</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause46>Clause 46:</a> <span class="pred">mess_nonce</span>(<span class="var">v_21748</span>,<span class="var">v_21747</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21748</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21747</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause47>Clause 47:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21750</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_nonce</span>(<span class="var">v_21749</span>) <span class="conn">-&gt;</span> <span class="pred">mess_nonce</span>(<span class="var">v_21750</span>,<span class="var">v_21749</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause48>Clause 48:</a> <span class="pred">mess_host</span>(<span class="var">v_21752</span>,<span class="var">v_21751</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21752</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_host</span>(<span class="var">v_21751</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause49>Clause 49:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21754</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="var">v_21753</span>) <span class="conn">-&gt;</span> <span class="pred">mess_host</span>(<span class="var">v_21754</span>,<span class="var">v_21753</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause50>Clause 50:</a> <span class="pred">mess_channel</span>(<span class="var">v_21756</span>,<span class="var">v_21755</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21756</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21755</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause51>Clause 51:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21758</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21757</span>) <span class="conn">-&gt;</span> <span class="pred">mess_channel</span>(<span class="var">v_21758</span>,<span class="var">v_21757</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause52>Clause 52:</a> <span class="pred">mess_bool</span>(<span class="var">v_21760</span>,<span class="var">v_21759</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21760</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bool</span>(<span class="var">v_21759</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause53>Clause 53:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21762</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bool</span>(<span class="var">v_21761</span>) <span class="conn">-&gt;</span> <span class="pred">mess_bool</span>(<span class="var">v_21762</span>,<span class="var">v_21761</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause54>Clause 54:</a> <span class="pred">mess_bitstring</span>(<span class="var">v_21764</span>,<span class="var">v_21763</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_channel</span>(<span class="var">v_21764</span>) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21763</span>)<br>
+<span class="explain">(The attacker can listen on all channels it has.)</span><br>
+
+<li><a name=clause55>Clause 55:</a> <span class="pred">attacker_channel</span>(<span class="var">v_21766</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="var">v_21765</span>) <span class="conn">-&gt;</span> <span class="pred">mess_bitstring</span>(<span class="var">v_21766</span>,<span class="var">v_21765</span>)<br>
+<span class="explain">(The attacker can send messages it has on all channels it has.)</span><br>
+
+<li><a name=clause56>Clause 56:</a> <span class="pred">attacker_sskey</span>(<span class="fun">fail-sskey</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause57>Clause 57:</a> <span class="pred">attacker_spkey</span>(<span class="fun">fail-spkey</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause58>Clause 58:</a> <span class="pred">attacker_skey</span>(<span class="fun">fail-skey</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause59>Clause 59:</a> <span class="pred">attacker_pkey</span>(<span class="fun">fail-pkey</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause60>Clause 60:</a> <span class="pred">attacker_nonce</span>(<span class="fun">fail-nonce</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause61>Clause 61:</a> <span class="pred">attacker_host</span>(<span class="fun">fail-host</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause62>Clause 62:</a> <span class="pred">attacker_channel</span>(<span class="fun">fail-channel</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause63>Clause 63:</a> <span class="pred">attacker_bool</span>(<span class="fun">fail-bool</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause64>Clause 64:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">fail-bitstring</span>)<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause65>Clause 65:</a> <span class="pred">attacker_channel</span>(<span class="name">c</span>[])<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause66>Clause 66:</a> <span class="pred">attacker_host</span>(<span class="name">B</span>[])<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause67>Clause 67:</a> <span class="pred">attacker_host</span>(<span class="name">A</span>[])<br>
+<span class="explain">(Initial knowledge of the attacker.)</span><br>
+
+<li><a name=clause68>Clause 68:</a> <span class="pred">equal_sskey</span>(<span class="var">v_21776</span>,<span class="var">v_21776</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause69>Clause 69:</a> <span class="pred">attacker_sskey</span>(<span class="var">new-name_23631</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23631</span> <span class="conn">=</span> <span class="name">new-name_sskey</span>[!att = <span class="var">v_21777</span>]
+</ul>
+
+<li><a name=clause70>Clause 70:</a> <span class="pred">equal_spkey</span>(<span class="var">v_21778</span>,<span class="var">v_21778</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause71>Clause 71:</a> <span class="pred">attacker_spkey</span>(<span class="var">new-name_23632</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23632</span> <span class="conn">=</span> <span class="name">new-name_spkey</span>[!att = <span class="var">v_21779</span>]
+</ul>
+
+<li><a name=clause72>Clause 72:</a> <span class="pred">equal_skey</span>(<span class="var">v_21780</span>,<span class="var">v_21780</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause73>Clause 73:</a> <span class="pred">attacker_skey</span>(<span class="var">new-name_23633</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23633</span> <span class="conn">=</span> <span class="name">new-name_skey</span>[!att = <span class="var">v_21781</span>]
+</ul>
+
+<li><a name=clause74>Clause 74:</a> <span class="pred">equal_pkey</span>(<span class="var">v_21782</span>,<span class="var">v_21782</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause75>Clause 75:</a> <span class="pred">attacker_pkey</span>(<span class="var">new-name_23634</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23634</span> <span class="conn">=</span> <span class="name">new-name_pkey</span>[!att = <span class="var">v_21783</span>]
+</ul>
+
+<li><a name=clause76>Clause 76:</a> <span class="pred">equal_nonce</span>(<span class="var">v_21784</span>,<span class="var">v_21784</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause77>Clause 77:</a> <span class="pred">attacker_nonce</span>(<span class="var">new-name_23635</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23635</span> <span class="conn">=</span> <span class="name">new-name_nonce</span>[!att = <span class="var">v_21785</span>]
+</ul>
+
+<li><a name=clause78>Clause 78:</a> <span class="pred">equal_host</span>(<span class="var">v_21786</span>,<span class="var">v_21786</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause79>Clause 79:</a> <span class="pred">attacker_host</span>(<span class="var">new-name_23636</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23636</span> <span class="conn">=</span> <span class="name">new-name_host</span>[!att = <span class="var">v_21787</span>]
+</ul>
+
+<li><a name=clause80>Clause 80:</a> <span class="pred">equal_channel</span>(<span class="var">v_21788</span>,<span class="var">v_21788</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause81>Clause 81:</a> <span class="pred">attacker_channel</span>(<span class="var">new-name_23637</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23637</span> <span class="conn">=</span> <span class="name">new-name_channel</span>[!att = <span class="var">v_21789</span>]
+</ul>
+
+<li><a name=clause82>Clause 82:</a> <span class="pred">equal_bool</span>(<span class="var">v_21790</span>,<span class="var">v_21790</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause83>Clause 83:</a> <span class="pred">attacker_bool</span>(<span class="var">new-name_23638</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23638</span> <span class="conn">=</span> <span class="name">new-name_bool</span>[!att = <span class="var">v_21791</span>]
+</ul>
+
+<li><a name=clause84>Clause 84:</a> <span class="pred">equal_bitstring</span>(<span class="var">v_21792</span>,<span class="var">v_21792</span>)<br>
+<span class="explain">(Definition of equal.)</span><br>
+
+<li><a name=clause85>Clause 85:</a> <span class="pred">attacker_bitstring</span>(<span class="var">new-name_23639</span>)<br>
+<span class="explain">(The attacker can create new names.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">new-name_23639</span> <span class="conn">=</span> <span class="name">new-name_bitstring</span>[!att = <span class="var">v_21793</span>]
+</ul>
+
+<li><a name=clause86>Clause 86:</a> <span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="name">skA</span>[]))<br>
+<span class="explain">(The message <span class="fun">pk</span>(<span class="name">skA</span>[]) may be sent to the attacker at output <a href="process_0.html#occ3" target="process" class="occ">{3}</a>.)</span><br>
+
+<li><a name=clause87>Clause 87:</a> <span class="pred">table</span>(<span class="fun">keys</span>(<span class="name">A</span>[],<span class="fun">pk</span>(<span class="name">skA</span>[])))<br>
+<span class="explain">(The entry <span class="fun">keys</span>(<span class="name">A</span>[],<span class="fun">pk</span>(<span class="name">skA</span>[])) may be inserted in a table at insert <a href="process_0.html#occ4" target="process" class="occ">{4}</a>.)</span><br>
+
+<li><a name=clause88>Clause 88:</a> <span class="pred">attacker_pkey</span>(<span class="fun">pk</span>(<span class="name">skB</span>[]))<br>
+<span class="explain">(The message <span class="fun">pk</span>(<span class="name">skB</span>[]) may be sent to the attacker at output <a href="process_0.html#occ7" target="process" class="occ">{7}</a>.)</span><br>
+
+<li><a name=clause89>Clause 89:</a> <span class="pred">table</span>(<span class="fun">keys</span>(<span class="name">B</span>[],<span class="fun">pk</span>(<span class="name">skB</span>[])))<br>
+<span class="explain">(The entry <span class="fun">keys</span>(<span class="name">B</span>[],<span class="fun">pk</span>(<span class="name">skB</span>[])) may be inserted in a table at insert <a href="process_0.html#occ8" target="process" class="occ">{8}</a>.)</span><br>
+
+<li><a name=clause90>Clause 90:</a> <span class="pred">attacker_spkey</span>(<span class="fun">spk</span>(<span class="name">skS</span>[]))<br>
+<span class="explain">(The message <span class="fun">spk</span>(<span class="name">skS</span>[]) may be sent to the attacker at output <a href="process_0.html#occ11" target="process" class="occ">{11}</a>.)</span><br>
+
+<li><a name=clause91>Clause 91:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21877</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21877</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21877</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+then the message <span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21877</span>) may be sent to the attacker at output <a href="process_0.html#occ20" target="process" class="occ">{20}</a>.)</span><br>
+
+<li><a name=clause92>Clause 92:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21905</span>,<span class="var">hostX_21906</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21906</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23640</span>,<span class="name">A</span>[]),<span class="var">pkX_21905</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21906</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21905</span>,<span class="var">hostX_21906</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23640</span>,<span class="name">A</span>[]),<span class="var">pkX_21905</span>) may be sent to the attacker at output <a href="process_0.html#occ24" target="process" class="occ">{24}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23640</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21905</span>,<span class="var">hostX_21906</span>),<span class="name">skS</span>[]),hostX = <span class="var">hostX_21906</span>,xA = <span class="name">A</span>[],!1 = <span class="var">@sid_21907</span>]
+</ul>
+
+<li><a name=clause93>Clause 93:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23641</span>,<span class="var">NX2_21960</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21957</span>,<span class="var">hostX_21958</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21958</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">NX2_21960</span>),<span class="var">pkX_21957</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostX_21958</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21957</span>,<span class="var">hostX_21958</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23641</span>,<span class="var">NX2_21960</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">NX2_21960</span>),<span class="var">pkX_21957</span>) may be sent to the attacker at output <a href="process_0.html#occ28" target="process" class="occ">{28}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23641</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21957</span>,<span class="var">hostX_21958</span>),<span class="name">skS</span>[]),hostX = <span class="var">hostX_21958</span>,xA = <span class="name">A</span>[],!1 = <span class="var">@sid_21959</span>]
+</ul>
+
+<li><a name=clause94>Clause 94:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23642</span>,<span class="var">NX2_21980</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21978</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">end</span>(<span class="var">@sid_21979</span>,<span class="fun">endAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21978</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23642</span>,<span class="var">NX2_21980</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then event <span class="fun">endAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]) may be executed at <a href="process_0.html#occ30" target="process" class="occ">{30}</a> in session <span class="var">@sid_21979</span>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23642</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_21978</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_21979</span>]
+</ul>
+
+<li><a name=clause95>Clause 95:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23643</span>,<span class="var">NX2_22017</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22015</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23643</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22015</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23643</span>,<span class="var">NX2_22017</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23643</span>) may be sent to the attacker at output <a href="process_0.html#occ32" target="process" class="occ">{32}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23643</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22015</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_22016</span>]
+</ul>
+
+<li><a name=clause96>Clause 96:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23644</span>,<span class="var">NX2_22031</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22029</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22031</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22029</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23644</span>,<span class="var">NX2_22031</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22031</span>) may be sent to the attacker at output <a href="process_0.html#occ33" target="process" class="occ">{33}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23644</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22029</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_22030</span>]
+</ul>
+
+<li><a name=clause97>Clause 97:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23645</span>,<span class="var">NX2_22090</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22088</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">end</span>(<span class="var">@sid_22089</span>,<span class="fun">endAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22088</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23645</span>,<span class="var">NX2_22090</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then event <span class="fun">endAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]) may be executed at <a href="process_0.html#occ30" target="process" class="occ">{30}</a> in session <span class="var">@sid_22089</span>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23645</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22088</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_22089</span>]
+</ul>
+
+<li><a name=clause98>Clause 98:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23646</span>,<span class="var">NX2_22127</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22125</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23646</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22125</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23646</span>,<span class="var">NX2_22127</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23646</span>) may be sent to the attacker at output <a href="process_0.html#occ32" target="process" class="occ">{32}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23646</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22125</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_22126</span>]
+</ul>
+
+<li><a name=clause99>Clause 99:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23647</span>,<span class="var">NX2_22141</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22139</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22141</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">A</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22139</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ21" target="process" class="occ">{21}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23647</span>,<span class="var">NX2_22141</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ25" target="process" class="occ">{25}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22141</span>) may be sent to the attacker at output <a href="process_0.html#occ33" target="process" class="occ">{33}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23647</span> <span class="conn">=</span> <span class="name">Na</span>[ms = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22139</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">A</span>[],!1 = <span class="var">@sid_22140</span>]
+</ul>
+
+<li><a name=clause100>Clause 100:</a> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22291</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22291</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22291</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+then the message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22291</span>) may be sent to the attacker at output <a href="process_0.html#occ37" target="process" class="occ">{37}</a>.)</span><br>
+
+<li><a name=clause101>Clause 101:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22319</span>,<span class="var">hostX_22320</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22320</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23648</span>,<span class="name">B</span>[]),<span class="var">pkX_22319</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22320</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22319</span>,<span class="var">hostX_22320</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23648</span>,<span class="name">B</span>[]),<span class="var">pkX_22319</span>) may be sent to the attacker at output <a href="process_0.html#occ41" target="process" class="occ">{41}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23648</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22319</span>,<span class="var">hostX_22320</span>),<span class="name">skS</span>[]),hostX = <span class="var">hostX_22320</span>,xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22321</span>]
+</ul>
+
+<li><a name=clause102>Clause 102:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23649</span>,<span class="var">NX2_22374</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22371</span>,<span class="var">hostX_22372</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22372</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">NX2_22374</span>),<span class="var">pkX_22371</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostX_22372</span>) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22371</span>,<span class="var">hostX_22372</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23649</span>,<span class="var">NX2_22374</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">NX2_22374</span>),<span class="var">pkX_22371</span>) may be sent to the attacker at output <a href="process_0.html#occ45" target="process" class="occ">{45}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23649</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22371</span>,<span class="var">hostX_22372</span>),<span class="name">skS</span>[]),hostX = <span class="var">hostX_22372</span>,xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22373</span>]
+</ul>
+
+<li><a name=clause103>Clause 103:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23650</span>,<span class="var">NX2_22394</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22392</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">end</span>(<span class="var">@sid_22393</span>,<span class="fun">endAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22392</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23650</span>,<span class="var">NX2_22394</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then event <span class="fun">endAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]) may be executed at <a href="process_0.html#occ47" target="process" class="occ">{47}</a> in session <span class="var">@sid_22393</span>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23650</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22392</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22393</span>]
+</ul>
+
+<li><a name=clause104>Clause 104:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23651</span>,<span class="var">NX2_22431</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22429</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23651</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22429</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23651</span>,<span class="var">NX2_22431</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23651</span>) may be sent to the attacker at output <a href="process_0.html#occ49" target="process" class="occ">{49}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23651</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22429</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22430</span>]
+</ul>
+
+<li><a name=clause105>Clause 105:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23652</span>,<span class="var">NX2_22445</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22443</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22445</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">B</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22443</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23652</span>,<span class="var">NX2_22445</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22445</span>) may be sent to the attacker at output <a href="process_0.html#occ50" target="process" class="occ">{50}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23652</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22443</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">B</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22444</span>]
+</ul>
+
+<li><a name=clause106>Clause 106:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23653</span>,<span class="var">NX2_22504</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22502</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">end</span>(<span class="var">@sid_22503</span>,<span class="fun">endAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22502</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23653</span>,<span class="var">NX2_22504</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then event <span class="fun">endAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]) may be executed at <a href="process_0.html#occ47" target="process" class="occ">{47}</a> in session <span class="var">@sid_22503</span>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23653</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22502</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22503</span>]
+</ul>
+
+<li><a name=clause107>Clause 107:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23654</span>,<span class="var">NX2_22541</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22539</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23654</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22539</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23654</span>,<span class="var">NX2_22541</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANa</span>[],<span class="var">Na_23654</span>) may be sent to the attacker at output <a href="process_0.html#occ49" target="process" class="occ">{49}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23654</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22539</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22540</span>]
+</ul>
+
+<li><a name=clause108>Clause 108:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23655</span>,<span class="var">NX2_22555</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22553</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[])) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22555</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="name">B</span>[],<span class="name">A</span>[]) is received from the attacker at input <a href="process_0.html#occ13" target="process" class="occ">{13}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22553</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ38" target="process" class="occ">{38}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">Na_23655</span>,<span class="var">NX2_22555</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ42" target="process" class="occ">{42}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretANb</span>[],<span class="var">NX2_22555</span>) may be sent to the attacker at output <a href="process_0.html#occ50" target="process" class="occ">{50}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Na_23655</span> <span class="conn">=</span> <span class="name">Na_49</span>[ms_47 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkX_22553</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),hostX = <span class="name">A</span>[],xA = <span class="name">B</span>[],!1 = <span class="var">@sid_22554</span>]
+</ul>
+
+<li><a name=clause109>Clause 109:</a> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="var">hostY_22725</span>,<span class="name">A</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22724</span>,<span class="var">hostY_22725</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22726</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22724</span>,<span class="var">hostY_22725</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostY_22725</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22724</span>,<span class="var">hostY_22725</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="var">hostY_22725</span>,<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+then the message <span class="fun"></span>(<span class="name">A</span>[],<span class="var">hostY_22725</span>) may be sent to the attacker at output <a href="process_0.html#occ78" target="process" class="occ">{78}</a>.)</span><br>
+
+<li><a name=clause110>Clause 110:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22778</span>,<span class="var">hostY_22779</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="var">hostY_22779</span>,<span class="name">A</span>[]), <span class="var">ms_61</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22778</span>,<span class="var">hostY_22779</span>),<span class="name">skS</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">hostY_22779</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22781</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">hostY_22779</span>),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">Nb_23656</span>),<span class="var">pkY_22778</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">hostY_22779</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="var">hostY_22779</span>,<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22778</span>,<span class="var">hostY_22779</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">Nb_23656</span>),<span class="var">pkY_22778</span>) may be sent to the attacker at output <a href="process_0.html#occ83" target="process" class="occ">{83}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23656</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22778</span>,<span class="var">hostY_22779</span>),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22780</span>,<span class="var">hostY_22779</span>),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">@sid_22781</span>]
+</ul>
+
+<li><a name=clause111>Clause 111:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23657</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22845</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]), <span class="var">m3</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23657</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_61</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22845</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22846</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22847</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22846</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_22846</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22846</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22845</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23657</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ84" target="process" class="occ">{84}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_22846</span>) may be sent to the attacker at output <a href="process_0.html#occ89" target="process" class="occ">{89}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23657</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22845</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22846</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">@sid_22847</span>]
+</ul>
+
+<li><a name=clause112>Clause 112:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23658</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22859</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]), <span class="var">m3</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23658</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_61</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22859</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22860</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22861</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22860</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23658</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22860</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22859</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23658</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ84" target="process" class="occ">{84}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23658</span>) may be sent to the attacker at output <a href="process_0.html#occ90" target="process" class="occ">{90}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23658</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22859</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22860</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">@sid_22861</span>]
+</ul>
+
+<li><a name=clause113>Clause 113:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23659</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22952</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]), <span class="var">m3</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23659</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_61</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22952</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22953</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22954</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22953</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_22953</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22953</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22952</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23659</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ84" target="process" class="occ">{84}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_22953</span>) may be sent to the attacker at output <a href="process_0.html#occ89" target="process" class="occ">{89}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23659</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22952</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22953</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">@sid_22954</span>]
+</ul>
+
+<li><a name=clause114>Clause 114:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23660</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22966</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]), <span class="var">m3</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23660</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_61</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22966</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]), <span class="var">m_60</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22967</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])), <span class="var">xB</span> = <span class="name">A</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_22968</span>, <span class="var">@occ77</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22967</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">A</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23660</span>))<br>
+<span class="explain">(If the message <span class="name">A</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22967</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])) is received from the attacker at input <a href="process_0.html#occ75" target="process" class="occ">{75}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">A</span>[]) is executed at <a href="process_0.html#occ77" target="process" class="occ">{77}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22966</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ79" target="process" class="occ">{79}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23660</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ84" target="process" class="occ">{84}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23660</span>) may be sent to the attacker at output <a href="process_0.html#occ90" target="process" class="occ">{90}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23660</span> <span class="conn">=</span> <span class="name">Nb</span>[ms_61 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_22966</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),m_60 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_22967</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skA</span>[])),xB = <span class="name">A</span>[],!1 = <span class="var">@sid_22968</span>]
+</ul>
+
+<li><a name=clause115>Clause 115:</a> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="var">hostY_23152</span>,<span class="name">B</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23151</span>,<span class="var">hostY_23152</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23153</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23151</span>,<span class="var">hostY_23152</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostY_23152</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23151</span>,<span class="var">hostY_23152</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="var">hostY_23152</span>,<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+then the message <span class="fun"></span>(<span class="name">B</span>[],<span class="var">hostY_23152</span>) may be sent to the attacker at output <a href="process_0.html#occ96" target="process" class="occ">{96}</a>.)</span><br>
+
+<li><a name=clause116>Clause 116:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23205</span>,<span class="var">hostY_23206</span>),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="var">hostY_23206</span>,<span class="name">B</span>[]), <span class="var">ms_67</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23205</span>,<span class="var">hostY_23206</span>),<span class="name">skS</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">hostY_23206</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23208</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">hostY_23206</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">Nb_23661</span>),<span class="var">pkY_23205</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">hostY_23206</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="var">hostY_23206</span>,<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23205</span>,<span class="var">hostY_23206</span>),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ97" target="process" class="occ">{97}</a>,<br>
+then the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">Nb_23661</span>),<span class="var">pkY_23205</span>) may be sent to the attacker at output <a href="process_0.html#occ101" target="process" class="occ">{101}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23661</span> <span class="conn">=</span> <span class="name">Nb_69</span>[ms_67 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23205</span>,<span class="var">hostY_23206</span>),<span class="name">skS</span>[]),m_64 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23207</span>,<span class="var">hostY_23206</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])),xB = <span class="name">B</span>[],!1 = <span class="var">@sid_23208</span>]
+</ul>
+
+<li><a name=clause117>Clause 117:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23662</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23272</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]), <span class="var">m3_70</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23662</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_67</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23272</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23273</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23274</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23273</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_23273</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23273</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23272</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ97" target="process" class="occ">{97}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23662</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ102" target="process" class="occ">{102}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_23273</span>) may be sent to the attacker at output <a href="process_0.html#occ107" target="process" class="occ">{107}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23662</span> <span class="conn">=</span> <span class="name">Nb_69</span>[ms_67 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23272</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),m_64 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23273</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])),xB = <span class="name">B</span>[],!1 = <span class="var">@sid_23274</span>]
+</ul>
+
+<li><a name=clause118>Clause 118:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23663</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23286</span>,<span class="name">A</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]), <span class="var">m3_70</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23663</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_67</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23286</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23287</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23288</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23287</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23663</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23287</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">A</span>[],<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23286</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ97" target="process" class="occ">{97}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23663</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ102" target="process" class="occ">{102}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23663</span>) may be sent to the attacker at output <a href="process_0.html#occ108" target="process" class="occ">{108}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23663</span> <span class="conn">=</span> <span class="name">Nb_69</span>[ms_67 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23286</span>,<span class="name">A</span>[]),<span class="name">skS</span>[]),m_64 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23287</span>,<span class="name">A</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])),xB = <span class="name">B</span>[],!1 = <span class="var">@sid_23288</span>]
+</ul>
+
+<li><a name=clause119>Clause 119:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23664</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23379</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]), <span class="var">m3_70</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23664</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_67</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23379</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23380</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23381</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23380</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_23380</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23380</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23379</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ97" target="process" class="occ">{97}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23664</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ102" target="process" class="occ">{102}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNa</span>[],<span class="var">NY_23380</span>) may be sent to the attacker at output <a href="process_0.html#occ107" target="process" class="occ">{107}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23664</span> <span class="conn">=</span> <span class="name">Nb_69</span>[ms_67 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23379</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),m_64 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23380</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])),xB = <span class="name">B</span>[],!1 = <span class="var">@sid_23381</span>]
+</ul>
+
+<li><a name=clause120>Clause 120:</a> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23665</span>),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23393</span>,<span class="name">B</span>[]),<span class="name">skS</span>[])) <span class="conn">&amp;&amp;</span> <span class="pred">begin</span>(<span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]), <span class="var">m3_70</span> = <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23665</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">ms_67</span> = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23393</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]), <span class="var">m_64</span> = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23394</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])), <span class="var">xB</span> = <span class="name">B</span>[], <span class="var">@sid_1207</span> = <span class="var">@sid_23395</span>, <span class="var">@occ95</span> = <span class="fun">@occ_cst</span>) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23394</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[]))) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_host</span>(<span class="name">B</span>[]) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23665</span>))<br>
+<span class="explain">(If the message <span class="name">B</span>[] is received from the attacker at input <a href="process_0.html#occ69" target="process" class="occ">{69}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23394</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ93" target="process" class="occ">{93}</a>,<br>
+event <span class="fun">beginAparam</span>(<span class="name">B</span>[],<span class="name">B</span>[]) is executed at <a href="process_0.html#occ95" target="process" class="occ">{95}</a>,<br>
+the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23393</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]) is received from the attacker at input <a href="process_0.html#occ97" target="process" class="occ">{97}</a>,<br>
+the message <span class="fun">encrypt</span>(<span class="fun">nonce_to_bitstring</span>(<span class="var">Nb_23665</span>),<span class="fun">pk</span>(<span class="name">skB</span>[])) is received from the attacker at input <a href="process_0.html#occ102" target="process" class="occ">{102}</a>,<br>
+then the message <span class="fun">sencrypt</span>(<span class="name">secretBNb</span>[],<span class="var">Nb_23665</span>) may be sent to the attacker at output <a href="process_0.html#occ108" target="process" class="occ">{108}</a>.)</span><br>
+Abbreviations:
+<ul>
+
+<li><span class="var">Nb_23665</span> <span class="conn">=</span> <span class="name">Nb_69</span>[ms_67 = <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">pkY_23393</span>,<span class="name">B</span>[]),<span class="name">skS</span>[]),m_64 = <span class="fun">encrypt</span>(<span class="fun"></span>(<span class="var">NY_23394</span>,<span class="name">B</span>[]),<span class="fun">pk</span>(<span class="name">skB</span>[])),xB = <span class="name">B</span>[],!1 = <span class="var">@sid_23395</span>]
+</ul>
+
+<li><a name=clause121>Clause 121:</a> <span class="pred">table</span>(<span class="fun">keys</span>(<span class="var">b_23568</span>,<span class="var">sb_23569</span>)) <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">a_23570</span>,<span class="var">b_23568</span>)) <span class="conn">-&gt;</span> <span class="pred">attacker_bitstring</span>(<span class="fun">sign</span>(<span class="fun"></span>(<span class="var">sb_23569</span>,<span class="var">b_23568</span>),<span class="name">skS</span>[]))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="var">a_23570</span>,<span class="var">b_23568</span>) is received from the attacker at input <a href="process_0.html#occ128" target="process" class="occ">{128}</a>,<br>
+the entry <span class="fun">keys</span>(<span class="var">b_23568</span>,<span class="var">sb_23569</span>) is in a table at get <a href="process_0.html#occ130" target="process" class="occ">{130}</a>,<br>
+then the message <span class="fun">sign</span>(<span class="fun"></span>(<span class="var">sb_23569</span>,<span class="var">b_23568</span>),<span class="name">skS</span>[]) may be sent to the attacker at output <a href="process_0.html#occ129" target="process" class="occ">{129}</a>.)</span><br>
+
+<li><a name=clause122>Clause 122:</a> <span class="var">h_23618</span> <span class="conn">&lt;&gt;</span> <span class="name">B</span>[] <span class="conn">&amp;&amp;</span> <span class="var">h_23618</span> <span class="conn">&lt;&gt;</span> <span class="name">A</span>[] <span class="conn">&amp;&amp;</span> <span class="pred">attacker_bitstring</span>(<span class="fun"></span>(<span class="var">h_23618</span>,<span class="var">k_23619</span>)) <span class="conn">-&gt;</span> <span class="pred">table</span>(<span class="fun">keys</span>(<span class="var">h_23618</span>,<span class="var">k_23619</span>))<br>
+<span class="explain">(If the message <span class="fun"></span>(<span class="var">h_23618</span>,<span class="var">k_23619</span>) is received from the attacker at input <a href="process_0.html#occ132" target="process" class="occ">{132}</a>,<br>
+<span class="var">h_23618</span> <span class="conn">&lt;&gt;</span> <span class="name">B</span>[] <span class="conn">&amp;&amp;</span> <span class="var">h_23618</span> <span class="conn">&lt;&gt;</span> <span class="name">A</span>[]<br>
+then the entry <span class="fun">keys</span>(<span class="var">h_23618</span>,<span class="var">k_23619</span>) may be inserted in a table at insert <a href="process_0.html#occ134" target="process" class="occ">{134}</a>.)</span><br>
+
+</ul>
+</body>
+</html>

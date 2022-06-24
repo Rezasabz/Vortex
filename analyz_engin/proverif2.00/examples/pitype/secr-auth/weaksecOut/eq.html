@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		      <html>
+		    <head>
+		    <title>ProVerif: equations and destructors</title>
+		    <link rel="stylesheet" href="cssproverif.css">
+									   </head>
+									 <body>
+									 <H1>Equations</H1>
+<H2>Linear part</H2>
+Initial equations:
+<ul>
+
+</ul>
+Completed equations:
+<ul>
+
+</ul>
+<H2>Convergent part</H2>
+Initial equations:
+<ul>
+
+<li><span class="fun">pdec</span>(<span class="fun">penc</span>(<span class="var">x</span>,<span class="fun">pk</span>(<span class="var">y</span>)),<span class="var">y</span>) <span class="conn">=</span> <span class="var">x</span>
+</ul>
+Completed equations:
+<ul>
+
+<li><span class="fun">pdec</span>(<span class="fun">penc</span>(<span class="var">x</span>,<span class="fun">pk</span>(<span class="var">y</span>)),<span class="var">y</span>) <span class="conn">=</span> <span class="var">x</span>
+</ul>
+<H1>Completed destructors</H2>
+(<span class="fun">fail-any</span> <span class="fun">||</span> <span class="var">@mayfail_15</span>) <span class="conn">=&gt;</span> <span class="fun">fail-any</span><br>
+(<span class="var">v_13</span> <span class="fun">||</span> <span class="var">@mayfail_14</span>) <span class="conn">=&gt;</span> <span class="var">@mayfail_14</span> if <span class="var">v_13</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+(<span class="fun">true</span> <span class="fun">||</span> <span class="var">@mayfail_12</span>) <span class="conn">=&gt;</span> <span class="fun">true</span><br>
+<br><span class="fun">not</span>(<span class="fun">fail-any</span>) <span class="conn">=&gt;</span> <span class="fun">fail-any</span><br>
+<span class="fun">not</span>(<span class="var">v_16</span>) <span class="conn">=&gt;</span> <span class="fun">true</span> if <span class="var">v_16</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+<span class="fun">not</span>(<span class="fun">true</span>) <span class="conn">=&gt;</span> <span class="fun">false</span><br>
+<br>(<span class="fun">fail-any</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_20</span>) <span class="conn">=&gt;</span> <span class="fun">fail-any</span><br>
+(<span class="var">v_18</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_19</span>) <span class="conn">=&gt;</span> <span class="fun">false</span> if <span class="var">v_18</span> <span class="conn">&lt;&gt;</span> <span class="fun">true</span><br>
+(<span class="fun">true</span> <span class="fun">&amp;&amp;</span> <span class="var">@mayfail_17</span>) <span class="conn">=&gt;</span> <span class="var">@mayfail_17</span><br>
+<br></body>
+</html>

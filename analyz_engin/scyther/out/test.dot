@@ -1,0 +1,91 @@
+digraph semiState1 {
+	label = "[Id 1] Protocol needhamschroedersk-amend, role I, claim type Nisynch, cost 50";
+		r0i0 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_1 to Bob\nCharlie"];
+		s0 [label="{ Run #1\lCharlie in role I\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Ni#1\l|Var T2 -\> \{ Kir#2,Nr#3,Charlie \}k(Bob,Alice)\lVar T -\> TicketIntruder1\lVar Kir -\> Kir#2\lVar Nr -\> Nr#3\lInitiator}", shape=record,style=filled,fillcolor="#8ee8b1"];
+		s0 -> r0i0 [style=bold, weight="10.0"];
+		r0i1 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_2 from Bob\nTicketIntruder1"];
+		r0i0 -> r0i1 [style="bold", weight="10.0"];
+		r0i2 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_3 to Alice\n(Charlie,Bob,Ni#1,TicketIntruder1)"];
+		r0i1 -> r0i2 [style="bold", weight="10.0"];
+		r0i3 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_4 from Alice\n\{ Ni#1,Bob,Kir#2,\{ Kir#2,Nr#3,Charlie \}k(Bob,Alice) \}k(Charlie,Alice)"];
+		r0i2 -> r0i3 [style="bold", weight="10.0"];
+		r0i4 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_5 to Bob\n\{ Kir#2,Nr#3,Charlie \}k(Bob,Alice)"];
+		r0i3 -> r0i4 [style="bold", weight="10.0"];
+		r0i5 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_6 from Bob\n\{ Nr#3 \}Kir#2"];
+		r0i4 -> r0i5 [style="bold", weight="10.0"];
+		r0i6 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_7 to Bob\n\{ \{ Nr#3 \}dec \}Kir#2"];
+		r0i5 -> r0i6 [style="bold", weight="10.0"];
+		r0i8 [style=filled,fontcolor="#ffffff",fillcolor="#000000",shape=box,label="claim_I3\nNisynch"];
+		r0i6 -> r0i8 [style="bold", weight="10.0"];
+		r2i0 [style=filled,fillcolor="#bbadf2", shape=box, label="recv_3 from Charlie\n(Charlie,Bob,Ni#1,\{ Charlie,Nr#3 \}k(Bob,Alice))"];
+		s2 [label="{ Run #2\lAlice in role S\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Kir#2\l|Var Nr -\> Nr#3\lVar Ni -\> Ni#1\lResponder}", shape=record,style=filled,fillcolor="#bbadf2"];
+		s2 -> r2i0 [style=bold, weight="10.0"];
+		r2i1 [style=filled,fillcolor="#bbadf2", shape=box, label="send_4 to Charlie\n\{ Ni#1,Bob,Kir#2,\{ Kir#2,Nr#3,Charlie \}k(Bob,Alice) \}k(Charlie,Alice)"];
+		r2i0 -> r2i1 [style="bold", weight="10.0"];
+		r3i0 [style=filled,fillcolor="#9dd5ed", shape=box, label="recv_1 from Charlie\nCharlie"];
+		s3 [label="{ Run #3\lBob in role R\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Nr#3\l|Var Kir -\> Kir#2\lResponder}", shape=record,style=filled,fillcolor="#9dd5ed"];
+		s3 -> r3i0 [style=bold, weight="10.0"];
+		r3i1 [style=filled,fillcolor="#9dd5ed", shape=box, label="send_2 to Charlie\n\{ Charlie,Nr#3 \}k(Bob,Alice)"];
+		r3i0 -> r3i1 [style="bold", weight="10.0"];
+		r3i2 [style=filled,fillcolor="#9dd5ed", shape=box, label="recv_5 from Charlie\n\{ Kir#2,Nr#3,Charlie \}k(Bob,Alice)"];
+		r3i1 -> r3i2 [style="bold", weight="10.0"];
+		r3i3 [style=filled,fillcolor="#9dd5ed", shape=box, label="send_6 to Charlie\n\{ Nr#3 \}Kir#2"];
+		r3i2 -> r3i3 [style="bold", weight="10.0"];
+	r0i4 -> r3i2 [style=bold,color="forestgreen"];
+	r3i1 -> r2i0 [label="fake sender Charlie\n"];
+	r0i2 -> r2i0 [label="select Ni#1"];
+	r3i3 -> r0i5 [style=bold,color="forestgreen"];
+	r2i1 -> r0i3 [style=bold,color="forestgreen"];
+	intruder [
+		label="Initial intruder knowledge\nThe intruder generates: TicketIntruder1",
+		style=filled,fillcolor="#f68555"
+	];
+}
+
+digraph semiState2 {
+	label = "[Id 2] Protocol needhamschroedersk-amend, role R, claim type Nisynch, cost 52";
+		r0i0 [style=filled,fillcolor="#9dd5ed", shape=box, label="recv_1 from Charlie\nCharlie"];
+		s0 [label="{ Run #1\lBob in role R\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Nr#1\l|Var Kir -\> Kir#3\lResponder}", shape=record,style=filled,fillcolor="#9dd5ed"];
+		s0 -> r0i0 [style=bold, weight="10.0"];
+		r0i1 [style=filled,fillcolor="#9dd5ed", shape=box, label="send_2 to Charlie\n\{ Charlie,Nr#1 \}k(Bob,Alice)"];
+		r0i0 -> r0i1 [style="bold", weight="10.0"];
+		r0i2 [style=filled,fillcolor="#9dd5ed", shape=box, label="recv_5 from Charlie\n\{ Kir#3,Nr#1,Charlie \}k(Bob,Alice)"];
+		r0i1 -> r0i2 [style="bold", weight="10.0"];
+		r0i3 [style=filled,fillcolor="#9dd5ed", shape=box, label="send_6 to Charlie\n\{ Nr#1 \}Kir#3"];
+		r0i2 -> r0i3 [style="bold", weight="10.0"];
+		r0i4 [style=filled,fillcolor="#9dd5ed", shape=box, label="recv_7 from Charlie\n\{ \{ Nr#1 \}dec \}Kir#3"];
+		r0i3 -> r0i4 [style="bold", weight="10.0"];
+		r0i6 [style=filled,fontcolor="#ffffff",fillcolor="#000000",shape=box,label="claim_R3\nNisynch"];
+		r0i4 -> r0i6 [style="bold", weight="10.0"];
+		r2i0 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_1 to Bob\nCharlie"];
+		s2 [label="{ Run #2\lCharlie in role I\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Ni#2\l|Var T2 -\> \{ Kir#3,Nr#1,Charlie \}k(Bob,Alice)\lVar T -\> TicketIntruder1\lVar Kir -\> Kir#3\lVar Nr -\> Nr#1\lInitiator}", shape=record,style=filled,fillcolor="#8ee8b1"];
+		s2 -> r2i0 [style=bold, weight="10.0"];
+		r2i1 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_2 from Bob\nTicketIntruder1"];
+		r2i0 -> r2i1 [style="bold", weight="10.0"];
+		r2i2 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_3 to Alice\n(Charlie,Bob,Ni#2,TicketIntruder1)"];
+		r2i1 -> r2i2 [style="bold", weight="10.0"];
+		r2i3 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_4 from Alice\n\{ Ni#2,Bob,Kir#3,\{ Kir#3,Nr#1,Charlie \}k(Bob,Alice) \}k(Charlie,Alice)"];
+		r2i2 -> r2i3 [style="bold", weight="10.0"];
+		r2i4 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_5 to Bob\n\{ Kir#3,Nr#1,Charlie \}k(Bob,Alice)"];
+		r2i3 -> r2i4 [style="bold", weight="10.0"];
+		r2i5 [style=filled,fillcolor="#8ee8b1", shape=box, label="recv_6 from Bob\n\{ Nr#1 \}Kir#3"];
+		r2i4 -> r2i5 [style="bold", weight="10.0"];
+		r2i6 [style=filled,fillcolor="#8ee8b1", shape=box, label="send_7 to Bob\n\{ \{ Nr#1 \}dec \}Kir#3"];
+		r2i5 -> r2i6 [style="bold", weight="10.0"];
+		r3i0 [style=filled,fillcolor="#bbadf2", shape=box, label="recv_3 from Charlie\n(Charlie,Bob,Ni#2,\{ Charlie,Nr#1 \}k(Bob,Alice))"];
+		s3 [label="{ Run #3\lAlice in role S\l|I -\> Charlie\lR -\> Bob\lS -\> Alice\l|Fresh Kir#3\l|Var Nr -\> Nr#1\lVar Ni -\> Ni#2\lResponder}", shape=record,style=filled,fillcolor="#bbadf2"];
+		s3 -> r3i0 [style=bold, weight="10.0"];
+		r3i1 [style=filled,fillcolor="#bbadf2", shape=box, label="send_4 to Charlie\n\{ Ni#2,Bob,Kir#3,\{ Kir#3,Nr#1,Charlie \}k(Bob,Alice) \}k(Charlie,Alice)"];
+		r3i0 -> r3i1 [style="bold", weight="10.0"];
+	r0i1 -> r3i0 [label="fake sender Charlie\n"];
+	r2i2 -> r3i0 [label="select Ni#2"];
+	r0i3 -> r2i5 [style=bold,color="forestgreen"];
+	r3i1 -> r2i3 [style=bold,color="forestgreen"];
+	r2i6 -> r0i4 [style=bold,color="forestgreen"];
+	r2i4 -> r0i2 [style=bold,color="forestgreen"];
+	intruder [
+		label="Initial intruder knowledge\nThe intruder generates: TicketIntruder1",
+		style=filled,fillcolor="#f68555"
+	];
+}
+
